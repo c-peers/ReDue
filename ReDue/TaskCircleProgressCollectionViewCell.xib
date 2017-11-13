@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="taskCollectionCell_Circle" id="r4H-Dv-4sA" customClass="TaskCollectionViewCell" customModule="ReDue" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="190" height="228"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
+                <rect key="frame" x="0.0" y="0.0" width="190" height="228"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="v3o-Xl-AXw" customClass="KDCircularProgress" customModule="KDCircularProgress">
+                        <rect key="frame" x="0.0" y="58" width="190" height="162"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="nRx-iB-iys">
+                                <rect key="frame" x="74" y="107" width="42" height="20"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" relation="lessThanOrEqual" constant="150" id="LmO-hJ-ZdR"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="nRx-iB-iys" firstAttribute="centerX" secondItem="v3o-Xl-AXw" secondAttribute="centerX" id="85o-Ha-CQB"/>
+                            <constraint firstAttribute="width" constant="190" id="jBa-zP-GXS"/>
+                            <constraint firstAttribute="bottom" secondItem="nRx-iB-iys" secondAttribute="bottom" constant="35" id="mjo-i0-0MR"/>
+                        </constraints>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="number" keyPath="angle">
+                                <real key="value" value="0.0"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="number" keyPath="startAngle">
+                                <real key="value" value="-90"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="number" keyPath="glowAmount">
+                                <real key="value" value="0.0"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="number" keyPath="trackThickness">
+                                <real key="value" value="0.14999999999999999"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="number" keyPath="progressThickness">
+                                <real key="value" value="0.14999999999999999"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                    </view>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xTv-ba-A69">
+                        <rect key="frame" x="55" y="79" width="80" height="80"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="80" id="4sb-be-qBJ"/>
+                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="80" id="sAT-te-erg"/>
+                        </constraints>
+                    </button>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="kA2-bk-HpF">
+                        <rect key="frame" x="74" y="8" width="42" height="40"/>
+                        <constraints>
+                            <constraint firstAttribute="width" relation="lessThanOrEqual" constant="190" id="0c1-QC-wtc"/>
+                            <constraint firstAttribute="height" constant="40" id="lrJ-tM-RQ9"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="7Nz-Bu-Vq3">
+                        <rect key="frame" x="55" y="79" width="80" height="80"/>
+                    </imageView>
+                </subviews>
+            </view>
+            <constraints>
+                <constraint firstItem="v3o-Xl-AXw" firstAttribute="centerX" secondItem="r4H-Dv-4sA" secondAttribute="centerX" id="16z-aK-WHL"/>
+                <constraint firstItem="7Nz-Bu-Vq3" firstAttribute="top" secondItem="xTv-ba-A69" secondAttribute="top" id="7UU-P6-oQK"/>
+                <constraint firstItem="xTv-ba-A69" firstAttribute="top" secondItem="kA2-bk-HpF" secondAttribute="bottom" constant="31" id="B5f-mj-j72"/>
+                <constraint firstItem="kA2-bk-HpF" firstAttribute="centerX" secondItem="r4H-Dv-4sA" secondAttribute="centerX" id="Cay-81-FqA"/>
+                <constraint firstItem="7Nz-Bu-Vq3" firstAttribute="leading" secondItem="xTv-ba-A69" secondAttribute="leading" id="ESG-B0-tjV"/>
+                <constraint firstItem="kA2-bk-HpF" firstAttribute="top" secondItem="r4H-Dv-4sA" secondAttribute="top" constant="8" id="F9F-aa-RWA"/>
+                <constraint firstAttribute="bottom" secondItem="v3o-Xl-AXw" secondAttribute="bottom" constant="8" id="JIe-CK-Xr2"/>
+                <constraint firstItem="v3o-Xl-AXw" firstAttribute="top" secondItem="kA2-bk-HpF" secondAttribute="bottom" constant="10" id="K3o-hi-0Hd"/>
+                <constraint firstItem="7Nz-Bu-Vq3" firstAttribute="bottom" secondItem="xTv-ba-A69" secondAttribute="bottom" id="Koy-AD-8RE"/>
+                <constraint firstItem="7Nz-Bu-Vq3" firstAttribute="trailing" secondItem="xTv-ba-A69" secondAttribute="trailing" id="pae-jx-cM1"/>
+                <constraint firstItem="xTv-ba-A69" firstAttribute="centerX" secondItem="kA2-bk-HpF" secondAttribute="centerX" id="vzI-fb-ajx"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="5mn-Bx-NCH"/>
+            <size key="customSize" width="190" height="228"/>
+            <connections>
+                <outlet property="buttonBackground" destination="7Nz-Bu-Vq3" id="6D2-Af-ba8"/>
+                <outlet property="circleProgressView" destination="v3o-Xl-AXw" id="3Y2-yO-vWE"/>
+                <outlet property="playStopButton" destination="xTv-ba-A69" id="pTe-dE-Tpb"/>
+                <outlet property="taskNameField" destination="kA2-bk-HpF" id="ZaV-NZ-mjq"/>
+                <outlet property="taskTimeRemaining" destination="nRx-iB-iys" id="CAO-j5-WGi"/>
+            </connections>
+            <point key="canvasLocation" x="71" y="129"/>
+        </collectionViewCell>
+    </objects>
+</document>

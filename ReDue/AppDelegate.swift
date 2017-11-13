@@ -1,28 +1,92 @@
 //
 //  AppDelegate.swift
-//  ReDue
+//  RepeatingTasks
 //
-//  Created by Chase Peers on 11/7/17.
+//  Created by Chase Peers on 6/13/17.
 //  Copyright © 2017 Chase Peers. All rights reserved.
 //
 
 import UIKit
 import CoreData
+import Chameleon
+import GoogleMobileAds
+import UserNotifications
+import SwiftyBeaver
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
+    var appData = AppData()
+    //var appSettings: [String : Bool] = [:]
+    //var appTimeSettings: [String : Int] = [:]
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
+        setupSwiftyBeaverLogging()
+        
+        appData.load()
+        appData.loadColors()
+
+        //setTheme(as: appData.appColor)
+        
+        print("appData color in Appdelegate is \(appData.appColor)")
+        
+        GADMobileAds.configure(withApplicationID: "ca-app-pub-3446210370651273~3666875676")
+        
+        setupNotifications(for: application)
+        
         return true
+    }
+    
+    func setupSwiftyBeaverLogging() {
+        
+        let log = SwiftyBeaver.self
+        let console = ConsoleDestination()
+        let platform = SBPlatformDestination(appID: "Rl1jPY",
+                                             appSecret: "c2vpnm4oi6ocqg1pwpCiKqqMdd0moxjy",
+                                             encryptionKey: "58cf75hkwGnEm8Qxs1FwbjzD4v7mBP5g")
+        log.addDestination(console)
+        log.addDestination(platform)
+
+    }
+    
+    func setupNotifications(for application: UIApplication) {
+        
+        // iOS 10-> support
+        if #available(iOS 10, *) {
+            UNUserNotificationCenter.current().requestAuthorization(options:[.badge, .alert, .sound]){ (granted, error) in }
+            application.registerForRemoteNotifications()
+        }
+            // iOS 8-9 support
+        else {
+            UIApplication.shared.registerUserNotificationSettings(UIUserNotificationSettings(types: [.badge, .sound, .alert], categories: nil))
+            UIApplication.shared.registerForRemoteNotifications()
+        }
+        
+    }
+    
+    func setTheme(as color: UIColor) {
+        
+        //Chameleon.setGlobalThemeUsingPrimaryColor(appData.appColor, withSecondaryColor: UIColor.clear, andContentStyle: .contrast)
+        
+//        func setStatusBarBackgroundColor(color: UIColor) {
+//            
+//            guard let statusBar = UIApplication.shared.value(forKeyPath: "statusBarWindow.statusBar") as? UIView else { return }
+//            
+//            statusBar.backgroundColor = appData.appColor
+//        }
+        
     }
 
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
+        
+        appData.save()
+        
     }
 
     func applicationDidEnterBackground(_ application: UIApplication) {

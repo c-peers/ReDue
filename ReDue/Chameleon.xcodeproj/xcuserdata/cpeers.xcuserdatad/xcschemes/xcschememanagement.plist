@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>SchemeUserState</key>
+	<dict>
+		<key>Chameleon.xcscheme_^#shared#^_</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>0</integer>
+		</dict>
+		<key>ChameleonDemo-Objc.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>7</integer>
+		</dict>
+		<key>ChameleonDemo-Swift.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>14</integer>
+		</dict>
+		<key>ChameleonDemo.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>3</integer>
+		</dict>
+	</dict>
+	<key>SuppressBuildableAutocreation</key>
+	<dict>
+		<key>0C8DABB01C07B5EA00B28FE2</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>240093F71BB4517400932727</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>246492F81F0094DB001E4F26</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>247EB8A61BB61EB3009B4904</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+	</dict>
+</dict>
+</plist>
