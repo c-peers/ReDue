@@ -223,6 +223,7 @@
                     <navigationItem key="navigationItem" id="GzN-O1-vua"/>
                     <connections>
                         <outlet property="adView" destination="ilj-Ap-VeH" id="i4D-u6-KFM"/>
+                        <outlet property="bannerHeight" destination="HAW-2W-MHg" id="Fvn-b6-UHC"/>
                         <outlet property="bannerView" destination="5th-28-zVU" id="mdU-Vn-vzq"/>
                         <outlet property="taskList" destination="Dht-Nb-tnO" id="BOh-qe-aUJ"/>
                         <segue destination="3Rq-Qc-HJy" kind="presentation" identifier="addTaskSegue" id="67E-EO-V2w"/>
@@ -943,6 +944,7 @@
                         <viewLayoutGuide key="safeArea" id="iDp-XT-KAg"/>
                     </view>
                     <connections>
+                        <outlet property="bannerHeight" destination="Qf8-zT-m57" id="mvN-t2-hjP"/>
                         <outlet property="bannerView" destination="8A0-ij-Q4M" id="08y-CS-6SO"/>
                         <outlet property="recentProgressLabel" destination="tPw-eQ-5kE" id="sNL-K7-GvW"/>
                         <outlet property="recentTaskHistory" destination="H0s-Mk-Y02" id="fIc-B4-lsx"/>

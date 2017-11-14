@@ -309,8 +309,10 @@ class TaskSettingsViewController: UIViewController {
         vc.title = task.name
         vc.task = task
         vc.saveData()
-        _ = vc.formatTimer()
         
+        vc.check.ifTaskWillRunToday(task)
+        vc.checkTask()
+
     }
     
     //MARK: - Setup Functions

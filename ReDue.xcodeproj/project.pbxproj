@@ -50,6 +50,7 @@
 		C475C3C51FB34ACD00ADA21D /* IAP.swift in Sources */ = {isa = PBXBuildFile; fileRef = C475C3C31FB34ACD00ADA21D /* IAP.swift */; };
 		C48D83511FB694C600D0632A /* SwiftyBeaver.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C48D83481FB5DF0400D0632A /* SwiftyBeaver.framework */; };
 		C48D83521FB694C600D0632A /* SwiftyBeaver.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C48D83481FB5DF0400D0632A /* SwiftyBeaver.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		C4A510201FB959BF0012D3C1 /* AppSettingsVCBackup.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4A5101F1FB959BF0012D3C1 /* AppSettingsVCBackup.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -294,6 +295,7 @@
 		C475C3C21FB34ACD00ADA21D /* IAPHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IAPHelper.swift; sourceTree = "<group>"; };
 		C475C3C31FB34ACD00ADA21D /* IAP.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IAP.swift; sourceTree = "<group>"; };
 		C48D833F1FB5DF0400D0632A /* SwiftyBeaver.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SwiftyBeaver.xcodeproj; path = SwiftyBeaver/SwiftyBeaver.xcodeproj; sourceTree = "<group>"; };
+		C4A5101F1FB959BF0012D3C1 /* AppSettingsVCBackup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettingsVCBackup.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -412,6 +414,7 @@
 			isa = PBXGroup;
 			children = (
 				C475C2E51FB1580A00ADA21D /* AppSettingsViewController.swift */,
+				C4A5101F1FB959BF0012D3C1 /* AppSettingsVCBackup.swift */,
 				C475C2E61FB1580A00ADA21D /* ColorSettingsViewController.swift */,
 				C475C2E71FB1580A00ADA21D /* ProgressViewSettingsViewController.swift */,
 				C475C2E81FB1580A00ADA21D /* ResetTimeSettingsViewController.swift */,
@@ -789,6 +792,7 @@
 				C475C2FF1FB1580D00ADA21D /* ViewController.swift in Sources */,
 				C475C3081FB1580D00ADA21D /* DataHandler.swift in Sources */,
 				C475C3141FB1580D00ADA21D /* TaskDetailViewController.swift in Sources */,
+				C4A510201FB959BF0012D3C1 /* AppSettingsVCBackup.swift in Sources */,
 				C475C3101FB1580D00ADA21D /* AppDelegate.swift in Sources */,
 				C475C3051FB1580D00ADA21D /* TaskStatsViewController.swift in Sources */,
 				C475C3C51FB34ACD00ADA21D /* IAP.swift in Sources */,

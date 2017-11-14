@@ -20,6 +20,7 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
     @IBOutlet weak var taskStartButton: UIButton!
     @IBOutlet weak var recentTaskHistory: BarChartView!
     @IBOutlet weak var bannerView: GADBannerView!
+    @IBOutlet weak var bannerHeight: NSLayoutConstraint!
     @IBOutlet weak var recentProgressLabel: UILabel!
 
     //MARK: - Properties
@@ -41,6 +42,7 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
     //var taskData = TaskData()
     var appData = AppData()
     @objc var timer = CountdownTimer()
+    let check = Check()
     
     var startTime = Date()
     var endTime = Date()
@@ -78,10 +80,32 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
     
     override func viewWillAppear(_ animated: Bool) {
  
+        print("Detail - viewWillAppear")
         self.title = task.name
         navigationController?.toolbar.isHidden = false
         prepareNavBar()
         
+        elapsedTime = task.completed
+        
+        if timer.isEnabled && task.isRunning {
+            
+            taskStartButton.setImage(#imageLiteral(resourceName: "Pause"), for: .normal)
+            let stencil = #imageLiteral(resourceName: "Pause").withRenderingMode(.alwaysTemplate)
+            taskStartButton.setImage(stencil, for: .normal)
+            taskStartButton.tintColor = UIColor.white
+            
+            //taskTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self,
+            //                                 selector: #selector(timerRunning), userInfo: nil,
+            //                                 repeats: true)
+            
+        }
+        
+        checkTask()
+
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        print("Detail - viewDidAppear")
     }
     
     override func viewDidLoad() {
@@ -89,43 +113,21 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
         
         startButtonSetup()
 
+        initializeCheck()
+        
         if !appData.isFullVersion {
             bannerView.adUnitID = "ca-app-pub-3446210370651273/3283732299"
             bannerView.rootViewController = self
             let request = GADRequest()
             request.testDevices = [kGADSimulatorID]
             bannerView.load(request)
+        } else {
+            bannerHeight.constant = 0
         }
-        elapsedTime = task.completed
-        
+
         taskChartSetup()
         
-        if task.isToday {
-            formatTimer()
-            if task.completed >= task.weightedTime {
-                taskStartButton.isEnabled = false
-            } else {
-                taskStartButton.isEnabled = true
-            }
-        } else {
-            taskTimeLabel.text = "No task today"
-            taskStartButton.isEnabled = false
-        }
-        
         self.addObserver(self, forKeyPath: #keyPath(timer.elapsedTime), options: .new, context: nil)
-        
-        if timer.isEnabled && task.isRunning {
-
-            taskStartButton.setImage(#imageLiteral(resourceName: "Pause"), for: .normal)
-            let stencil = #imageLiteral(resourceName: "Pause").withRenderingMode(.alwaysTemplate)
-            taskStartButton.setImage(stencil, for: .normal)
-            taskStartButton.tintColor = UIColor.white
-
-            //taskTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self,
-            //                                 selector: #selector(timerRunning), userInfo: nil,
-            //                                 repeats: true)
-            
-        }
         
         let taskIndex = taskNames.index(of: task.name)
         taskNames.remove(at: taskIndex!)
@@ -134,6 +136,7 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
     
     override func viewWillDisappear(_ animated: Bool) {
         
+        print("Detail - viewWillDisappear")
         //timer.invalidate()
         
         let vc = self.navigationController?.viewControllers.first as! TaskViewController
@@ -149,8 +152,13 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
     
     override func viewDidDisappear(_ animated: Bool) {
         
+        print("Detail - viewDidDisappear")
         //timer.invalidate()
         
+    }
+
+    func initializeCheck() {
+        check.appData = appData
     }
 
     deinit {
@@ -173,51 +181,72 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
     
     //MARK: - Timer Related Functions
     
-    func taskDayCheck(for task: Task) -> Bool {
+    func checkTask() {
         
-        let now = Date()
-        
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "EEEE"
-        
-        dayOfWeekString = dateFormatter.string(from: now)
-        print("Today is \(dayOfWeekString)")
-        
-        return task.days.contains(dayOfWeekString) //taskData.taskDays.contains(dayOfWeekString)
-        
+        if task.isToday {
+            formatTimer()
+            if task.completed >= task.weightedTime {
+                taskStartButton.isEnabled = false
+            } else {
+                taskStartButton.isEnabled = true
+            }
+        } else {
+            taskTimeLabel.text = "No task today"
+            taskStartButton.isEnabled = false
+        }
     }
     
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-
+        
         //if keyPath == #keyPath(taskData.completedTime) {
-            // Update Time Label
+        // Update Time Label
         //_ = synchedTimer(for: change![NSKeyValueChangeKey.newKey] as! Double)
         formatTimer()
         
         //}
     }
     
-    func synchedTimer(for completedTime: Double) -> String {
-        
-        let remainingTime = task.weightedTime - task.completed
-        
-        let formatter = DateComponentsFormatter()
-        formatter.allowedUnits = [.hour, .minute, .second]
-        formatter.unitsStyle = .positional
-        
-        let remainingTimeAsString = formatter.string(from: TimeInterval(remainingTime))!
-        
-        if remainingTime != 0 {
-            taskTimeLabel.text = remainingTimeAsString
-            taskStartButton.isEnabled = true
-        } else {
-            taskTimeLabel.text = "Complete"
-            taskStartButton.isEnabled = false
-        }
-        
-        return remainingTimeAsString
-
-    }
+//    func taskDayCheck(for task: Task) -> Bool {
+//
+//        let now = Date()
+//
+//        let dateFormatter = DateFormatter()
+//        dateFormatter.dateFormat = "EEEE"
+//
+//        dayOfWeekString = dateFormatter.string(from: now)
+//        print("Today is \(dayOfWeekString)")
+//
+//        return task.days.contains(dayOfWeekString) //taskData.taskDays.contains(dayOfWeekString)
+//
+//    }
+    
+    //    func completedTimeCheck() {
+    //
+    //        print("Completed time is \(task.completedTime)")
+    //
+    //    }
+    
+//    func synchedTimer(for completedTime: Double) -> String {
+//
+//        let remainingTime = task.weightedTime - task.completed
+//
+//        let formatter = DateComponentsFormatter()
+//        formatter.allowedUnits = [.hour, .minute, .second]
+//        formatter.unitsStyle = .positional
+//
+//        let remainingTimeAsString = formatter.string(from: TimeInterval(remainingTime))!
+//
+//        if remainingTime != 0 {
+//            taskTimeLabel.text = remainingTimeAsString
+//            taskStartButton.isEnabled = true
+//        } else {
+//            taskTimeLabel.text = "Complete"
+//            taskStartButton.isEnabled = false
+//        }
+//
+//        return remainingTimeAsString
+//
+//    }
     
     func getRemainingTime() -> Double {
         
@@ -264,12 +293,6 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
             taskTimeLabel.text = "Complete"
             taskStartButton.isEnabled = false
         }
-        
-    }
-    
-    func completedTimeCheck() {
-        
-        print("Completed time is \(task.completedTime)")
         
     }
     
@@ -334,6 +357,8 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
         saveData()
         
     }
+    
+    // MARK: - Theme
     
     func setTheme() {
         

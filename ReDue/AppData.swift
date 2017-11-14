@@ -175,6 +175,7 @@ class AppData: NSObject, NSCoding {
         taskLastTime = timeSettings["taskLastTime"] ?? Date()
         taskCurrentTime = timeSettings["taskCurrentTime"] ?? Date()
         
+        isFullVersion = appSettings["isFullVersion"] ?? false
         isNightMode = appSettings["isNightMode"] ?? false
         usesCircularProgress = appSettings["usesCircularProgress"] ?? false
         appColorName = misc["ColorName"] ?? "Sky Blue Dark"
@@ -187,6 +188,7 @@ class AppData: NSObject, NSCoding {
         
         appSettings["isNightMode"] = isNightMode
         appSettings["usesCircularProgress"] = usesCircularProgress
+        appSettings["isFullVersion"] = isFullVersion
         
     }
     

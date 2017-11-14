@@ -25,6 +25,7 @@ class TaskViewController: UIViewController, GADBannerViewDelegate {
     @IBOutlet weak var taskList: UICollectionView!
     @IBOutlet weak var bannerView: GADBannerView!
     @IBOutlet weak var adView: UIView!
+    @IBOutlet weak var bannerHeight: NSLayoutConstraint!
     
     //MARK: - Properties
     
@@ -148,11 +149,23 @@ class TaskViewController: UIViewController, GADBannerViewDelegate {
         
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        print("Main - viewWillDisappear")
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        print("Main - viewDidDisappear")
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         
+        print("Main - viewWillAppear")
         appData.setColorScheme()
-        
         setTheme()
+        
+        if appData.isFullVersion {
+            bannerHeight.constant = 0
+        }
         
         // Circular progress cells were using the incorrect cell size, reason unknown.
         // This forces the cells to use the correct size
@@ -174,12 +187,14 @@ class TaskViewController: UIViewController, GADBannerViewDelegate {
             self.taskList.reloadData()
         }
         
-        taskList.reloadData()
+        //taskList.reloadData()
         
     }
     
     override func viewDidAppear(_ animated: Bool) {
         
+        print("Main - viewDidAppear")
+
         guard let task = selectedTask else { return }
         
         if timer.isEnabled && !timer.firedFromMainVC && task.isRunning {
@@ -431,12 +446,11 @@ class TaskViewController: UIViewController, GADBannerViewDelegate {
         nextResetTime = calendar.date(from: reset)!
         let lastResetTime = calendar.date(byAdding: .day, value: -1, to: nextResetTime)
         let timeToReset = check.timeToReset(at: nextResetTime)
-        print("\(timeToReset) sec until reset")
-        log.debug("\(timeToReset) sec until reset")
-        
+
         let message = "\(timeToReset) sec until reset"
-        popAlert(with: message)
-        
+        print(message)
+        log.debug(message)
+
         let resetOccurred = check.resetTimePassed(between: then, and: now, with: lastResetTime!)
         
         if resetOccurred {
@@ -461,8 +475,11 @@ class TaskViewController: UIViewController, GADBannerViewDelegate {
         
         for task in tasks {
             
-            let (remainingTimeString,_) = timer.formatTimer(for: task)
-            timer.setMissedTimeNotification(for: task.name, at: timeToReset, withRemaining: remainingTimeString)
+            if task.isToday {
+                let (remainingTimeString,_) = timer.formatTimer(for: task)
+                timer.setMissedTimeNotification(for: task.name, at: timeToReset, withRemaining: remainingTimeString)
+            }
+            
         }
 
         appData.taskLastTime = appData.taskCurrentTime
@@ -988,8 +1005,6 @@ extension TaskViewController: UICollectionViewDelegate, UICollectionViewDataSour
         
         cell.taskNameField.text = task.name
         
-        (_, _) = timer.formatTimer(for: task, from: cell, ofType: type)
-        
         let formatter = DateComponentsFormatter()
         formatter.allowedUnits = [.hour, .minute, .second]
         formatter.unitsStyle = .positional
@@ -1065,8 +1080,9 @@ extension TaskViewController: UICollectionViewDelegate, UICollectionViewDataSour
             cell.circleProgressView.isHidden = false
             
         }
-        
+
         if task.isToday {
+            (_, _) = timer.formatTimer(for: task, from: cell, ofType: type)
             //cell.progressView.isHidden = false
             cell.playStopButton.isHidden = false
             if check.access(for: task, upTo: currentDay) {

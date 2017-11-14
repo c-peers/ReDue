@@ -31,9 +31,11 @@ class AppSettingsViewController: UITableViewController {
     var appData = AppData()
     let sectionHeaderTitleArray = ["Themes and Color", "Task View", "Task Reset", "Unlock Full Version"]
     
+    let removeAdsID = "ReDue_RA001"
     var productID = ""
     var productsRequest = SKProductsRequest()
-    var products = [SKProduct]()
+    var iapProducts = [SKProduct]()
+
 //    var purchaseButtonInfo: UIButton = {
 //        let button = UIButton(type: UIButtonType.system)
 //        button.frame = CGRect(x: 0, y: 0, width: 150, height: 40)
@@ -63,23 +65,34 @@ class AppSettingsViewController: UITableViewController {
         
         title = "Application Settings"
         
+        if appData.isFullVersion {
+            log.info("IAP Purchased")
+        } else {
+            log.info("IAP not yet purchased")
+        }
+        
+        setIAPButtons()
+        
         purchaseButton.setTitle("Unlock Full Version", for: .normal)
         purchaseButton.addTarget(self, action: #selector(purchaseAction), for: .touchUpInside)
         restoreButton.setTitle("Restore Purchase", for: .normal)
         restoreButton.addTarget(self, action: #selector(restoreAction), for: .touchUpInside)
 
+        // Fetch IAP Products available
+        fetchAvailableProducts()
+        
 //        purchaseButton = purchaseButtonInfo
 //        restoreButton = restoreButtonInfo
         
-        IAP.store.requestProducts{success, products in
-            if success {
-                self.products = products!
-            }
-        }
+//        IAP.store.requestProducts{success, products in
+//            if success {
+//                self.iapProducts = products!
+//            }
+//        }
 
-        NotificationCenter.default.addObserver(self, selector: #selector(handlePurchaseNotification(_:)),
-                                               name: NSNotification.Name(rawValue: IAPHelper.IAPHelperPurchaseNotification),
-                                               object: nil)
+//        NotificationCenter.default.addObserver(self, selector: #selector(handlePurchaseNotification(_:)),
+//                                               name: NSNotification.Name(rawValue: IAPHelper.IAPHelperPurchaseNotification),
+//                                               object: nil)
 
     }
     
@@ -325,17 +338,39 @@ class AppSettingsViewController: UITableViewController {
     
     //MARK: - IAP
     
+    func setIAPButtons() {
+        purchaseButton.isEnabled = !appData.isFullVersion
+        restoreButton.isEnabled = !appData.isFullVersion
+    }
+    
     @objc func purchaseAction() {
-        IAP.store.buyProduct(products[0])
+        //IAP.store.buyProduct(iapProducts[0])
+        purchaseIAP(product: iapProducts[0])
+        log.debug("Purchase button tapped. Product \(iapProducts[0])")
     }
     
     @objc func restoreAction() {
-        IAP.store.restorePurchases()
+        //IAP.store.restorePurchases()
+        log.debug("Restore button tapped")
+        SKPaymentQueue.default().add(self)
+        SKPaymentQueue.default().restoreCompletedTransactions()
+    }
+    
+    func fetchAvailableProducts()  {
+        
+        // Put here your IAP Products ID's
+        let productIdentifiers = NSSet(objects: removeAdsID)
+        
+        log.debug("IAP is the following: \(productIdentifiers)")
+        log.debug("Fetch available products")
+        productsRequest = SKProductsRequest(productIdentifiers: productIdentifiers as! Set<String>)
+        productsRequest.delegate = self
+        productsRequest.start()
     }
     
     @objc func handlePurchaseNotification(_ notification: Notification) {
         guard let productID = notification.object as? String else { return }
-        tableView.reloadSections(IndexSet(4...4), with: .automatic)
+        //tableView.reloadSections(IndexSet(4...4), with: .automatic)
         print("When does this run?")
 //        for product in products.enumerated() {
 //            guard product.productIdentifier == productID else { continue }
@@ -361,6 +396,24 @@ class AppSettingsViewController: UITableViewController {
         }
     }
     
+    //MARK: - Alert Function
+    
+    func popAlert(withTitle title: String, andMessage message: String) {
+        
+        let alertController = UIAlertController(title: title,
+                                                message: message,
+                                                preferredStyle: UIAlertControllerStyle.alert)
+        
+        let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.default){ (action: UIAlertAction) in
+            print("Hello")
+        }
+        
+        alertController.addAction(okAction)
+        
+        present(alertController,animated: true,completion: nil)
+        
+    }
+    
     //MARK: - Data Handling
     
     func save() {
@@ -372,6 +425,115 @@ class AppSettingsViewController: UITableViewController {
         appDelegate.appData.saveAppSettingsToDictionary()
         appDelegate.appData.save()
         
+    }
+    
+}
+
+// MARK: - Storekit Functions
+
+extension AppSettingsViewController: SKProductsRequestDelegate, SKPaymentTransactionObserver {
+    
+    func paymentQueueRestoreCompletedTransactionsFinished(_ queue: SKPaymentQueue) {
+        
+        log.debug("Restore completed successfully")
+        
+        appData.isFullVersion = true
+        save()
+        
+        setIAPButtons()
+        
+        let title = "Unlocked"
+        let message = "Ads have been removed and premium feature are now unlocked."
+        popAlert(withTitle: title, andMessage: message)
+
+    }
+
+    // MARK: - REQUEST IAP PRODUCTS
+    func productsRequest (_ request:SKProductsRequest, didReceive response:SKProductsResponse) {
+        if (response.products.count > 0) {
+            iapProducts = response.products
+            
+            let removedAdsProduct = response.products[0] as SKProduct
+            
+            log.debug("Product #1 is \(removedAdsProduct.productIdentifier)")
+            
+            // Get its price from iTunes Connect
+            let numberFormatter = NumberFormatter()
+            numberFormatter.formatterBehavior = .behavior10_4
+            numberFormatter.numberStyle = .currency
+            numberFormatter.locale = removedAdsProduct.priceLocale
+            let price2Str = numberFormatter.string(from: removedAdsProduct.price)
+            
+            // Show its description
+            //label.text = removedAdsProduct.localizedDescription + "\nfor just \(price2Str!)"
+
+        } else {
+            log.info("No products")
+        }
+    }
+    
+    // MARK: - MAKE PURCHASE OF A PRODUCT
+    func canMakePurchases() -> Bool {  return SKPaymentQueue.canMakePayments()  }
+    
+    func purchaseIAP(product: SKProduct) {
+        if self.canMakePurchases() {
+            let payment = SKPayment(product: product)
+            SKPaymentQueue.default().add(self)
+            SKPaymentQueue.default().add(payment)
+            
+            print("PRODUCT TO PURCHASE: \(product.productIdentifier)")
+            log.info("PRODUCT TO PURCHASE: \(product.productIdentifier)")
+            
+            productID = product.productIdentifier
+            
+            // IAP Purchases dsabled on the Device
+        } else {
+            log.debug("Purchased disabled")
+            
+            let title = "Error"
+            let message = "Purchases are disabled in your device."
+            popAlert(withTitle: title, andMessage: message)
+        }
+    }
+    
+    // MARK:- IAP PAYMENT QUEUE
+    func paymentQueue(_ queue: SKPaymentQueue, updatedTransactions transactions: [SKPaymentTransaction]) {
+        for transaction:AnyObject in transactions {
+            if let trans = transaction as? SKPaymentTransaction {
+                switch trans.transactionState {
+                    
+                case .purchased:
+                    SKPaymentQueue.default().finishTransaction(transaction as! SKPaymentTransaction)
+                    
+                    log.debug("Product purchased")
+                    
+                    if productID == removeAdsID {
+                        
+                        // Save your purchase locally (needed only for Non-Consumable IAP)
+                        appData.isFullVersion = true
+                        save()
+                        
+                        setIAPButtons()
+                        
+                        let title = "Unlocked"
+                        let message = "Ads have been removed and premium feature are now unlocked."
+                        popAlert(withTitle: title, andMessage: message)
+
+                    }
+                    
+                    break
+                    
+                case .failed:
+                    log.debug("Failed with error \(String(describing: trans.error))")
+                    SKPaymentQueue.default().finishTransaction(transaction as! SKPaymentTransaction)
+                    break
+                case .restored:
+                    log.debug("")
+                    SKPaymentQueue.default().finishTransaction(transaction as! SKPaymentTransaction)
+                    break
+                    
+                default: break
+                }}}
     }
     
 }
