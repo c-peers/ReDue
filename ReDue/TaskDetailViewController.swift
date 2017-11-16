@@ -85,7 +85,7 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
         navigationController?.toolbar.isHidden = false
         prepareNavBar()
         
-        elapsedTime = task.completed
+        setElapsedTime()
         
         if timer.isEnabled && task.isRunning {
             
@@ -104,15 +104,12 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
 
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        print("Detail - viewDidAppear")
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         startButtonSetup()
 
+        // Add apData to the check class
         initializeCheck()
         
         if !appData.isFullVersion {
@@ -125,10 +122,16 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
             bannerHeight.constant = 0
         }
 
+        setElapsedTime()
+
         taskChartSetup()
         
+        // The observer for the task detail VC tracks the elapsedTime variable
+        // so I can't touch that var at all in here
         self.addObserver(self, forKeyPath: #keyPath(timer.elapsedTime), options: .new, context: nil)
         
+        // Keep a list of all other task names. Only used when editing the name so
+        // there isn't two tasks with the same name
         let taskIndex = taskNames.index(of: task.name)
         taskNames.remove(at: taskIndex!)
 
@@ -136,7 +139,6 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
     
     override func viewWillDisappear(_ animated: Bool) {
         
-        print("Detail - viewWillDisappear")
         //timer.invalidate()
         
         let vc = self.navigationController?.viewControllers.first as! TaskViewController
@@ -151,10 +153,11 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
     }
     
     override func viewDidDisappear(_ animated: Bool) {
-        
-        print("Detail - viewDidDisappear")
         //timer.invalidate()
-        
+    }
+    
+    func setElapsedTime() {
+        elapsedTime = task.completed.rounded()
     }
 
     func initializeCheck() {
@@ -172,7 +175,6 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
         let space = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         let statsButton = UIBarButtonItem(image: #imageLiteral(resourceName: "Charts"), style: .plain, target: self, action: #selector(statsTapped))
         let trashButton = UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(trashTapped))
-        
         toolbarItems = [settings, space, statsButton, space, trashButton]
         
         setTheme()
@@ -181,6 +183,8 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
     
     //MARK: - Timer Related Functions
     
+    /* Prepares timer if the task will run today
+       Otherwise shows that the task is not today */
     func checkTask() {
         
         if task.isToday {
@@ -196,13 +200,13 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
         }
     }
     
+    /* Update the timer when the timer was started in the list VC
+       and then the user moved to the task detail VC
+       Follows timer.elapsedTime */
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-        
         //if keyPath == #keyPath(taskData.completedTime) {
         // Update Time Label
-        //_ = synchedTimer(for: change![NSKeyValueChangeKey.newKey] as! Double)
         formatTimer()
-        
         //}
     }
     
@@ -220,34 +224,9 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
 //
 //    }
     
-    //    func completedTimeCheck() {
-    //
-    //        print("Completed time is \(task.completedTime)")
-    //
-    //    }
-    
-//    func synchedTimer(for completedTime: Double) -> String {
-//
-//        let remainingTime = task.weightedTime - task.completed
-//
-//        let formatter = DateComponentsFormatter()
-//        formatter.allowedUnits = [.hour, .minute, .second]
-//        formatter.unitsStyle = .positional
-//
-//        let remainingTimeAsString = formatter.string(from: TimeInterval(remainingTime))!
-//
-//        if remainingTime != 0 {
-//            taskTimeLabel.text = remainingTimeAsString
-//            taskStartButton.isEnabled = true
-//        } else {
-//            taskTimeLabel.text = "Complete"
-//            taskStartButton.isEnabled = false
-//        }
-//
-//        return remainingTimeAsString
-//
-//    }
-    
+    /* If not running: returns time - completed
+       If running:     returns the same - difference between now and timer.startTime
+       class local elapsedTime is used because of KVO */
     func getRemainingTime() -> Double {
         
         let currentTime = Date().timeIntervalSince1970
@@ -255,29 +234,29 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
         
         if timer.isEnabled && task.isRunning {
             elapsedTime += (currentTime - timer.startTime)
+            
+            /* Since we can't have two separate places follow the same var
+               (because one of them changes the var)
+               we need something else to track when a user starts the task here
+               and then goes back to the main task screen
+               The var below exists JUST for that reason */
+            if !timer.firedFromMainVC {
+                timer.runningCompletedTime = elapsedTime.rounded()
+                //task.completed = elapsedTime
+            }
         }
         
-        return task.weightedTime - elapsedTime
+        return task.weightedTime - elapsedTime.rounded()
 
     }
     
+    /* Sets the timeLabel and startButton to correct values
+       Updates the chart if task is running */
     func formatTimer() {
         // Used for initialization and when the task timer is updated
         
         let remainingTime = getRemainingTime()
-        
-        let formatter = DateComponentsFormatter()
-        formatter.unitsStyle = .positional
-        
-        if remainingTime < 60 {
-            formatter.allowedUnits = [.minute, .second]
-            formatter.zeroFormattingBehavior = .pad
-        } else {
-            formatter.allowedUnits = [.hour, .minute, .second]
-            formatter.zeroFormattingBehavior = .default
-        }
-
-        let remainingTimeAsString = formatter.string(from: TimeInterval(remainingTime.rounded()))!
+        let remainingTimeAsString = timer.getRemainingTimeAsString(withRemaining: remainingTime.rounded())
         
         if remainingTime > 0 {
             taskTimeLabel.text = remainingTimeAsString
@@ -296,6 +275,8 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
         
     }
     
+    /* Runs the above function (formatTimer) and checks how much
+       time is remaining. Stops the timer if time is up */
     @objc func timerRunning() {
         
         let timeRemaining = getRemainingTime()
@@ -318,13 +299,16 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
         }
     }
     
+    /* Stops the scheduled timer and saves data to the timer class,
+       task completion, adds to task history
+     */
     func timerStopped() { //for taskName: String) {
         
         timer.run.invalidate()
         
         timer.endTime = Date().timeIntervalSince1970
         
-        var elapsedTime = timer.endTime - timer.startTime
+        var elapsedTime = (timer.endTime - timer.startTime).rounded()
         
         if elapsedTime > task.weightedTime {
             elapsedTime = task.weightedTime
@@ -415,6 +399,7 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
         
     }
     
+    /* Starts or stops scheduledTimer and notifications */
     @IBAction func taskButtonTapped(_ sender: UIButton) {
         
         if timer.isEnabled != true {
@@ -447,10 +432,10 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
             NotificationCenter.default.post(name: Notification.Name("StopTimerNotification"), object: nil)
             timer.cancelFinishedNotification(for: task.name)
             
-            
-//            if willResetTimer {
-//                resetTaskTimers()
-//            }
+            let mainVC = self.navigationController?.viewControllers.first as! TaskViewController
+            if mainVC.willResetTasks {
+                mainVC.resetTaskTimers()
+            }
             
         }
         
@@ -516,6 +501,7 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
     
     //MARK: - Chart Functions
     
+    /*  */
     func findNewIndex(compare today: [Int], to dayArray: [Int]) -> Int {
         
         var arrayNewIndex: Int = 0
@@ -555,6 +541,7 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
         
     }
     
+    /*  Lengthy, but sets up the chart */
     func taskChartSetup() {
         
         recentTaskHistory.chartDescription?.enabled = false
@@ -591,15 +578,18 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
         
         let darkerThemeColor = appData.appColor.darken(byPercentage: 0.25)
         if appData.darknessCheck(for: darkerThemeColor) {
-            xAxis.labelTextColor = UIColor.white
-            rightAxis.labelTextColor = UIColor.white
+            xAxis.labelTextColor = .white
+            rightAxis.labelTextColor = .white
+            recentTaskHistory.noDataTextColor = .white
         } else {
-            xAxis.labelTextColor = UIColor.black
-            rightAxis.labelTextColor = UIColor.black
+            xAxis.labelTextColor = .black
+            rightAxis.labelTextColor = .black
+            recentTaskHistory.noDataTextColor = .black
         }
 
         var recentAccess: [Date]?
         
+        /*  Only show up to the most recent 3 dates and set as xAxis labels */
         if task.previousDates.count > 3 {
             recentAccess = Array( task.previousDates.suffix(3))
         } else {
@@ -636,6 +626,9 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
         
     }
     
+    /*  This function sets the actual bar data values
+        past data taken from task history vars
+        while tasks that will run today are taken from the elapsedTime var */
     func loadChartData(willUpdate: Bool = false) {
         
         var barChartEntry  = [BarChartDataEntry]() //this is the Array that will eventually be displayed on the graph.
@@ -654,22 +647,23 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
                 taskAccess = access
             }
 
+            /* This array holds the time of the most recent completed times in minutes */
             var taskTimeHistory = [Double]()
             
             for date in taskAccess! {
-                
                 let completedTime = task.completedTimeHistory[date]
                 let completedInMinutes = completedTime! / 60
                 //let completedTime = taskData.taskHistoryDictionary[task]![date]![TaskData.completedHistoryKey]
                 taskTimeHistory.append(completedInMinutes)
-                
             }
             
+            /* T*/
             for i in 0..<taskTimeHistory.count {
                 
                 var value: BarChartDataEntry
                 if i < taskTimeHistory.count - 1  || !task.isToday{
-                    value = BarChartDataEntry(x: Double(i), y: taskTimeHistory[i]) // here we set the X and Y status in a data chart entry
+                    // here we set the X and Y status in a data chart entry
+                    value = BarChartDataEntry(x: Double(i), y: taskTimeHistory[i].rounded())
                 } else {
                     let time = elapsedTime.rounded() / 60
                     value = BarChartDataEntry(x: Double(i), y: time)
@@ -678,7 +672,7 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
                 barChartEntry.append(value) // here we add it to the data set
             }
             
-            let bar = BarChartDataSet(values: barChartEntry, label: "") //Here we convert lineChartEntry to a LineChartDataSet
+            let bar = BarChartDataSet(values: barChartEntry, label: "")
             
             bar.colors = ChartColorTemplates.pastel()
             
@@ -692,7 +686,6 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
             let data = BarChartData() //This is the object that will be added to the chart
             
             data.addDataSet(bar) //Adds the line to the dataSet
-            
             data.setValueFormatter(self)
             
             if taskAccess?.count == 1 {

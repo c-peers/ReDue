@@ -24,6 +24,7 @@ class CountdownTimer: NSObject {
     var currentTime = Date().timeIntervalSince1970
     
     @objc dynamic var elapsedTime = 0.0
+    @objc dynamic var runningCompletedTime = 0.0
     
     //var taskData = TaskData()
     
@@ -32,7 +33,7 @@ class CountdownTimer: NSObject {
         var test = [view]
         test.append("name")
         run = Timer.scheduledTimer(timeInterval: 1.0, target: self,
-                                              selector: #selector(timerRunning), userInfo: view, repeats: true)
+                                              selector: #selector(TaskCollectionViewCell.timerRunning), userInfo: view, repeats: true)
         
     }
     
@@ -95,6 +96,26 @@ class CountdownTimer: NSObject {
         
         return (remainingTimeAsString, remainingTime)
         
+    }
+    
+    /* Returns whatever value returned from the above function (getRemainingTime)
+     as a string. Pads 0: if there is less than 60 seconds */
+    func getRemainingTimeAsString(withRemaining remaining: Double) -> String {
+        
+        let formatter = DateComponentsFormatter()
+        formatter.unitsStyle = .positional
+        
+        if remaining < 60 {
+            formatter.allowedUnits = [.minute, .second]
+            formatter.zeroFormattingBehavior = .pad
+        } else {
+            formatter.allowedUnits = [.hour, .minute, .second]
+            formatter.zeroFormattingBehavior = .default
+        }
+        
+        let remainingTimeAsString = formatter.string(from: TimeInterval(remaining.rounded()))!
+        
+        return remainingTimeAsString
     }
 
 //    func getWeightedTime(for task: String) -> (Double, Double) {
@@ -208,28 +229,29 @@ extension CountdownTimer {
 }
 
 
-//class Task: NSObject {
-//    
-//    // These are the properties you can store in your singleton
+class Shared: NSObject {
+    
+    // These are the properties you can store in your singleton
 //    var data: TaskData
 //    var settings: AppData
-//    var timer: CountdownTimer
-//    
-//    // Here is how you would get to it without there being a global collision of variables.
-//    // , or in other words, it is a globally accessable parameter that is specific to the
-//    // class.
-//    static var instance = Task()
-//    //static let data = TaskData()
-//    private override init() {
+    var timer: [CountdownTimer]
+    
+    // Here is how you would get to it without there being a global collision of variables.
+    // , or in other words, it is a globally accessable parameter that is specific to the
+    // class.
+    static var instance = Shared()
+    //static let data = TaskData()
+    private override init() {
 //        data = TaskData()
 //        settings = AppData()
-//        timer = CountdownTimer()
+        timer = [CountdownTimer]()
+    }
+    
+//    if willResetTimer {
+//        resetTaskTimers()
 //    }
-//    
-////    if willResetTimer {
-////        resetTaskTimers()
-////    }
-////    
-////    saveData()
 //
-//}
+//    saveData()
+
+}
+

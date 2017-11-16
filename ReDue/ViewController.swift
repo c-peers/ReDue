@@ -34,7 +34,7 @@ class TaskViewController: UIViewController, GADBannerViewDelegate {
     //@objc dynamic var taskData = TaskData()
     @objc dynamic var tasks = [Task]()
     var appData = AppData()
-    var timer = CountdownTimer()
+    //var timer = CountdownTimer()
     var check = Check()
     
     var secondaryTimer = Timer()
@@ -45,7 +45,7 @@ class TaskViewController: UIViewController, GADBannerViewDelegate {
     var selectedCell: TaskCollectionViewCell?
     var runningCompletionTime = 0.0
     
-    var willResetTimer = false
+    var willResetTasks = false
     var currentDay = Date()
     var yesterday = Date()
     var lastUsed = Date()
@@ -167,6 +167,8 @@ class TaskViewController: UIViewController, GADBannerViewDelegate {
             bannerHeight.constant = 0
         }
         
+        initializeTimers()
+        
         // Circular progress cells were using the incorrect cell size, reason unknown.
         // This forces the cells to use the correct size
         //        if appData.usesCircularProgress {
@@ -195,44 +197,81 @@ class TaskViewController: UIViewController, GADBannerViewDelegate {
         
         print("Main - viewDidAppear")
 
-        guard let task = selectedTask else { return }
+        guard let taskCells = getTaskCells() else { return } //[TaskCollectionViewCell]()
         
-        if timer.isEnabled && !timer.firedFromMainVC && task.isRunning {
+        for cell in taskCells {
             
-            let currentTime = Date().timeIntervalSince1970
-            let timeElapsed = currentTime - timer.startTime
-            print("time elapsed \(timeElapsed)")
+            guard let task = selectedTask else { return }
             
-            log.debug("time elapsed \(timeElapsed)")
-            
-            let wholeNumbers = floor(timeElapsed)
-            let milliseconds = Int((timeElapsed - wholeNumbers) * 1000)
-            
-            DispatchQueue.global().asyncAfter(deadline: DispatchTime.now() + .milliseconds(milliseconds)) {
+            if cell.timer.isEnabled && !cell.timer.firedFromMainVC && task.isRunning {
                 
-                print("Wait until next second begins")
+                let currentTime = Date().timeIntervalSince1970
+                let timeElapsed = currentTime - cell.timer.startTime
+                print("time elapsed \(timeElapsed)")
                 
+                log.debug("time elapsed \(timeElapsed)")
+                
+                let wholeNumbers = floor(timeElapsed)
+                let milliseconds = Int((timeElapsed - wholeNumbers) * 1000)
+                
+                DispatchQueue.global().asyncAfter(deadline: DispatchTime.now() + .milliseconds(milliseconds)) {
+                    
+                    print("Wait until next second begins")
+                    
+                }
+                
+                let indexPathRow = taskNames.index(of: selectedTask!.name)
+                let indexPath = IndexPath(row: indexPathRow!, section: 0)
+                selectedCell = taskList.cellForItem(at: indexPath) as? TaskCollectionViewCell
+                
+                //_ = timer.formatTimer(name: selectedTask!.name, from: selectedCell, dataset: taskData)
+                _ = cell.formatTimer(for: selectedTask!)
+                
+                //secondaryTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self,
+                //                                      selector: #selector(TaskCollectionViewCell.timerRunning),
+                //                                      userInfo: nil,
+                //                                      repeats: true)
+                
+            } else {
+                //secondaryTimer.invalidate()
             }
             
-            let indexPathRow = taskNames.index(of: selectedTask!.name)
-            let indexPath = IndexPath(row: indexPathRow!, section: 0)
-            selectedCell = taskList.cellForItem(at: indexPath) as? TaskCollectionViewCell
-            
-            //_ = timer.formatTimer(name: selectedTask!.name, from: selectedCell, dataset: taskData)
-            _ = timer.formatTimer(for: selectedTask!, from: selectedCell)
-            
-            secondaryTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self,
-                                     selector: #selector(timerRunning), userInfo: nil,
-                                     repeats: true)
-            
-        } else {
-            secondaryTimer.invalidate()
         }
         
     }
     
     func initializeCheck() {
         check.appData = appData
+    }
+    
+    func initializeTimers() {
+        
+//        let taskCount = tasks.count
+//
+//        for i in 0..<taskCount {
+//
+//            Shared.instance.timer
+//
+//        }
+        
+    }
+    
+    func getTaskCells() -> [TaskCollectionViewCell]? {
+
+        var cells = [TaskCollectionViewCell]()
+        
+        if tasks.count < 1 {
+            return nil
+        }
+        
+        for row in 0..<tasks.count {
+            if let cell = taskList.cellForItem(at: IndexPath(row: row, section: 0)) as? TaskCollectionViewCell {
+                cells.append(cell)
+            }
+        }
+        
+        return cells
+
     }
     
     func prepareNavBar() {
@@ -317,20 +356,20 @@ class TaskViewController: UIViewController, GADBannerViewDelegate {
     func catchNotification(notification:Notification) -> Void {
         print("Catch notification")
         log.debug("Catch notification")
-        timer.run.invalidate()
+        //timer.run.invalidate()
         
     }
     
     //MARK: - Timer Related Functions
     
-    @objc func timerRunning() {
+    @objc func timerRunningUnused() {
         
         let cell = selectedCell!
         let taskName = cell.taskNameField.text!
         let task = setTask(as: taskName)
         let id = cell.reuseIdentifier
         
-        let (_, timeRemaining) = timer.formatTimer(for: task, from: cell)
+        let (_, timeRemaining) = cell.formatTimer(for: task)
         print("Time remaining is \(timeRemaining)")
         log.debug("Time remaining is \(timeRemaining)")
         
@@ -352,7 +391,7 @@ class TaskViewController: UIViewController, GADBannerViewDelegate {
             //cell.playStopButton.setImage(#imageLiteral(resourceName: "Play"), for: .normal)
             cell.playStopButton.isEnabled = false
             
-            timer.cancelMissedTimeNotification(for: taskName)
+            cell.timer.cancelMissedTimeNotification(for: taskName)
             
         }
         
@@ -360,11 +399,13 @@ class TaskViewController: UIViewController, GADBannerViewDelegate {
     
     func timerStopped(for task: Task, ofType type: CellType) {
         
-        timer.run.invalidate()
+        guard let taskCells = getTaskCells() else { return } //[TaskCollectionViewCell]()
+        guard let cell = taskCells.first(where: { $0.taskNameField.text == task.name }) else { return }
+        cell.timer.run.invalidate()
         
-        timer.endTime = Date().timeIntervalSince1970
+        cell.timer.endTime = Date().timeIntervalSince1970
         
-        var elapsedTime = timer.endTime - timer.startTime
+        var elapsedTime = cell.timer.endTime - cell.timer.startTime
         //let previousCompletedTime = taskData.taskDictionary[task]?["completedTime"]!
         
         if elapsedTime > task.weightedTime {
@@ -399,12 +440,12 @@ class TaskViewController: UIViewController, GADBannerViewDelegate {
         
         let resetTime = check.timeToReset(at: nextResetTime)
         
-        let (remainingTimeString, _) = timer.formatTimer(for: task)
-        timer.setMissedTimeNotification(for: task.name, at: resetTime, withRemaining: remainingTimeString)
+        let (remainingTimeString, _) = cell.formatTimer(for: task)
+        cell.timer.setMissedTimeNotification(for: task.name, at: resetTime, withRemaining: remainingTimeString)
         
         task.isRunning = false
-        timer.isEnabled = false
-        timer.firedFromMainVC = false
+        cell.timer.isEnabled = false
+        cell.timer.firedFromMainVC = false
         
         saveData()
         
@@ -451,17 +492,27 @@ class TaskViewController: UIViewController, GADBannerViewDelegate {
         print(message)
         log.debug(message)
 
+        guard let taskCells = getTaskCells() else { return }
         let resetOccurred = check.resetTimePassed(between: then, and: now, with: lastResetTime!)
         
         if resetOccurred {
         
             log.debug("The reset time period has passed")
 
-            if !timer.isEnabled {
-                resetTaskTimers()
-            } else {
-                willResetTimer = true
+            for cell in taskCells {
+                if cell.timer.isEnabled {
+                    willResetTasks = true
+                }
             }
+
+            if !willResetTasks {
+                resetTaskTimers()
+            }
+//            if !timer.isEnabled {
+//                resetTaskTimers()
+//            } else {
+//                willResetTasks = true
+//            }
             
         } else {
             
@@ -476,8 +527,10 @@ class TaskViewController: UIViewController, GADBannerViewDelegate {
         for task in tasks {
             
             if task.isToday {
-                let (remainingTimeString,_) = timer.formatTimer(for: task)
-                timer.setMissedTimeNotification(for: task.name, at: timeToReset, withRemaining: remainingTimeString)
+                if let cell = taskCells.first(where: { $0.taskNameField.text == task.name }) {
+                    let (remainingTimeString,_) = cell.formatTimer(for: task)
+                    cell.timer.setMissedTimeNotification(for: task.name, at: timeToReset, withRemaining: remainingTimeString)
+                }
             }
             
         }
@@ -657,11 +710,11 @@ class TaskViewController: UIViewController, GADBannerViewDelegate {
         let taskName = cell.taskNameField.text!
         let task = setTask(as: taskName)
         
-        if !timer.isEnabled {
+        if !cell.timer.isEnabled {
             
             task.isRunning = true
-            timer.isEnabled = true
-            timer.firedFromMainVC = true
+            cell.timer.isEnabled = true
+            cell.timer.firedFromMainVC = true
             
             setImage(as: #imageLiteral(resourceName: "Pause"), forCell: cell)
             //let stencil = #imageLiteral(resourceName: "Pause").withRenderingMode(.alwaysTemplate)
@@ -680,13 +733,13 @@ class TaskViewController: UIViewController, GADBannerViewDelegate {
                 cell.circleProgressView.animate(fromAngle: currentAngle, toAngle: 359.9, duration: remainingTime as TimeInterval, relativeDuration: true, completion: nil)
             }
             
-            timer.startTime = Date().timeIntervalSince1970
+            cell.timer.startTime = Date().timeIntervalSince1970
             
             selectedCell = cell
             
-            timer.setFinishedNotification(for: task.name, atTime: remainingTime)
-            timer.run = Timer.scheduledTimer(timeInterval: 1.0, target: self,
-                                                 selector: #selector(timerRunning), userInfo: nil,
+            cell.timer.setFinishedNotification(for: task.name, atTime: remainingTime)
+            cell.timer.run = Timer.scheduledTimer(timeInterval: 1.0, target: cell,
+                                                 selector: #selector(TaskCollectionViewCell.timerRunning), userInfo: nil,
                                                  repeats: true)
             
             
@@ -701,9 +754,9 @@ class TaskViewController: UIViewController, GADBannerViewDelegate {
                 timerStopped(for: task, ofType: .line)
             }
             
-            timer.cancelFinishedNotification(for: task.name)
+            cell.timer.cancelFinishedNotification(for: task.name)
             
-            if willResetTimer {
+            if willResetTasks {
                 resetTaskTimers()
             }
             
@@ -715,6 +768,8 @@ class TaskViewController: UIViewController, GADBannerViewDelegate {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
+        guard let taskCells = getTaskCells() else { return }
+
         if segue.identifier == "taskDetailSegue" {
             let taskVC = segue.destination as! TaskDetailViewController
             
@@ -723,7 +778,8 @@ class TaskViewController: UIViewController, GADBannerViewDelegate {
             taskVC.tasks = tasks
             taskVC.taskNames = taskNames
             
-            taskVC.timer = timer
+            guard let cell = taskCells.first(where: { $0.taskNameField.text == selectedTask!.name }) else { return }
+            taskVC.timer = cell.timer
             
         } else if segue.identifier == "addTaskSegue" {
             let newTaskVC = segue.destination as! NewTasksViewController
@@ -734,7 +790,10 @@ class TaskViewController: UIViewController, GADBannerViewDelegate {
             let appSettingsVC = segue.destination as! AppSettingsViewController
             
             appSettingsVC.appData = appData
-            timer.run.invalidate()
+            
+            for cell in taskCells {
+                cell.timer.run.invalidate()
+            }
             
         }
         
@@ -893,6 +952,7 @@ extension TaskViewController: UICollectionViewDelegate, UICollectionViewDataSour
         var reuseIdentifier: String?
         let usesCircularProgress = appData.usesCircularProgress
         
+        print(indexPath)
         
         if usesCircularProgress {
             reuseIdentifier = "taskCollectionCell_Circle"
@@ -944,6 +1004,13 @@ extension TaskViewController: UICollectionViewDelegate, UICollectionViewDataSour
         
     }
     
+    func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        
+        if let cell = cell as? TaskCollectionViewCell {
+            cell.removeObserver()
+        }
+    }
+    
     //MARK: CollectionView Helper Functions
     
     func setBorder(for layer: CALayer, borderWidth: CGFloat, borderColor: CGColor, radius: CGFloat ) {
@@ -983,8 +1050,8 @@ extension TaskViewController: UICollectionViewDelegate, UICollectionViewDataSour
         // Doesn't work from other classes when using .xib
         let weightedTime = task.weightedTime
         var elapsedTime = task.completed
-        if timer.isEnabled {
-            elapsedTime += (timer.currentTime - timer.startTime)
+        if cell.timer.isEnabled {
+            elapsedTime += (cell.timer.currentTime - cell.timer.startTime)
         }
         let remainingTime = weightedTime - elapsedTime
         
@@ -1003,24 +1070,29 @@ extension TaskViewController: UICollectionViewDelegate, UICollectionViewDataSour
         let taskName = taskNames[indexPath.row]
         let task = setTask(as: taskName)
         
+        cell.task = task
+        cell.appData = appData
         cell.taskNameField.text = task.name
+        cell.mainVC = self
         
-        let formatter = DateComponentsFormatter()
-        formatter.allowedUnits = [.hour, .minute, .second]
-        formatter.unitsStyle = .positional
+        cell.initializeObserver()
+
+//        let formatter = DateComponentsFormatter()
+//        formatter.allowedUnits = [.hour, .minute, .second]
+//        formatter.unitsStyle = .positional
         
         //cell.taskTimeRemaining.text = formatter.string(from: TimeInterval(Task.instance.timer.remainingTime))!
         //cell.taskTimeRemaining.text = formatter.string(from: TimeInterval(countdownTimer.remainingTime))!
         
         cell.playStopButton.backgroundColor = UIColor.clear
-        cell.playStopButton.addTarget(self, action: #selector(taskStartStopButtonPressed(sender:)), for: .touchUpInside)
+        cell.playStopButton.addTarget(cell, action: #selector(taskStartStopButtonPressed(sender:)), for: .touchUpInside)
         if cell.taskTimeRemaining.text == "Complete" {
             cell.playStopButton.isEnabled = false
         } else {
             cell.playStopButton.isEnabled = true
         }
         
-        if timer.isEnabled && task.isRunning, let _ = selectedTask?.name {
+        if cell.timer.isEnabled && task.isRunning, let _ = selectedTask?.name {
             setImage(as: #imageLiteral(resourceName: "Pause"), forCell: cell)
             //cell.playStopButton.setImage(#imageLiteral(resourceName: "Pause"), for: .normal)
         } else {
@@ -1082,7 +1154,7 @@ extension TaskViewController: UICollectionViewDelegate, UICollectionViewDataSour
         }
 
         if task.isToday {
-            (_, _) = timer.formatTimer(for: task, from: cell, ofType: type)
+            _ = cell.formatTimer(for: task, ofType: type)
             //cell.progressView.isHidden = false
             cell.playStopButton.isHidden = false
             if check.access(for: task, upTo: currentDay) {

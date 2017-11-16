@@ -125,21 +125,21 @@ class AppData: NSObject, NSCoding {
         
     }
     
-    func darknessCheckOLD(for color:UIColor? = nil) -> Bool {
-        
-        var r: CGFloat = 0.0, g: CGFloat = 0.0, b: CGFloat = 0.0, a: CGFloat = 0.0
-        
-        color?.getRed(&r, green: &g, blue: &b, alpha: &a)
-        
-        let twoLowColors = (r < 0.7 || g < 0.7)
-        
-        if r  < 0.7 && g  < 0.7 && b < 0.7 {
-            return true
-        } else {
-            return false
-        }
-        
-    }
+//    func darknessCheckOLD(for color:UIColor? = nil) -> Bool {
+//        
+//        var r: CGFloat = 0.0, g: CGFloat = 0.0, b: CGFloat = 0.0, a: CGFloat = 0.0
+//        
+//        color?.getRed(&r, green: &g, blue: &b, alpha: &a)
+//        
+//        let twoLowColors = (r < 0.7 || g < 0.7)
+//        
+//        if r  < 0.7 && g  < 0.7 && b < 0.7 {
+//            return true
+//        } else {
+//            return false
+//        }
+//        
+//    }
     
     func darknessCheck(for color: UIColor?) -> Bool {
         

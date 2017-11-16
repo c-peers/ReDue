@@ -369,7 +369,7 @@ class AppSettingsViewController: UITableViewController {
     }
     
     @objc func handlePurchaseNotification(_ notification: Notification) {
-        guard let productID = notification.object as? String else { return }
+        //guard let productID = notification.object as? String else { return }
         //tableView.reloadSections(IndexSet(4...4), with: .automatic)
         print("When does this run?")
 //        for product in products.enumerated() {
@@ -458,11 +458,11 @@ extension AppSettingsViewController: SKProductsRequestDelegate, SKPaymentTransac
             log.debug("Product #1 is \(removedAdsProduct.productIdentifier)")
             
             // Get its price from iTunes Connect
-            let numberFormatter = NumberFormatter()
-            numberFormatter.formatterBehavior = .behavior10_4
-            numberFormatter.numberStyle = .currency
-            numberFormatter.locale = removedAdsProduct.priceLocale
-            let price2Str = numberFormatter.string(from: removedAdsProduct.price)
+//            let numberFormatter = NumberFormatter()
+//            numberFormatter.formatterBehavior = .behavior10_4
+//            numberFormatter.numberStyle = .currency
+//            numberFormatter.locale = removedAdsProduct.priceLocale
+//            let price2Str = numberFormatter.string(from: removedAdsProduct.price)
             
             // Show its description
             //label.text = removedAdsProduct.localizedDescription + "\nfor just \(price2Str!)"
