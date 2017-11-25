@@ -31,7 +31,6 @@ class TaskViewController: UIViewController, GADBannerViewDelegate {
     
     var taskNames = [String]()
     
-    //@objc dynamic var taskData = TaskData()
     @objc dynamic var tasks = [Task]()
     var appData = AppData()
     //var timer = CountdownTimer()
@@ -46,7 +45,7 @@ class TaskViewController: UIViewController, GADBannerViewDelegate {
     var runningCompletionTime = 0.0
     
     var willResetTasks = false
-    var currentDay = Date()
+    var now = Date()
     var yesterday = Date()
     var lastUsed = Date()
     
@@ -116,9 +115,6 @@ class TaskViewController: UIViewController, GADBannerViewDelegate {
         
         if !appData.isFullVersion {
             adView.alpha = 0
-            //        bannerView.adUnitID = "ca-app-pub-3446210370651273/5359231299"
-            //        bannerView.rootViewController = self
-            
             let request = GADRequest()
             request.testDevices = [kGADSimulatorID]
             adBannerView.load(request)
@@ -129,7 +125,7 @@ class TaskViewController: UIViewController, GADBannerViewDelegate {
         // Set a timer to go off at that time
         
         for task in tasks {
-            if check.changeOfWeek(between: lastUsed, and: currentDay) {
+            if check.changeOfWeek(between: lastUsed, and: now) {
                 
                 let frequency = task.frequency
                 let lastRunWeek = task.runWeek
@@ -149,14 +145,6 @@ class TaskViewController: UIViewController, GADBannerViewDelegate {
         
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        print("Main - viewWillDisappear")
-    }
-    
-    override func viewDidDisappear(_ animated: Bool) {
-        print("Main - viewDidDisappear")
-    }
-    
     override func viewWillAppear(_ animated: Bool) {
         
         print("Main - viewWillAppear")
@@ -166,8 +154,6 @@ class TaskViewController: UIViewController, GADBannerViewDelegate {
         if appData.isFullVersion {
             bannerHeight.constant = 0
         }
-        
-        initializeTimers()
         
         // Circular progress cells were using the incorrect cell size, reason unknown.
         // This forces the cells to use the correct size
@@ -179,17 +165,14 @@ class TaskViewController: UIViewController, GADBannerViewDelegate {
         
         if runningCompletionTime > 0, let task = selectedTask {
             if task.isRunning {
-                task.completedTime = runningCompletionTime
-                //taskData.taskDictionary[selectedTask]![TaskData.completedTimeKey] = runningCompletionTime
+                //task.completedTime = runningCompletionTime
             }
         }
         
-        DispatchQueue.main.async {
-            self.taskList.collectionViewLayout.invalidateLayout()
-            self.taskList.reloadData()
-        }
-        
-        //taskList.reloadData()
+        //DispatchQueue.main.async {
+        //    self.taskList.collectionViewLayout.invalidateLayout()
+        //    self.taskList.reloadData()
+        //}
         
     }
     
@@ -197,7 +180,7 @@ class TaskViewController: UIViewController, GADBannerViewDelegate {
         
         print("Main - viewDidAppear")
 
-        guard let taskCells = getTaskCells() else { return } //[TaskCollectionViewCell]()
+        guard let taskCells = getTaskCells() else { return }
         
         for cell in taskCells {
             
@@ -224,7 +207,6 @@ class TaskViewController: UIViewController, GADBannerViewDelegate {
                 let indexPath = IndexPath(row: indexPathRow!, section: 0)
                 selectedCell = taskList.cellForItem(at: indexPath) as? TaskCollectionViewCell
                 
-                //_ = timer.formatTimer(name: selectedTask!.name, from: selectedCell, dataset: taskData)
                 _ = cell.formatTimer(for: selectedTask!)
                 
                 //secondaryTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self,
@@ -242,18 +224,6 @@ class TaskViewController: UIViewController, GADBannerViewDelegate {
     
     func initializeCheck() {
         check.appData = appData
-    }
-    
-    func initializeTimers() {
-        
-//        let taskCount = tasks.count
-//
-//        for i in 0..<taskCount {
-//
-//            Shared.instance.timer
-//
-//        }
-        
     }
     
     func getTaskCells() -> [TaskCollectionViewCell]? {
@@ -298,8 +268,10 @@ class TaskViewController: UIViewController, GADBannerViewDelegate {
         
         let darkerThemeColor = appData.appColor.darken(byPercentage: 0.25)
         
-        view.backgroundColor = darkerThemeColor
-        taskList.backgroundView?.backgroundColor = darkerThemeColor
+        view.backgroundColor = darkerThemeColor //FlatWhite()
+        taskList.backgroundColor = .clear
+        taskList.backgroundView = UIView(frame: .zero)
+        //taskList.backgroundView?.backgroundColor = darkerThemeColor //FlatWhite() //darkerThemeColor
         
         if appData.isNightMode {
             //NightNight.theme = .night
@@ -327,7 +299,7 @@ class TaskViewController: UIViewController, GADBannerViewDelegate {
     func setImage(as image: UIImage, forCell cell: TaskCollectionViewCell) {
         let stencil = image.withRenderingMode(.alwaysTemplate)
         cell.playStopButton.setImage(stencil, for: .normal)
-        cell.playStopButton.tintColor = appData.appColor
+        cell.playStopButton.tintColor = FlatWhite() //appData.appColor
         
         cell.buttonBackground.alpha = 0.0
         
@@ -388,7 +360,6 @@ class TaskViewController: UIViewController, GADBannerViewDelegate {
             cell.taskTimeRemaining.text = "Complete"
             
             setImage(as: #imageLiteral(resourceName: "Play"), forCell: cell)
-            //cell.playStopButton.setImage(#imageLiteral(resourceName: "Play"), for: .normal)
             cell.playStopButton.isEnabled = false
             
             cell.timer.cancelMissedTimeNotification(for: taskName)
@@ -399,14 +370,13 @@ class TaskViewController: UIViewController, GADBannerViewDelegate {
     
     func timerStopped(for task: Task, ofType type: CellType) {
         
-        guard let taskCells = getTaskCells() else { return } //[TaskCollectionViewCell]()
+        guard let taskCells = getTaskCells() else { return }
         guard let cell = taskCells.first(where: { $0.taskNameField.text == task.name }) else { return }
         cell.timer.run.invalidate()
         
         cell.timer.endTime = Date().timeIntervalSince1970
         
         var elapsedTime = cell.timer.endTime - cell.timer.startTime
-        //let previousCompletedTime = taskData.taskDictionary[task]?["completedTime"]!
         
         if elapsedTime > task.weightedTime {
             elapsedTime = task.weightedTime
@@ -417,11 +387,8 @@ class TaskViewController: UIViewController, GADBannerViewDelegate {
         }
         
         task.completed += elapsedTime
-        //taskData.taskDictionary[task]![TaskData.completedTimeKey]! += elapsedTime
         
         if let date = task.getAccessDate(lengthFromEnd: 0) {
-            //taskData.getAccessDate(for: task, lengthFromEnd: 0) {
-            //taskData.taskHistoryDictionary[task]![date]![TaskData.completedHistoryKey]! += elapsedTime
             
             task.completedTimeHistory[date]! += elapsedTime
             
@@ -429,12 +396,9 @@ class TaskViewController: UIViewController, GADBannerViewDelegate {
             
             if unfinishedTime >= 0 {
                 task.missedTimeHistory[date]! = unfinishedTime
-                //taskData.taskHistoryDictionary[task]![date]![TaskData.missedHistoryKey]! = unfinishedTime
             } else {
                 task.missedTimeHistory[date]! = 0
-                //taskData.taskHistoryDictionary[task]![date]![TaskData.missedHistoryKey]! = 0.0
             }
-            //setMissedTime(for: task, at: date)
             
         }
         
@@ -453,13 +417,15 @@ class TaskViewController: UIViewController, GADBannerViewDelegate {
 
     //MARK: - App Rollover Related Functions
     
+    func currentTimeIs() -> Date {
+        return check.offsetDate(Date(), by: appData.resetOffset)
+    }
+    
     func timeCheck() {
         
         // Offset times so that reset always occurs at "midnight" for easy calculation
-        let now = check.offsetDate(appData.taskCurrentTime, by: appData.resetOffset)
+        now = currentTimeIs()
         let then = check.offsetDate(appData.taskLastTime, by: appData.resetOffset)
-        
-        currentDay = now
         lastUsed = then
         
         let calendar = Calendar.current
@@ -508,11 +474,6 @@ class TaskViewController: UIViewController, GADBannerViewDelegate {
             if !willResetTasks {
                 resetTaskTimers()
             }
-//            if !timer.isEnabled {
-//                resetTaskTimers()
-//            } else {
-//                willResetTasks = true
-//            }
             
         } else {
             
@@ -536,8 +497,9 @@ class TaskViewController: UIViewController, GADBannerViewDelegate {
         }
 
         appData.taskLastTime = appData.taskCurrentTime
-        appData.save()
-        
+        let data = DataHandler()
+        data.saveAppSettings(appData)
+
     }
     
     func getDateComponents(for date: Date, at timeZone: TimeZone) -> DateComponents {
@@ -569,25 +531,22 @@ class TaskViewController: UIViewController, GADBannerViewDelegate {
         print("RESET!!!!!!!!")
         log.info("Timers will be reset")
         
-        let message = "Tasks will reset"
-        popAlert(with: message)
-
         // Iterate through all tasks and do the following
         // 1. Reset completed time
         // 2. Calculate rollover time
         // 3. Refresh screen
         
+        // No need to run if there aren't any tasks
         if tasks.count < 1 {
             return
         }
         
         for task in tasks {
             
-//            let weightedTime = task.weightedTime
-//            let completedTime = task.completed
             task.rollover = 0
-
-            let daysBetween = check.daysBetweenTwoDates(start: self.lastUsed, end: self.currentDay)
+        
+            let now = currentTimeIs()
+            let daysBetween = check.daysBetweenTwoDates(start: self.lastUsed, end: now)
 
             log.debug("\(daysBetween) days between last run")
             
@@ -605,82 +564,41 @@ class TaskViewController: UIViewController, GADBannerViewDelegate {
                 
                 if (wasThatWeek && wasThatDayofWeek) {
                     
+                    // Popup that shows tasks will be reset
+                    let modalView = ModalInfoView()
+                    modalView.set(title: "Resetting Tasks")
+                    modalView.set(image: #imageLiteral(resourceName: "Reset Arrow"))
+                    modalView.set(length: 2)
+                    view.addSubview(modalView)
+                    modalView.center = view.center
+
                     let message = "Rollover, Stats, History will be calculated for date \(date)"
                     //popAlert(with: message)
                     log.info(message)
                     
                     task.setRollover()
-                    task.calculateStats() //(for: task.name)
+                    task.calculateStats()
                     task.saveHistory(for: date)
-                    task.completed = 0
+                    task.reset()
                 }
                                 
             }
-            
+
+            task.rollover = task.weightedTime - task.time
             task.completed = 0
-            task.setWeightedTime()
-            
-            //taskData.taskDictionary[task]?[TaskData.completedTimeKey] = 0
+            check.ifTaskWillRunToday(task)
+            if task.isToday {
+                _ = check.access(for: task, upTo: now)
+            }
 
-//            if let date = Calendar.current.date(byAdding: .day, value: -1, to: yesterday) {
-//                yesterday = date
-//            }
-//            
-//            if check.taskDays(for: task, at: yesterday) {
-//
-//                var rolloverTime = weightedTime - completedTime
-//
-//                if rolloverTime < 0 {
-//                    rolloverTime = 0
-//                }
-//
-//                task.rollover = rolloverTime
-//                //taskData.taskDictionary[task]![TaskData.rolloverTimeKey] = rolloverTime
-//
-//            }
-            
-//            check.missedDays(in: task, between: lastUsed, and: currentDay)
-            
-            //=====================================
-            
-//            let lastUsedDate = task.getHistory(at: lastUsed)
-//
-//            if task.isToday, let lastIndex = task.previousDates.index(of: lastUsedDate!) {
-//
-//                let accessArrayLength = task.previousDates.count - 1
-//                var rollover = 0.0
-//
-//                for index in lastIndex...accessArrayLength {
-//
-//                    let date = task.previousDates[index] //taskData.taskAccess![index]
-//                    rollover += task.missedTimeHistory[date]!
-//                    //rollover += taskData.taskHistoryDictionary[task]![date]![TaskData.missedHistoryKey]!
-//
-//                }
-//
-//                task.rollover += rollover
-                //taskData.taskDictionary[task]![TaskData.rolloverTimeKey]! += rollover
-                
-//                if let previousAccess = getAccessDate(for: task, lengthFromEnd: 1) {
-//                    
-//                    let time = taskData.taskDictionary[task]!["completedTaskTimeHistory"]
-//                    let completion = taskData.taskHistoryDictionary[task]![previousAccess]!["completedTaskTimeHistory"]
-//                    
-//                    taskData.taskHistoryDictionary[task]![date]!["totalTaskTimeHistory"] = time
-//                    taskData.taskHistoryDictionary[task]![date]!["missedTaskTimeHistory"] = time! - completion!
-//                    taskData.taskHistoryDictionary[task]![date]!["completedTaskTimeHistory"] = completionf
-//                    
-//                }
-                
-
- //           }
-            
         }
         
         DispatchQueue.main.async {
             self.taskList.reloadData()
         }
 
+        taskList.reloadData()
+        taskList.reloadInputViews()
         saveData()
         
     }
@@ -688,11 +606,7 @@ class TaskViewController: UIViewController, GADBannerViewDelegate {
     //MARK: - Button Functions
     
     @objc func addTask() {
-        print("Do stuff")
-        //performSegue(withIdentifier: "addTaskSegue", sender: nil)
-        
         presentNewTaskVC()
-
     }
     
     @objc func settingsButtonTapped() {
@@ -702,7 +616,7 @@ class TaskViewController: UIViewController, GADBannerViewDelegate {
     //@IBAction func taskStartStopButtonPressed(_ sender: UIButton) {
     @objc func taskStartStopButtonPressed(sender: UIButton) {
         guard let cell = sender.superview?.superview as? TaskCollectionViewCell else {
-            return // or fatalError() or whatever
+            return
         }
         
         let id = cell.reuseIdentifier
@@ -717,9 +631,6 @@ class TaskViewController: UIViewController, GADBannerViewDelegate {
             cell.timer.firedFromMainVC = true
             
             setImage(as: #imageLiteral(resourceName: "Pause"), forCell: cell)
-            //let stencil = #imageLiteral(resourceName: "Pause").withRenderingMode(.alwaysTemplate)
-            //cell.playStopButton.setImage(#imageLiteral(resourceName: "Pause"), for: .normal)
-            //cell.playStopButton.tintColor = UIColor.white
             
             let weightedTime = task.weightedTime
             let elapsedTime = task.completed
@@ -746,7 +657,6 @@ class TaskViewController: UIViewController, GADBannerViewDelegate {
         } else {
             
             setImage(as: #imageLiteral(resourceName: "Play"), forCell: cell)
-            //cell.playStopButton.setImage(#imageLiteral(resourceName: "Play"), for: .normal)
             
             if id == "taskCollectionCell_Circle" {
                 timerStopped(for: task, ofType: .circular)
@@ -768,7 +678,7 @@ class TaskViewController: UIViewController, GADBannerViewDelegate {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
-        guard let taskCells = getTaskCells() else { return }
+        let taskCells = getTaskCells()
 
         if segue.identifier == "taskDetailSegue" {
             let taskVC = segue.destination as! TaskDetailViewController
@@ -778,7 +688,7 @@ class TaskViewController: UIViewController, GADBannerViewDelegate {
             taskVC.tasks = tasks
             taskVC.taskNames = taskNames
             
-            guard let cell = taskCells.first(where: { $0.taskNameField.text == selectedTask!.name }) else { return }
+            guard let cell = taskCells?.first(where: { $0.taskNameField.text == selectedTask!.name }) else { return }
             taskVC.timer = cell.timer
             
         } else if segue.identifier == "addTaskSegue" {
@@ -791,8 +701,13 @@ class TaskViewController: UIViewController, GADBannerViewDelegate {
             
             appSettingsVC.appData = appData
             
-            for cell in taskCells {
-                cell.timer.run.invalidate()
+            guard let cells = taskCells else { return }
+            
+            for cell in cells {
+                if cell.timer.isEnabled {
+                    setImage(as: #imageLiteral(resourceName: "Play"), forCell: cell)
+                    cell.timer.run.invalidate()
+                }
             }
             
         }
@@ -804,7 +719,7 @@ class TaskViewController: UIViewController, GADBannerViewDelegate {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         appData = appDelegate.appData
         
-        print("Appdata color is \(appData.appColor)")
+        print("Appdata color is \(appData.appColor.hexValue())")
         
         let data = DataHandler()
         if let loadedData = data.loadTasks() {
@@ -818,9 +733,9 @@ class TaskViewController: UIViewController, GADBannerViewDelegate {
     func saveData() {
         
         let data = DataHandler()
-        data.save(tasks)
-
-        appData.save()
+        data.saveAppSettings(appData)
+        data.saveTasks(tasks)
+        //appData.save()
 
         getTaskNames()
         
@@ -839,18 +754,12 @@ class TaskViewController: UIViewController, GADBannerViewDelegate {
 
         print("Banner loaded successfully")
         
-        //bannerView.frame = adBannerView.frame
-//        let request = GADRequest()
-//        request.testDevices = [kGADSimulatorID]
-//        adBannerView.load(request)
-
         adView.alpha = 1
         adView.addSubview(adBannerView)
         
     }
 
     func adView(_ bannerView: GADBannerView, didFailToReceiveAdWithError error: GADRequestError) {
-    //func adView(_ bannerView: GADBannerView!, didFailToReceiveAdWithError error: GADRequestError!) {
         print("Fail to receive ads")
     }
     
@@ -868,6 +777,14 @@ class TaskViewController: UIViewController, GADBannerViewDelegate {
     
     @IBAction func taskDeletedUnwind(segue: UIStoryboardSegue) {
         
+        // Popup that shows tasks will be reset
+//        let modalView = ModalInfoView()
+//        modalView.set(title: "”)
+//        modalView.set(image: xxxx)
+//        modalView.set(length: 2)
+//        view.addSubview(modalView)
+//        modalView.center = view.center
+
         print("Baleted")
         print(tasks)
         
@@ -935,18 +852,6 @@ extension TaskViewController: UICollectionViewDelegate, UICollectionViewDataSour
         return cellSize
     }
     
-//    func collectionView(_ collectionView: UICollectionView,
-//                        layout collectionViewLayout: UICollectionViewLayout,
-//                        minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-//        return 2.5
-//    }
-//
-//    func collectionView(_ collectionView: UICollectionView, layout
-//        collectionViewLayout: UICollectionViewLayout,
-//                        minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-//        return 5.0
-//    }
-    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         var reuseIdentifier: String?
@@ -962,7 +867,6 @@ extension TaskViewController: UICollectionViewDelegate, UICollectionViewDataSour
             taskList.register(nib, forCellWithReuseIdentifier: reuseIdentifier!)
             
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier!, for: indexPath) as! TaskCollectionViewCell
-            //let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier!, for: indexPath as IndexPath) as! RepeatingTasksCircleProgressCollectionCell
 
             setupCollectionCell(for: cell, ofType: .circular, at: indexPath)
 
@@ -1007,7 +911,7 @@ extension TaskViewController: UICollectionViewDelegate, UICollectionViewDataSour
     func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         
         if let cell = cell as? TaskCollectionViewCell {
-            cell.removeObserver()
+            //cell.removeObserver()
         }
     }
     
@@ -1030,7 +934,7 @@ extension TaskViewController: UICollectionViewDelegate, UICollectionViewDataSour
         }
         
         let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .vertical //.horizontal
+        layout.scrollDirection = .vertical
         layout.itemSize = cellSize
         layout.sectionInset = UIEdgeInsets(top: 20, left: 10, bottom: 10, right: 10)
         layout.minimumLineSpacing = 5.0
@@ -1077,13 +981,6 @@ extension TaskViewController: UICollectionViewDelegate, UICollectionViewDataSour
         
         cell.initializeObserver()
 
-//        let formatter = DateComponentsFormatter()
-//        formatter.allowedUnits = [.hour, .minute, .second]
-//        formatter.unitsStyle = .positional
-        
-        //cell.taskTimeRemaining.text = formatter.string(from: TimeInterval(Task.instance.timer.remainingTime))!
-        //cell.taskTimeRemaining.text = formatter.string(from: TimeInterval(countdownTimer.remainingTime))!
-        
         cell.playStopButton.backgroundColor = UIColor.clear
         cell.playStopButton.addTarget(cell, action: #selector(taskStartStopButtonPressed(sender:)), for: .touchUpInside)
         if cell.taskTimeRemaining.text == "Complete" {
@@ -1094,31 +991,51 @@ extension TaskViewController: UICollectionViewDelegate, UICollectionViewDataSour
         
         if cell.timer.isEnabled && task.isRunning, let _ = selectedTask?.name {
             setImage(as: #imageLiteral(resourceName: "Pause"), forCell: cell)
-            //cell.playStopButton.setImage(#imageLiteral(resourceName: "Pause"), for: .normal)
         } else {
             setImage(as: #imageLiteral(resourceName: "Play"), forCell: cell)
-            //cell.playStopButton.setImage(#imageLiteral(resourceName: "Play"), for: .normal)
         }
         
         //let gradientBackground = GradientColor(.leftToRight, frame: cell.frame, colors: [UIColor.flatSkyBlue, UIColor.flatSkyBlueDark])
         
         //cell.backgroundColor = gradientBackground
         
-        let cellBGColor = appData.colorScheme[indexPath.row % 4]
-        cell.backgroundColor = cellBGColor
+        let cellBGColor = RandomFlatColorWithShade(.light) //FlatWhite() //appData.colorScheme[indexPath.row % 4]
         
-        if appData.darknessCheck(for: cellBGColor) {
-            cell.taskNameField.textColor = .white
-            cell.taskTimeRemaining.textColor = .white
-        } else {
-            cell.taskNameField.textColor = .black
-            cell.taskTimeRemaining.textColor = .black
+        cell.buttonBackground.backgroundColor = cellBGColor.darken(byPercentage: 0.2)
+        cell.buttonBackground.layer.cornerRadius = cell.buttonBackground.frame.size.width / 2
+        cell.buttonBackground.clipsToBounds = true
+        cell.buttonBackground.addSubview(cell.playStopButton)
+        
+        cell.backgroundColor = cellBGColor
+        cell.taskNameField.textColor = ContrastColorOf(cellBGColor, returnFlat: true)
+        cell.taskTimeRemaining.textColor = ContrastColorOf(cellBGColor, returnFlat: true)
+//        if appData.darknessCheck(for: cellBGColor) {
+//            cell.taskNameField.textColor = .white
+//            cell.taskTimeRemaining.textColor = .white
+//        } else {
+//            cell.taskNameField.textColor = .black
+//            cell.taskTimeRemaining.textColor = .black
+//        }
+        
+        if appData.isGlass {
+            let blurEffect = UIBlurEffect(style: .extraLight)
+            let blurEffectView = UIVisualEffectView(effect: blurEffect)
+            blurEffectView.frame = cell.bounds
+            cell.backgroundColor = UIColor(white:1, alpha:0)
+            //cell.backgroundView = blurEffectView
+            //cell.contentView.backgroundColor = .clear
+            //cell.isOpaque = false
+            //cell.layer.opacity = 0.5
+            //cell.backgroundColor = .clear
+            //cell.layer.backgroundColor = UIColor.clear.cgColor
+            //cell.insertSubview(blurEffectView, at: 0)
         }
         
         let borderColor = cellBGColor.darken(byPercentage: 0.3)?.cgColor
         
         cell.layer.masksToBounds = false
-        setBorder(for: cell.layer, borderWidth: 2.5, borderColor: borderColor!, radius: 10.0)
+        cell.layer.cornerRadius = 5.0
+        setBorder(for: cell.layer, borderWidth: 2.0, borderColor: borderColor!, radius: 10.0)
         
         cell.layer.shadowColor = UIColor.black.cgColor
         cell.layer.shadowOffset = CGSize(width: 0, height: 2.0)// CGSize.zero
@@ -1141,7 +1058,6 @@ extension TaskViewController: UICollectionViewDelegate, UICollectionViewDataSour
             
         } else if type == .circular {
             
-            //setBorder(for: cell.circleProgressView.layer, borderWidth: 0.2, borderColor: borderColor!, radius: 5.0)
             let iOSDefaultBlue = UIButton(type: UIButtonType.system).titleColor(for: .normal)!
             cell.circleProgressView.trackColor = .darkGray
             cell.circleProgressView.progressColors = [iOSDefaultBlue]
@@ -1157,11 +1073,13 @@ extension TaskViewController: UICollectionViewDelegate, UICollectionViewDataSour
             _ = cell.formatTimer(for: task, ofType: type)
             //cell.progressView.isHidden = false
             cell.playStopButton.isHidden = false
-            if check.access(for: task, upTo: currentDay) {
+            cell.buttonBackground.alpha = 1
+            if check.access(for: task, upTo: now) {
                 saveData()
             }
         } else {
             cell.playStopButton.isHidden = true
+            cell.buttonBackground.alpha = 0
             cell.taskTimeRemaining.text = "No task today"
             //cell.progressView.isHidden = true
         }

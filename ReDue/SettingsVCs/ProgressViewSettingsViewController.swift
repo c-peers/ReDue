@@ -61,8 +61,10 @@ class ProgressViewSettingsViewController: UITableViewController {
             appDelegate.appData.usesCircularProgress = false
         }
         
-        appDelegate.appData.save()
-        
+        //appDelegate.appData.save()
+        let data = DataHandler()
+        data.saveAppSettings(appData)
+
     }
     
     func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {

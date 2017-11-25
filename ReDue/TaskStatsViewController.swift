@@ -12,12 +12,10 @@ import Chameleon
 
 class TaskStatsViewController: UIViewController, UIScrollViewDelegate {
 
-    @IBOutlet weak var taskTimeHistory: LineChartView!
     @IBOutlet weak var missedTimeHistory: BarChartView!
     @IBOutlet weak var completedTimeHistory: BarChartView!
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var bgView: UIView!
-    @IBOutlet weak var taskTimeHistoryLabel: UILabel!
     @IBOutlet weak var missedTimeHistoryLabel: UILabel!
     @IBOutlet weak var completedTimeHistoryLabel: UILabel!
     @IBOutlet weak var statisticsTitleLabel: UILabel!
@@ -26,7 +24,7 @@ class TaskStatsViewController: UIViewController, UIScrollViewDelegate {
         
     //var taskHistory
     var statCharts: [UIView: String] {
-        return [/*taskTimeHistory: "Task Time Line Chart",*/ missedTimeHistory: "Missed Time Bar Chart", completedTimeHistory: "Completed Time Bar Chart"]
+        return [missedTimeHistory: "Missed Time Bar Chart", completedTimeHistory: "Completed Time Bar Chart"]
     }
     
     let nameLabels = ["Task Time", "   Completed", "   Missed", "Total Days", "    Complete", "    Partial Complete", "    Missed", "Current Streak", "Best Streak"]
@@ -52,7 +50,6 @@ class TaskStatsViewController: UIViewController, UIScrollViewDelegate {
         bgView.backgroundColor = darkerThemeColor
         navigationController?.toolbar.isHidden = true
         
-        //setLabelColor(for: taskTimeHistoryLabel)
         setLabelColor(for: missedTimeHistoryLabel)
         setLabelColor(for: completedTimeHistoryLabel)
         setLabelColor(for: statisticsTitleLabel)
@@ -128,9 +125,9 @@ class TaskStatsViewController: UIViewController, UIScrollViewDelegate {
     
     func setStatValues() {
         
-        valueLabels[0] = String(task.totalTime) //+ " Seconds"
-        valueLabels[1] = String(task.completedTime) //+ " Seconds"
-        valueLabels[2] = String(task.missedTime) //+ " Seconds"
+        valueLabels[0] = String(task.totalTime)
+        valueLabels[1] = String(task.completedTime)
+        valueLabels[2] = String(task.missedTime)
         valueLabels[3] = String(task.totalDays) + " Days"
         valueLabels[4] = String(task.fullDays) + " Days"
         valueLabels[5] = String(task.partialDays) + " Days"
@@ -247,9 +244,11 @@ class TaskStatsViewController: UIViewController, UIScrollViewDelegate {
         if appData.darknessCheck(for: darkerThemeColor) {
             xAxis.labelTextColor = UIColor.white
             rightAxis.labelTextColor = UIColor.white
+            missedTimeHistory.noDataTextColor = .white
         } else {
             xAxis.labelTextColor = UIColor.black
             rightAxis.labelTextColor = UIColor.black
+            missedTimeHistory.noDataTextColor = .black
         }
     
     }
@@ -291,10 +290,12 @@ class TaskStatsViewController: UIViewController, UIScrollViewDelegate {
         if appData.darknessCheck(for: darkerThemeColor) {
             xAxis.labelTextColor = UIColor.white
             rightAxis.labelTextColor = UIColor.white
+            completedTimeHistory.noDataTextColor = .white
         } else {
             xAxis.labelTextColor = UIColor.black
             rightAxis.labelTextColor = UIColor.black
             completedTimeHistory.tintColor = UIColor.black
+            completedTimeHistory.noDataTextColor = .white
         }
 
     }
@@ -415,10 +416,8 @@ class TaskStatsViewController: UIViewController, UIScrollViewDelegate {
             
             if type.contains("Missed") {
                 entry = task.missedTimeHistory[date]! / 60
-                //entry = taskData.taskHistoryDictionary[task]![date]![TaskData.missedHistoryKey]!
             } else if type.contains("Complete") {
                 entry = task.completedTimeHistory[date]! / 60
-                //entry = taskData.taskHistoryDictionary[task]![date]![TaskData.completedHistoryKey]!
             }
          
             dataSet.append(entry)

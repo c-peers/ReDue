@@ -51,6 +51,8 @@
 		C48D83511FB694C600D0632A /* SwiftyBeaver.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C48D83481FB5DF0400D0632A /* SwiftyBeaver.framework */; };
 		C48D83521FB694C600D0632A /* SwiftyBeaver.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C48D83481FB5DF0400D0632A /* SwiftyBeaver.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C4A510201FB959BF0012D3C1 /* AppSettingsVCBackup.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4A5101F1FB959BF0012D3C1 /* AppSettingsVCBackup.swift */; };
+		C4A510221FBD77300012D3C1 /* ModalInfoView.xib in Resources */ = {isa = PBXBuildFile; fileRef = C4A510211FBD77300012D3C1 /* ModalInfoView.xib */; };
+		C4A510241FBD7B0D0012D3C1 /* ModalInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4A510231FBD7B0D0012D3C1 /* ModalInfoView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -296,6 +298,8 @@
 		C475C3C31FB34ACD00ADA21D /* IAP.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IAP.swift; sourceTree = "<group>"; };
 		C48D833F1FB5DF0400D0632A /* SwiftyBeaver.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SwiftyBeaver.xcodeproj; path = SwiftyBeaver/SwiftyBeaver.xcodeproj; sourceTree = "<group>"; };
 		C4A5101F1FB959BF0012D3C1 /* AppSettingsVCBackup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettingsVCBackup.swift; sourceTree = "<group>"; };
+		C4A510211FBD77300012D3C1 /* ModalInfoView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ModalInfoView.xib; sourceTree = "<group>"; };
+		C4A510231FBD7B0D0012D3C1 /* ModalInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalInfoView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -369,6 +373,8 @@
 				C475C2F61FB1580B00ADA21D /* AppData.swift */,
 				C475C2ED1FB1580A00ADA21D /* DataHandler.swift */,
 				C475C2E91FB1580A00ADA21D /* Singleton.swift */,
+				C4A510211FBD77300012D3C1 /* ModalInfoView.xib */,
+				C4A510231FBD7B0D0012D3C1 /* ModalInfoView.swift */,
 				C475C3C21FB34ACD00ADA21D /* IAPHelper.swift */,
 				C475C3C31FB34ACD00ADA21D /* IAP.swift */,
 				C475C2C01FB1574C00ADA21D /* Info.plist */,
@@ -758,6 +764,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C475C31B1FB1587500ADA21D /* Main.storyboard in Resources */,
+				C4A510221FBD77300012D3C1 /* ModalInfoView.xib in Resources */,
 				C475C30F1FB1580D00ADA21D /* TaskCollectionViewCell.xib in Resources */,
 				C475C3131FB1580D00ADA21D /* TaskCircleProgressCollectionViewCell.xib in Resources */,
 				C475C2BC1FB1574C00ADA21D /* Assets.xcassets in Resources */,
@@ -788,6 +795,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C475C3BA1FB294CD00ADA21D /* NavTest.swift in Sources */,
+				C4A510241FBD7B0D0012D3C1 /* ModalInfoView.swift in Sources */,
 				C475C3091FB1580D00ADA21D /* TimePicker.swift in Sources */,
 				C475C2FF1FB1580D00ADA21D /* ViewController.swift in Sources */,
 				C475C3081FB1580D00ADA21D /* DataHandler.swift in Sources */,

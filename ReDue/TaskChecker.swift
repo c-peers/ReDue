@@ -45,14 +45,19 @@ class Check {
     
     func taskDays(for task: Task, at date: Date) -> Bool {
         
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "EEEE"
-        
-        let dayOfWeekString = dateFormatter.string(from: date)
+        let dayOfWeekString = dayFor(date)
         print("Today is \(dayOfWeekString)")
         
         return task.days.contains(dayOfWeekString)
         
+    }
+    
+    func dayFor(_ date: Date) -> String {
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "EEEE"
+        
+        return dateFormatter.string(from: date)
     }
     
     func taskWeek(for task: Task, at date: Date) -> Bool {
@@ -103,14 +108,26 @@ class Check {
     
     func daysBetweenTwoDates(start: Date, end: Date) -> Int {
         
-        let currentCalendar = Calendar.current
-        guard let start = currentCalendar.ordinality(of: .day, in: .era, for: start) else {
-            return 0
-        }
-        guard let end = currentCalendar.ordinality(of: .day, in: .era, for: end) else {
-            return 0
-        }
+        // Get both the time zone offset and app reset offset in seconds
+        let timeZoneOffset = TimeZone.current.secondsFromGMT(for: start)
+        let appOffset = (offsetAsInt(for: appData.resetOffset) * 3600)
+        let offset = timeZoneOffset + appOffset
         
+        let calendar = Calendar.current
+        guard let offsetStart = calendar.date(byAdding: .second, value: offset, to: start) else {
+            return 0
+        }
+        guard let offsetEnd = calendar.date(byAdding: .second, value: offset, to: end) else {
+            return 0
+        }
+
+        guard let start = calendar.ordinality(of: .day, in: .era, for: offsetStart) else {
+            return 0
+        }
+        guard let end = calendar.ordinality(of: .day, in: .era, for: offsetEnd) else {
+            return 0
+        }
+
         print("There are \(end - start) days between last and current run")
         log.debug("There are \(end - start) days between last and current run")
 
@@ -153,39 +170,29 @@ class Check {
             if day == 0, let previousDate = date { //}!= nil {
                 let taskTime = task.taskTimeHistory[previousDate]
                 let completedTime = task.completedTimeHistory[previousDate]
-                //let taskTime = taskData.taskHistoryDictionary[task]?[date!]?[TaskData.taskTimeHistoryKey]
-                //let completedTime = taskData.taskHistoryDictionary[task]?[date!]?[TaskData.completedHistoryKey]
                 let unfinishedTime = taskTime! - completedTime!
                 
                 if unfinishedTime >= 0 {
                     task.missedTimeHistory[previousDate] = unfinishedTime
-                    //taskData.taskHistoryDictionary[task]![date!]![TaskData.missedHistoryKey]! = unfinishedTime
                 } else {
                     task.missedTimeHistory[previousDate] = 0
-                    //taskData.taskHistoryDictionary[task]![date!]![TaskData.missedHistoryKey]! = 0.0
                 }
                 
             } else {
                 
                 date = Calendar.current.date(byAdding: .day, value: day, to: start)
                 
-                let dateExistsInDict = task.isHistoryPresent(for: date!)//taskData.taskHistoryDictionary[task]?[date!]
+                let dateExistsInDict = task.isHistoryPresent(for: date!)
                 
                 if taskDays(for: task, at: date!) && dateExistsInDict == true {
-                    
                     task.addHistory(date: date!)
-                    //taskData.newTaskHistory(for: task, for: date!)
-                    
                 }
                 
                 let taskTime = task.taskTimeHistory[date!]
                 let completedTime = task.completedTimeHistory[date!]
-                //let taskTime = taskData.taskHistoryDictionary[task]?[date!]?[TaskData.taskTimeHistoryKey]
-                //let completedTime = taskData.taskHistoryDictionary[task]?[date!]?[TaskData.completedHistoryKey]
                 
                 if (taskTime != nil) && (completedTime != nil) {
                     task.missedTimeHistory[date!] = taskTime! - completedTime!
-                    //taskData.taskHistoryDictionary[task]![date!]![TaskData.missedHistoryKey] = taskTime! - completedTime!
                 }
             }
             

@@ -23,6 +23,7 @@ class AppSettingsViewController: UITableViewController {
     @IBOutlet weak var footerText: UILabel!
     @IBOutlet weak var purchaseButton: UIButton!
     @IBOutlet weak var restoreButton: UIButton!
+    @IBOutlet var glassSwitch: UISwitch!
     
     //MARK: - Properties
     
@@ -63,17 +64,26 @@ class AppSettingsViewController: UITableViewController {
         nightModeSwitch.isOn = false
         nightModeSwitch.isEnabled = false
         
+        if appData.isGlass {
+            glassSwitch.isOn = true
+        } else {
+            glassSwitch.isOn = false
+        }
+        
         title = "Application Settings"
         
         if appData.isFullVersion {
             log.info("IAP Purchased")
+            purchaseButton.setTitle("Full Version Unlocked", for: .normal)
+            footerText.isHidden = true
         } else {
             log.info("IAP not yet purchased")
+            purchaseButton.setTitle("Unlock Full Version", for: .normal)
+            footerText.isHidden = false
         }
         
         setIAPButtons()
         
-        purchaseButton.setTitle("Unlock Full Version", for: .normal)
         purchaseButton.addTarget(self, action: #selector(purchaseAction), for: .touchUpInside)
         restoreButton.setTitle("Restore Purchase", for: .normal)
         restoreButton.addTarget(self, action: #selector(restoreAction), for: .touchUpInside)
@@ -114,30 +124,15 @@ class AppSettingsViewController: UITableViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         self.navigationItem.title = "Settings"
+        save()
+
+        let vc = self.navigationController!.viewControllers.first as? TaskViewController
+        vc?.taskList.reloadData()        
+
     }
     
     //MARK: - Table Functions
     
-//    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//
-//        let cell = tableView.cellForRow(at: indexPath)
-//
-//        if indexPath.section == 3 {
-//            let cellHeight: CGFloat = (cell?.bounds.height)!
-//            if indexPath.row == 0 {
-//                cell?.addSubview(purchaseButton)
-//                purchaseButton.center = CGPoint(x: view.bounds.width / 2.0, y: cellHeight / 2.0)
-//            } else {
-//                cell?.addSubview(restoreButton)
-//                restoreButton.center = CGPoint(x: view.bounds.width / 2.0, y: cellHeight / 2.0)
-//            }
-//            return cell!
-//        } else {
-//            return cell!
-//        }
-//
-//    }
-
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         if indexPath.section == 0 {
@@ -168,24 +163,11 @@ class AppSettingsViewController: UITableViewController {
             //cell.accessoryView?.tintColor = UIColor.gray
             
             if appData.darknessCheck(for: darkerThemeColor) {
-                if indexPath.section == 3 {
-//                    if indexPath.row == 0 {
-//                        purchaseButton.tintColor = .white
-//                    } else {
-//                        restoreButton.tintColor = .white
-//                    }
-                } else {
-                    cell.textLabel?.textColor = .white
-                    cell.detailTextLabel?.textColor = .white
-                }
+                cell.textLabel?.textColor = .white
+                cell.detailTextLabel?.textColor = .white
             } else {
-                if indexPath.section == 3 {
-//                    purchaseButton.tintColor = .black
-//                    restoreButton.tintColor = .black
-                } else {
-                    cell.textLabel?.textColor = .black
-                    cell.detailTextLabel?.textColor = .black
-                }
+                cell.textLabel?.textColor = .black
+                cell.detailTextLabel?.textColor = .black
             }
         }
         
@@ -209,6 +191,16 @@ class AppSettingsViewController: UITableViewController {
         return themeView
     }
 
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        
+        let hideIndex = IndexPath(row: 1, section: 3)
+        if appData.isFullVersion && (indexPath == hideIndex) {
+            return 0
+        }
+
+        return 44
+    }
+    
     @IBAction func nightModeSelected(_ sender: UISwitch) {
         
         if sender.isOn == true {
@@ -253,6 +245,13 @@ class AppSettingsViewController: UITableViewController {
         }
         
     }
+    
+    @IBAction func setGlass(_ sender: UISwitch) {
+        appData.isGlass = sender.isOn ? true : false
+        print("isGlass set to \(sender.isOn)")
+        save()
+    }
+    
     func setNightMode(to nightModeEnabled: Bool) {
         
         if nightModeEnabled {
@@ -414,16 +413,31 @@ class AppSettingsViewController: UITableViewController {
         
     }
     
+    func unlockedAlert() {
+        
+        // Popup when IAP purchased restored
+        let modalView = ModalInfoView()
+        modalView.set(title: "Premium Version Unlocked")
+        modalView.set(image: #imageLiteral(resourceName: "Check"))
+        modalView.set(length: 2.5)
+        modalView.set(animationDuration: 0.4)
+        view.addSubview(modalView)
+        modalView.center = view.center
+
+    }
+    
     //MARK: - Data Handling
     
     func save() {
         
-        appData.saveAppSettingsToDictionary()
-        appData.save()
+        let data = DataHandler()
+        data.saveAppSettings(appData)
+        //appData.saveAppSettingsToDictionary()
+        //appData.save()
         
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        appDelegate.appData.saveAppSettingsToDictionary()
-        appDelegate.appData.save()
+        //let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        //appDelegate.appData.saveAppSettingsToDictionary()
+        //appDelegate.appData.save()
         
     }
     
@@ -441,10 +455,11 @@ extension AppSettingsViewController: SKProductsRequestDelegate, SKPaymentTransac
         save()
         
         setIAPButtons()
+        unlockedAlert()
         
-        let title = "Unlocked"
-        let message = "Ads have been removed and premium feature are now unlocked."
-        popAlert(withTitle: title, andMessage: message)
+        //let title = "Unlocked"
+        //let message = "Ads have been removed and premium feature are now unlocked."
+        //popAlert(withTitle: title, andMessage: message)
 
     }
 
@@ -514,10 +529,11 @@ extension AppSettingsViewController: SKProductsRequestDelegate, SKPaymentTransac
                         save()
                         
                         setIAPButtons()
+                        unlockedAlert()
                         
-                        let title = "Unlocked"
-                        let message = "Ads have been removed and premium feature are now unlocked."
-                        popAlert(withTitle: title, andMessage: message)
+                        //let title = "Unlocked"
+                        //let message = "Ads have been removed and premium feature are now unlocked."
+                        //popAlert(withTitle: title, andMessage: message)
 
                     }
                     

@@ -72,8 +72,10 @@ class ResetTimeSettingsViewController: UITableViewController {
         appDelegate.appData.resetOffset = resetTimes[indexPath.row]
         
         print(appDelegate.appData.resetOffset)
-        appDelegate.appData.save()
-        
+        //appDelegate.appData.save()
+        let data = DataHandler()
+        data.saveAppSettings(appDelegate.appData)
+
 
     }
 

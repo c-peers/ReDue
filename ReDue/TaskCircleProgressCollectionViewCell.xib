@@ -23,11 +23,11 @@
                         <rect key="frame" x="0.0" y="58" width="190" height="162"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="nRx-iB-iys">
-                                <rect key="frame" x="74" y="107" width="42" height="20"/>
+                                <rect key="frame" x="64.5" y="100.5" width="61.5" height="31.5"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="lessThanOrEqual" constant="150" id="LmO-hJ-ZdR"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="26"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -36,7 +36,7 @@
                         <constraints>
                             <constraint firstItem="nRx-iB-iys" firstAttribute="centerX" secondItem="v3o-Xl-AXw" secondAttribute="centerX" id="85o-Ha-CQB"/>
                             <constraint firstAttribute="width" constant="190" id="jBa-zP-GXS"/>
-                            <constraint firstAttribute="bottom" secondItem="nRx-iB-iys" secondAttribute="bottom" constant="35" id="mjo-i0-0MR"/>
+                            <constraint firstAttribute="bottom" secondItem="nRx-iB-iys" secondAttribute="bottom" constant="30" id="mjo-i0-0MR"/>
                         </constraints>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="number" keyPath="angle">
@@ -64,12 +64,12 @@
                         </constraints>
                     </button>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="kA2-bk-HpF">
-                        <rect key="frame" x="74" y="8" width="42" height="40"/>
+                        <rect key="frame" x="71.5" y="8" width="48" height="40"/>
                         <constraints>
                             <constraint firstAttribute="width" relation="lessThanOrEqual" constant="190" id="0c1-QC-wtc"/>
                             <constraint firstAttribute="height" constant="40" id="lrJ-tM-RQ9"/>
                         </constraints>
-                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>

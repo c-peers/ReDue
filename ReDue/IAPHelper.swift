@@ -39,11 +39,11 @@ open class IAPHelper : NSObject  {
     func save() {
         
         appData.saveAppSettingsToDictionary()
-        appData.save()
+        //appData.save()
         
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         appDelegate.appData.saveAppSettingsToDictionary()
-        appDelegate.appData.save()
+        //appDelegate.appData.save()
         
     }
 

@@ -44,6 +44,7 @@ class NewTasksViewController: UIViewController, UIScrollViewDelegate {
     // Used to corretly show the keyboard and scroll the view into place
     var activeTextField: SkyFloatingLabelTextField?
     var textFieldArray = [SkyFloatingLabelTextField]()
+    var keyboardOffset:CGFloat = 0.0
     
     // For occurrence
     var taskDays = [String]()
@@ -189,10 +190,16 @@ class NewTasksViewController: UIViewController, UIScrollViewDelegate {
     
     func prepareDayButtons(for button: UIButton) {
         
+        let darkerThemeColor = appData.appColor.darken(byPercentage: 0.25)
+        if appData.darknessCheck(for: darkerThemeColor) {
+            button.setTitleColor(.white, for: .normal)
+        } else {
+            button.setTitleColor(.black, for: .normal)
+        }
+        
         button.layer.borderWidth = 1
         button.layer.borderColor = appData.appColor.cgColor
         button.tag = 0
-        
     }
     
     func autoResizePlaceholderText(for textField: SkyFloatingLabelTextField) {
@@ -291,13 +298,13 @@ class NewTasksViewController: UIViewController, UIScrollViewDelegate {
         if button.tag == 0 {
             UIView.animate(withDuration: 0.5, animations: { () -> Void in
                 button.layer.backgroundColor = themeColor.cgColor
-                button.setTitleColor(UIColor.white, for: .normal)
+                //button.setTitleColor(UIColor.white, for: .normal)
             })
             button.tag = 1
         } else {
             UIView.animate(withDuration: 0.5, animations: { () -> Void in
                 button.layer.backgroundColor = darkerThemeColor?.cgColor
-                button.setTitleColor(UIColor.black, for: .normal)
+                //button.setTitleColor(UIColor.black, for: .normal)
             })
             button.tag = 0
         }
@@ -391,11 +398,11 @@ class NewTasksViewController: UIViewController, UIScrollViewDelegate {
     
     @IBAction func createTask(_ sender: Any) {
 
-        if appData.isFullVersion || tasks.count < 2 {
+        //if appData.isFullVersion || tasks.count < 2 {
             taskVerification()
-        } else {
-            popAlert(alertType: .upgradeNeeded)
-        }
+        //} else {
+        //    popAlert(alertType: .upgradeNeeded)
+        //}
         
     }
     
@@ -477,35 +484,51 @@ class NewTasksViewController: UIViewController, UIScrollViewDelegate {
     @objc func keyboardWasShown(notification: NSNotification){
         //Need to calculate keyboard exact size due to Apple suggestions
         print("Keyboard was shown")
-        var info = notification.userInfo!
-        let keyboardSize = (info[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue.size
-        let contentInsets : UIEdgeInsets = UIEdgeInsetsMake(0.0, 0.0, keyboardSize!.height, 0.0)
-        
-        //self.scrollView.contentInset = contentInsets
-        //self.scrollView.scrollIndicatorInsets = contentInsets
-        
-        print(taskLengthTextField.isFirstResponder)
-        
-        var aRect : CGRect = self.view.frame
-        aRect.size.height -= keyboardSize!.height
-        if let activeTextField = self.activeTextField {
-            if (!aRect.contains(activeTextField.frame.origin)){
-                print(!aRect.contains(activeTextField.frame.origin))
-                    
-                //self.scrollView.scrollRectToVisible(activeTextField.frame, animated: true)
+
+        print(activeTextField!)
+
+        if let keyboardScreenFrame = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+            let keyboardLocalFrame = self.view.convert(keyboardScreenFrame, from: nil)
+            var aRect = self.view.frame
+            
+            aRect.size.height -= keyboardLocalFrame.size.height
+            
+            guard let textfield = activeTextField else { return }
+            
+            let textFieldOrigin = textfield.frame.origin
+            let keyBoardOrigin = keyboardLocalFrame.origin
+
+            if !aRect.contains(textfield.frame.origin) && (textFieldOrigin.y > keyBoardOrigin.y){
+                
+                keyboardOffset = textFieldOrigin.y - keyBoardOrigin.y + 50
+                //let xValue = self.view.frame.origin.x
+                //let yValue = self.view.frame.origin.y
+                UIView.animate(withDuration: 0.4, delay: 0.0, options: [], animations: {
+                    // Add the transformation in this block
+                    //self.view.transform = CGAffineTransform(translationX: xValue, y: yValue - self.keyboardOffset)
+                    self.view.frame.origin.y -= self.keyboardOffset //(keyboardSize?.height)!
+
+                }, completion: nil)
 
             }
         }
+        
+        print(taskLengthTextField.isFirstResponder)
         
     }
     
     @objc func keyboardWillBeHidden(notification: NSNotification){
         //Once keyboard disappears, restore original positions
-        var info = notification.userInfo!
-        let keyboardSize = (info[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue.size
-        let contentInsets : UIEdgeInsets = UIEdgeInsetsMake(0.0, 0.0, -keyboardSize!.height, 0.0)
-        //self.scrollView.contentInset = contentInsets
-        //self.scrollView.scrollIndicatorInsets = contentInsets
+
+        if self.view.frame.origin.y <= 0 {
+            //let xValue = self.view.frame.origin.x
+            UIView.animate(withDuration: 0.4, delay: 0.0, options: [], animations: {
+                // Add the transformation in this block
+                //self.view.transform = CGAffineTransform(translationX: xValue, y: self.keyboardOffset)
+                self.view.frame.origin.y += self.keyboardOffset //(keyboardSize?.height)!
+            }, completion: nil)
+        }
+
         self.view.endEditing(true)
         
     }

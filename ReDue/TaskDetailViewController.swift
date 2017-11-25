@@ -25,8 +25,6 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
 
     //MARK: - Properties
     
-    //var timer = Timer()
-
     var taskNames = [String]()
     var tasks = [Task]()
     var task = Task()
@@ -39,7 +37,6 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
     
     var axisMaximum = 0.0
     
-    //var taskData = TaskData()
     var appData = AppData()
     @objc var timer = CountdownTimer()
     let check = Check()
@@ -109,7 +106,7 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
         
         startButtonSetup()
 
-        // Add apData to the check class
+        // Add appData to the check class
         initializeCheck()
         
         if !appData.isFullVersion {
@@ -139,21 +136,16 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
     
     override func viewWillDisappear(_ animated: Bool) {
         
-        //timer.invalidate()
-        
         let vc = self.navigationController?.viewControllers.first as! TaskViewController
         
         if timer.isEnabled && task.isRunning {
-            
-            //vc.taskData.taskDictionary[task]?["completedTime"] = completedTime
             vc.runningCompletionTime = task.completed
-            
         }
         
     }
     
     override func viewDidDisappear(_ animated: Bool) {
-        //timer.invalidate()
+        
     }
     
     func setElapsedTime() {
@@ -166,7 +158,6 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
 
     deinit {
         self.removeObserver(self, forKeyPath: #keyPath(timer.elapsedTime))
-        //timer.invalidate()
     }
     
     func prepareNavBar() {
@@ -209,20 +200,6 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
         formatTimer()
         //}
     }
-    
-//    func taskDayCheck(for task: Task) -> Bool {
-//
-//        let now = Date()
-//
-//        let dateFormatter = DateFormatter()
-//        dateFormatter.dateFormat = "EEEE"
-//
-//        dayOfWeekString = dateFormatter.string(from: now)
-//        print("Today is \(dayOfWeekString)")
-//
-//        return task.days.contains(dayOfWeekString) //taskData.taskDays.contains(dayOfWeekString)
-//
-//    }
     
     /* If not running: returns time - completed
        If running:     returns the same - difference between now and timer.startTime
@@ -288,13 +265,11 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
 
         if timeRemaining <= 0 || (task.completed == task.weightedTime) {
             
-            timerStopped() //(for: task.name)
+            timerStopped()
             
             let stencil = #imageLiteral(resourceName: "Play").withRenderingMode(.alwaysTemplate)
             taskStartButton.setImage(stencil, for: .normal)
             taskStartButton.tintColor = UIColor.white
-            
-            //taskStartButton.setImage(#imageLiteral(resourceName: "Play"), for: .normal)
             
         }
     }
@@ -302,7 +277,7 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
     /* Stops the scheduled timer and saves data to the timer class,
        task completion, adds to task history
      */
-    func timerStopped() { //for taskName: String) {
+    func timerStopped() {
         
         timer.run.invalidate()
         
@@ -315,22 +290,17 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
         }
         
         task.completed += elapsedTime
-        //taskData.taskDictionary[task]![TaskData.completedTimeKey]! += elapsedTime
         
         if let date = task.getAccessDate(lengthFromEnd: 0) {
             task.completedTimeHistory[date]! += elapsedTime
-            //taskData.taskHistoryDictionary[task]![date]![TaskData.completedHistoryKey]! += elapsedTime
             
             let unfinishedTime = task.time - elapsedTime
             
             if unfinishedTime >= 0 {
                 task.missedTimeHistory[date] = unfinishedTime
-                //taskData.taskHistoryDictionary[task]![date]![TaskData.missedHistoryKey]! = unfinishedTime
             } else {
                 task.missedTimeHistory[date] = 0
-                //taskData.taskHistoryDictionary[task]![date]![TaskData.missedHistoryKey]! = 0.0
             }
-            //setMissedTime(for: task, at: date)
             
         }
         
@@ -422,7 +392,7 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
 
         } else {
             
-            timerStopped() //(for: task.name)
+            timerStopped()
             
             let stencil = #imageLiteral(resourceName: "Play").withRenderingMode(.alwaysTemplate)
             taskStartButton.setImage(stencil, for: .normal)
@@ -450,12 +420,12 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
 
     @objc func statsTapped() {
         
-        if appData.isFullVersion {
-            print("Go to Stats")
+//        if appData.isFullVersion {
+//            print("Go to Stats")
             performSegue(withIdentifier: "taskStatsSegue", sender: self)
-        } else {
-            popAlert(forType: .upgradeNeeded)
-        }
+//        } else {
+//            popAlert(forType: .upgradeNeeded)
+//        }
     }
 
     @objc func trashTapped() {
@@ -547,6 +517,10 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
         recentTaskHistory.chartDescription?.enabled = false
         recentTaskHistory.legend.enabled = false
         recentTaskHistory.xAxis.labelPosition = .bottom
+        
+        recentTaskHistory.scaleXEnabled = false
+        recentTaskHistory.scaleYEnabled = false
+        
         //recentTaskHistory.drawValueAboveBarEnabled = false
         //recentTaskHistory.borderLineWidth = 1.5
         //recentTaskHistory.borderColor = UIColor.flatBlackDark
@@ -611,7 +585,6 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
         for date in recentAccess! {
             
             let nextValue = task.completedTimeHistory[date]! / 60
-            //let nextValue = taskData.taskHistoryDictionary[task]![date]![TaskData.completedHistoryKey]
             
             if nextValue > axisMaximum {
                 axisMaximum = nextValue
@@ -663,9 +636,9 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
                 var value: BarChartDataEntry
                 if i < taskTimeHistory.count - 1  || !task.isToday{
                     // here we set the X and Y status in a data chart entry
-                    value = BarChartDataEntry(x: Double(i), y: taskTimeHistory[i].rounded())
+                    value = BarChartDataEntry(x: Double(i), y: taskTimeHistory[i])
                 } else {
-                    let time = elapsedTime.rounded() / 60
+                    let time = elapsedTime / 60
                     value = BarChartDataEntry(x: Double(i), y: time)
                 }
                 
@@ -708,6 +681,7 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
 
         } else {
             recentTaskHistory.data = nil
+
         }
         
     }
@@ -745,13 +719,14 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
     
     func saveData() {
         
-        appData.save()
+        //appData.save()
 
         let index = tasks.index(of: task)
         tasks[index!] = task
         
         let data = DataHandler()
-        data.save(tasks)
+        data.saveTasks(tasks)
+        data.saveAppSettings(appData)
         
     }
 

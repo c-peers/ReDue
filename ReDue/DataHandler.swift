@@ -10,7 +10,7 @@ import Foundation
 
 class DataHandler {
     
-    func save(_ tasks: [Task]) {
+    func saveTasks(_ tasks: [Task]) {
         
         let isSuccessfulSave = NSKeyedArchiver.archiveRootObject(tasks, toFile: Task.taskURL.path)
         
@@ -26,5 +26,23 @@ class DataHandler {
         print("Tasks loaded")
         return NSKeyedUnarchiver.unarchiveObject(withFile: Task.taskURL.path) as? [Task]
     }
+    
+    func saveAppSettings(_ settings: AppData) {
+        
+        let isSuccessfulSave = NSKeyedArchiver.archiveRootObject(settings, toFile: AppData.appURL.path)
+        
+        if isSuccessfulSave {
+            print("Settings saved")
+        } else {
+            print("Couldn't save settings")
+        }
+        
+    }
+    
+    func loadAppSettings() -> AppData? {
+        print("App settings loaded")
+        return NSKeyedUnarchiver.unarchiveObject(withFile: AppData.appURL.path) as? AppData
+    }
+
     
 }

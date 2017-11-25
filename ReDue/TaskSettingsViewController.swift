@@ -64,6 +64,7 @@ class TaskSettingsViewController: UIViewController {
     // Used to corretly show the keyboard and scroll the view into place
     var activeTextField: UITextField?
     var textFieldArray = [SkyFloatingLabelTextField]()
+    var keyboardOffset: CGFloat = 0.0
     
     // For pickerview
     var hours = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"]
@@ -130,29 +131,7 @@ class TaskSettingsViewController: UIViewController {
         
         pickerData = [hours, minutes]
 
-        let pickerToolBar = UIToolbar()
-        pickerToolBar.barStyle = UIBarStyle.default
-        pickerToolBar.isTranslucent = true
-        pickerToolBar.barTintColor = appData.appColor
-        pickerToolBar.sizeToFit()
-        
-        let doneButton = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.plain, target: self, action: #selector(donePicker))
-        let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
-        let cancelButton = UIBarButtonItem(title: "Cancel", style: UIBarButtonItemStyle.plain, target: self, action: #selector(cancelPicker))
-        
-        pickerToolBar.setItems([cancelButton, spaceButton, doneButton], animated: false)
-        
-        pickerToolBar.isUserInteractionEnabled = true
-                
-        timePickerView.dataSource = self
-        timePickerView.delegate = self
-        timePickerView.tag = 0
-        //timePickerView.selectRow(<#T##row: Int##Int#>, inComponent: <#T##Int#>, animated: <#T##Bool#>)
-        taskLengthTextField.inputView = timePickerView
-        taskLengthTextField.inputAccessoryView = pickerToolBar
-        
-        //timePickerView.selectRow(0, inComponent: 0, animated: true)
-        //timePickerView.selectRow(0, inComponent: 1, animated: true)
+        setupTimePicker()
         
         //******************************
         // Occurrence rate start
@@ -169,7 +148,7 @@ class TaskSettingsViewController: UIViewController {
         frequencyPickerView.tag = 1
         frequencyPickerView.selectRow(Int(frequency - 1), inComponent: 0, animated: true)
         occurrenceRateTextField.inputView = frequencyPickerView
-        occurrenceRateTextField.inputAccessoryView = pickerToolBar
+        
         //occurrenceRateTextField.inputAccessoryView = decimalPadToolBar
         
         //******************************
@@ -180,15 +159,9 @@ class TaskSettingsViewController: UIViewController {
         let themeColor = appData.appColor
         
         if appData.darknessCheck(for: themeColor) {
-            
-            pickerToolBar.tintColor = UIColor.white
             decimalPadToolBar.tintColor = UIColor.white
-            
         } else {
-            
-            pickerToolBar.tintColor = UIColor.black
             decimalPadToolBar.tintColor = UIColor.black
-            
         }
         
         completeButton.layer.borderColor = appData.appColor.cgColor
@@ -261,6 +234,11 @@ class TaskSettingsViewController: UIViewController {
         let frequencyChanged = (frequency == originalFrequency) ? false : true
         let rolloverChanged = (multiplier == originalMultiplier) ? false : true
 
+        // Some fuckery to get the parent VC
+        let nav = self.presentingViewController as? UINavigationController
+        let i = nav?.viewControllers.count
+        let vc = nav?.viewControllers[i! - 1] as! TaskDetailViewController
+        
         if let newTaskName = taskNameTextField.text {
             if nameChanged {
                 log.info("Original name was \(task.name)")
@@ -277,8 +255,22 @@ class TaskSettingsViewController: UIViewController {
         
         if daysChanged {
             log.info("Task days was \(task.days)")
+            
+            let check = Check()
+            let today = check.dayFor(Date())
+            let removedDay = task.days.filter{ item in !taskDays.contains(item) }
+            if task.isToday && removedDay.contains(today) {
+                task.removeHistory(date: Date())
+            }
+            
+            let addedDay = taskDays.filter{ item in !task.days.contains(item) }
+            if addedDay.contains(today) {
+                _ = vc.check.access(for: task, upTo: Date())
+            }
+            
             task.days = taskDays
             log.info("Task days changed to \(task.days)")
+        
         }
         
         if frequencyChanged {
@@ -301,21 +293,64 @@ class TaskSettingsViewController: UIViewController {
 //            occurranceRate = Double(frequency)!
 //        }
         
-        // Some fuckery to get the parent VC
-        let nav = self.presentingViewController as? UINavigationController
-        let i = nav?.viewControllers.count
-        let vc = nav?.viewControllers[i! - 1] as! TaskDetailViewController
-
         vc.title = task.name
         vc.task = task
         vc.saveData()
         
         vc.check.ifTaskWillRunToday(task)
         vc.checkTask()
+        vc.taskChartSetup()
+        vc.loadChartData()
 
     }
     
     //MARK: - Setup Functions
+    
+    func setupPickerToolBar() {
+        
+        let pickerToolBar = UIToolbar()
+        pickerToolBar.barStyle = UIBarStyle.default
+        pickerToolBar.isTranslucent = true
+        pickerToolBar.barTintColor = appData.appColor
+        pickerToolBar.sizeToFit()
+        
+        let doneButton = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.plain, target: self, action: #selector(donePicker))
+        let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
+        let cancelButton = UIBarButtonItem(title: "Cancel", style: UIBarButtonItemStyle.plain, target: self, action: #selector(cancelPicker))
+        
+        pickerToolBar.setItems([cancelButton, spaceButton, doneButton], animated: false)
+        
+        pickerToolBar.isUserInteractionEnabled = true
+        
+        let themeColor = appData.appColor
+        
+        if appData.darknessCheck(for: themeColor) {
+            pickerToolBar.tintColor = UIColor.white
+        } else {
+            pickerToolBar.tintColor = UIColor.black
+        }
+
+        taskLengthTextField.inputAccessoryView = pickerToolBar
+        occurrenceRateTextField.inputAccessoryView = pickerToolBar
+        
+    }
+    
+    func setupTimePicker() {
+     
+        timePickerView.dataSource = self
+        timePickerView.delegate = self
+        timePickerView.tag = 0
+        taskLengthTextField.inputView = timePickerView
+        
+        let hours = Int(task.time / 3600)
+        let minutes = Int(task.time / 60)
+        
+        timePickerView.selectRow(hours, inComponent: 0, animated: true)
+        timePickerView.selectRow(minutes/5, inComponent: 1, animated: true)
+
+        setupPickerToolBar()
+        
+    }
     
     func setTheme() {
         
@@ -363,6 +398,14 @@ class TaskSettingsViewController: UIViewController {
     }
     
     func prepareDayButton(_ button: UIButton) {
+
+        let darkerThemeColor = appData.appColor.darken(byPercentage: 0.25)
+        if appData.darknessCheck(for: darkerThemeColor) {
+            button.setTitleColor(.white, for: .normal)
+        } else {
+            button.setTitleColor(.black, for: .normal)
+        }
+        
         button.layer.borderWidth = 1
         button.layer.borderColor = appData.appColor.cgColor
         button.tag = 0
@@ -473,13 +516,13 @@ class TaskSettingsViewController: UIViewController {
         if button.tag == 0 {
             UIView.animate(withDuration: 0.5, animations: { () -> Void in
                 button.layer.backgroundColor = themeColor.cgColor
-                button.setTitleColor(UIColor.white, for: .normal)
+                //button.setTitleColor(UIColor.white, for: .normal)
             })
             button.tag = 1
         } else {
             UIView.animate(withDuration: 0.5, animations: { () -> Void in
                 button.layer.backgroundColor = darkerThemeColor?.cgColor
-                button.setTitleColor(UIColor.black, for: .normal)
+                //button.setTitleColor(UIColor.black, for: .normal)
             })
             button.tag = 0
         }
@@ -586,7 +629,12 @@ class TaskSettingsViewController: UIViewController {
             
         } else if taskNameWasEntered && taskTimeWasEntered && frequencyWasEntered && taskDaysWereEntered {
             
-            dismiss(animated: true, completion: nil)
+            let daysChanged = (taskDays == originalDays) ? false : true
+            if daysChanged && task.isToday {
+                popConfirmationAlert()
+            } else {
+                dismiss(animated: true, completion: nil)
+            }
             
         } else {
             
@@ -633,6 +681,34 @@ class TaskSettingsViewController: UIViewController {
         
     }
     
+    func popConfirmationAlert() {
+        
+        let date = Date()
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "EEEE"
+        let currentDateString = dateFormatter.string(from: date)
+
+        let message = "\(task.name) was set to run today. Removing \(currentDateString) will delete all data recorded today."
+        
+        let alertController = UIAlertController(title: "Warning",
+                                                message: message,
+                                                preferredStyle: UIAlertControllerStyle.alert)
+        
+        let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.default){ (action: UIAlertAction) in
+            self.dismiss(animated: true, completion: nil)
+        }
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.default){ (action: UIAlertAction) in
+            print("Hello")
+        }
+        
+        alertController.addAction(okAction)
+        alertController.addAction(cancelAction)
+        
+        present(alertController,animated: true,completion: nil)
+
+    }
+    
     //MARK: - Keyoard Functions
     
     func registerForKeyboardNotifications(){
@@ -649,40 +725,56 @@ class TaskSettingsViewController: UIViewController {
     
     @objc func keyboardWasShown(notification: NSNotification){
         //Need to calculate keyboard exact size due to Apple suggestions
-
-        //self.scrollView.isScrollEnabled = true
-        var info = notification.userInfo!
-        let keyboardSize = (info[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue.size
-        let contentInsets : UIEdgeInsets = UIEdgeInsetsMake(0.0, 0.0, keyboardSize!.height, 0.0)
+        print("Keyboard was shown")
         
-        //self.scrollView.contentInset = contentInsets
-        //self.scrollView.scrollIndicatorInsets = contentInsets
+        print(activeTextField!)
         
-        var aRect : CGRect = self.view.frame
-        aRect.size.height -= keyboardSize!.height
-        if let activeTextField = self.activeTextField {
-            if (!aRect.contains(activeTextField.frame.origin)){
-                print(!aRect.contains(activeTextField.frame.origin))
+        if let keyboardScreenFrame = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+            let keyboardLocalFrame = self.view.convert(keyboardScreenFrame, from: nil)
+            var aRect = self.view.frame
+            
+            aRect.size.height -= keyboardLocalFrame.size.height
+            
+            guard let textfield = activeTextField else { return }
+            
+            let textFieldOrigin = textfield.frame.origin
+            let keyBoardOrigin = keyboardLocalFrame.origin
+            
+            if !aRect.contains(textfield.frame.origin) && (textFieldOrigin.y > keyBoardOrigin.y){
                 
-                //self.scrollView.scrollRectToVisible(activeTextField.frame, animated: true)
+                keyboardOffset = textFieldOrigin.y - keyBoardOrigin.y + 50
+                //let xValue = self.view.frame.origin.x
+                //let yValue = self.view.frame.origin.y
+                UIView.animate(withDuration: 0.4, delay: 0.0, options: [], animations: {
+                    // Add the transformation in this block
+                    //self.view.transform = CGAffineTransform(translationX: xValue, y: yValue - self.keyboardOffset)
+                    self.view.frame.origin.y -= self.keyboardOffset //(keyboardSize?.height)!
+                    
+                }, completion: nil)
                 
             }
         }
+        
+        print(taskLengthTextField.isFirstResponder)
         
     }
     
     @objc func keyboardWillBeHidden(notification: NSNotification){
         //Once keyboard disappears, restore original positions
-        var info = notification.userInfo!
-        let keyboardSize = (info[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue.size
-        let contentInsets : UIEdgeInsets = UIEdgeInsetsMake(0.0, 0.0, -keyboardSize!.height, 0.0)
-        //self.scrollView.contentInset = contentInsets
-        //self.scrollView.scrollIndicatorInsets = contentInsets
+        
+        if self.view.frame.origin.y <= 0 {
+            //let xValue = self.view.frame.origin.x
+            UIView.animate(withDuration: 0.4, delay: 0.0, options: [], animations: {
+                // Add the transformation in this block
+                //self.view.transform = CGAffineTransform(translationX: xValue, y: self.keyboardOffset)
+                self.view.frame.origin.y += self.keyboardOffset //(keyboardSize?.height)!
+            }, completion: nil)
+        }
+        
         self.view.endEditing(true)
-        //self.scrollView.isScrollEnabled = false
         
     }
-
+    
 }
 
 //******************************

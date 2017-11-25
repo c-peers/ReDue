@@ -273,13 +273,17 @@ class ColorSettingsViewController: UITableViewController {
         
         if let themeColor = selectedColor {
             appData.appColor = themeColor
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-//        appDelegate.setTheme(as: selectedColor!)
-        
-        let colorString = selectedEnum?.rawValue.camelCaseToWords()
-        appDelegate.appData.appColorName = colorString!.capitalizingFirstLetter()
-        appDelegate.appData.saveColorSettingsToDictionary()
-        appDelegate.appData.save()
+            //let appDelegate = UIApplication.shared.delegate as! AppDelegate
+            //        appDelegate.setTheme(as: selectedColor!)
+            
+            let colorString = selectedEnum?.rawValue.camelCaseToWords()
+            appData.appColorName = colorString!.capitalizingFirstLetter()
+            
+            let data = DataHandler()
+            data.saveAppSettings(appData)
+            
+            //appDelegate.appData.saveColorSettingsToDictionary()
+            //appDelegate.appData.save()
         }
         
     }

@@ -95,6 +95,12 @@ class Task: NSObject, NSCoding {
 
     //MARK: - Helper Functions
     
+    func reset() {
+        setWeightedTime()
+        completed = 0
+        rollover = 0
+    }
+    
     func setRollover() {
         
         let remaining = weightedTime - completed
@@ -141,7 +147,8 @@ class Task: NSObject, NSCoding {
         totalDays += 1
         totalTime += time
         completedTime += completed
-        
+        missedTime += (weightedTime - completed)
+
         if completed >= weightedTime { // Full
             
             fullDays += 1
@@ -162,7 +169,6 @@ class Task: NSObject, NSCoding {
         } else { // Missed
             
             missedDays += 1
-            missedTime += time
             
             if currentStreak > 0 {
                 currentStreak = 0
@@ -178,16 +184,28 @@ class Task: NSObject, NSCoding {
         completedTimeHistory[date] = 0.0
     }
     
-    func saveHistory(for date: Date) {
+    func removeHistory(date: Date) {
+        let accessDate = set(accessDate: date)
+        taskTimeHistory.removeValue(forKey: accessDate)
+        missedTimeHistory.removeValue(forKey: accessDate)
+        completedTimeHistory.removeValue(forKey: accessDate)
+    }
+    
+    func set(accessDate: Date) -> Date {
         
-        let accessDate: Date
-        let previousDate = getHistory(at: date)
+        let previousDate = getHistory(at: accessDate)
         
         if let existingDate = previousDate {
-            accessDate = existingDate
+            return existingDate
         } else {
-            accessDate = date
+            return accessDate
         }
+        
+    }
+    
+    func saveHistory(for date: Date) {
+        
+        let accessDate = set(accessDate: date)
         
         if completed > weightedTime {
             completed = weightedTime
@@ -203,13 +221,13 @@ class Task: NSObject, NSCoding {
 
     }
     
-    func getHistory(at date: Date) -> Date? {
+    func getHistory(at dateCandidate: Date) -> Date? {
         
-        let accessDateCandidate = set(date: date, as: "yyyy-MM-dd")
+        let accessDateCandidate = set(date: dateCandidate, as: "yyyy-MM-dd")
         
-        for previousDate in previousDates {
+        for date in previousDates {
             
-            let formattedDate = set(date: previousDate, as: "yyyy-MM-dd")
+            let formattedDate = set(date: date, as: "yyyy-MM-dd")
             if accessDateCandidate == formattedDate {
                 return date
             }

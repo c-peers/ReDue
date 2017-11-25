@@ -12,7 +12,6 @@ import SwiftyBeaver
 
 class TaskCollectionViewCell: UICollectionViewCell {
 
-    //@IBOutlet weak var circleProgressPlayStopButton: UIButton!
     @IBOutlet weak var playStopButton: UIButton!
     @IBOutlet weak var taskNameField: UILabel!
     @IBOutlet weak var taskTimeRemaining: UILabel!
@@ -103,7 +102,7 @@ class TaskCollectionViewCell: UICollectionViewCell {
         if timer.isEnabled && task.isRunning {
             elapsedTime += (currentTime - timer.startTime)
         }
-        
+
         return task.weightedTime - elapsedTime.rounded()
     }
     
@@ -221,7 +220,6 @@ class TaskCollectionViewCell: UICollectionViewCell {
         timer.endTime = Date().timeIntervalSince1970
         
         var elapsedTime = (timer.endTime - timer.startTime).rounded()
-        //let previousCompletedTime = taskData.taskDictionary[task]?["completedTime"]!
         
         if elapsedTime > task.weightedTime {
             elapsedTime = task.weightedTime
@@ -232,11 +230,8 @@ class TaskCollectionViewCell: UICollectionViewCell {
         }
         
         task.completed += elapsedTime
-        //taskData.taskDictionary[task]![TaskData.completedTimeKey]! += elapsedTime
         
         if let date = task.getAccessDate(lengthFromEnd: 0) {
-            //taskData.getAccessDate(for: task, lengthFromEnd: 0) {
-            //taskData.taskHistoryDictionary[task]![date]![TaskData.completedHistoryKey]! += elapsedTime
             
             task.completedTimeHistory[date]! += elapsedTime
             
@@ -244,12 +239,9 @@ class TaskCollectionViewCell: UICollectionViewCell {
             
             if unfinishedTime >= 0 {
                 task.missedTimeHistory[date]! = unfinishedTime
-                //taskData.taskHistoryDictionary[task]![date]![TaskData.missedHistoryKey]! = unfinishedTime
             } else {
                 task.missedTimeHistory[date]! = 0
-                //taskData.taskHistoryDictionary[task]![date]![TaskData.missedHistoryKey]! = 0.0
             }
-            //setMissedTime(for: task, at: date)
             
         }
 
@@ -326,8 +318,8 @@ class TaskCollectionViewCell: UICollectionViewCell {
         self.removeObserver(self, forKeyPath: #keyPath(timer.runningCompletedTime))
     }
     
-    deinit {
-        self.removeObserver(self, forKeyPath: #keyPath(timer.runningCompletedTime))
-    }
+//    deinit {
+//        self.removeObserver(self, forKeyPath: #keyPath(timer.runningCompletedTime))
+//    }
 
 }

@@ -25,14 +25,15 @@ class AppData: NSObject, NSCoding {
     var taskLastTime = Date()
     var taskCurrentTime = Date()
     var colorScheme: [UIColor] = []
-    var appColor = FlatSkyBlueDark()
+    var appColor = FlatSkyBlue()
     
-    var appColorName = ""
-    var resetOffset = ""
+    var appColorName = "Sky Blue"
+    var resetOffset = "12:00"
     
     // App settings
     var isFullVersion = false
     var isNightMode = false
+    var isGlass = false
     var usesCircularProgress = false
     var deviceType: DeviceType = {
         let screenSize = UIScreen.main.bounds
@@ -63,55 +64,75 @@ class AppData: NSObject, NSCoding {
     var colorSettings = [String : UIColor]()
     var misc = [String : String]()
     
+    //MARK: - Keys
+    struct Key {
+        static let taskResetTimeKey = "taskResetTimeKey"
+        static let taskLastTimeKey = "taskLastTimeKey"
+        static let taskCurrentTimeKey = "taskCurrentTimeKey"
+        static let colorSchemeKey = "colorSchemeKey"
+        static let appColorKey = "appColorKey"
+        static let appColorNameKey = "appColorNameKey"
+        static let resetOffsetKey = "resetOffsetKey"
+        static let isFullVersionKey = "isFullVersionKey"
+        static let isNightModeKey = "isNightModeKey"
+        static let usesCircularProgressKey = "usesCircularProgressKey"
+        static let deviceTypeKey = "deviceTypeKey"
+        static let isGlassKey = "isGlassKey"
+        //static let Key = "Key"
+    }
+
+
     //MARK: - Archiving Paths
 
     static let documentsDirectory = FileManager().urls(for: .documentDirectory, in: .userDomainMask).first!
-    static let archiveAppSettings = documentsDirectory.appendingPathComponent("appSettings")
-    static let archiveTimeSettings = documentsDirectory.appendingPathComponent("timeSettings")
-    static let archiveColorSettings = documentsDirectory.appendingPathComponent("colorSettings")
-    static let archiveMisc = documentsDirectory.appendingPathComponent("miscSettings")
+    static let appURL = documentsDirectory.appendingPathComponent("appSettings")
+    
+//    static let archiveAppSettings = documentsDirectory.appendingPathComponent("appSettings")
+//    static let archiveTimeSettings = documentsDirectory.appendingPathComponent("timeSettings")
+//    static let archiveColorSettings = documentsDirectory.appendingPathComponent("colorSettings")
+//    static let archiveMisc = documentsDirectory.appendingPathComponent("miscSettings")
 
     //MARK: - Data Handling
     
-    func save() {
-        
-        saveAppSettingsToDictionary()
-        saveTimeSettingsToDictionary()
-        saveColorSettingsToDictionary()
-        saveMiscSettingsToDictionary()
-        
-        let appSettingsSaveSuccessful = NSKeyedArchiver.archiveRootObject(appSettings, toFile: AppData.archiveAppSettings.path)
-        let timeSettingsSaveSuccessful = NSKeyedArchiver.archiveRootObject(timeSettings, toFile: AppData.archiveTimeSettings.path)
-        let colorSettingsSaveSuccessful = NSKeyedArchiver.archiveRootObject(colorSettings, toFile: AppData.archiveColorSettings.path)
-        let miscSaveSuccessful = NSKeyedArchiver.archiveRootObject(misc, toFile: AppData.archiveMisc.path)
-        
-        print("Saved app settings: \(appSettingsSaveSuccessful)")
-        print("Saved time settings: \(timeSettingsSaveSuccessful)")
-        print("Saved color settings: \(colorSettingsSaveSuccessful)")
-        print("Saved misc: \(miscSaveSuccessful)")
-        
-    }
-    
-    func load() {
-        
-        if let loadAppSettings = NSKeyedUnarchiver.unarchiveObject(withFile: AppData.archiveAppSettings.path) as? [String : Bool] {
-            appSettings = loadAppSettings
-        }
-        if let loadTimeSettings = NSKeyedUnarchiver.unarchiveObject(withFile: AppData.archiveTimeSettings.path) as? [String : Date] {
-            timeSettings = loadTimeSettings
-        }
-        
-        if let loadColorSettings = NSKeyedUnarchiver.unarchiveObject(withFile: AppData.archiveColorSettings.path) as? [String : UIColor] {
-            colorSettings = loadColorSettings
-        }
-
-        if let loadMisc = NSKeyedUnarchiver.unarchiveObject(withFile: AppData.archiveMisc.path) as? [String : String] {
-            misc = loadMisc
-        }
-        
-        setAppValues()
-        
-    }
+//    func save() {
+//
+//        saveAppSettingsToDictionary()
+//        saveTimeSettingsToDictionary()
+//        saveColorSettingsToDictionary()
+//        saveMiscSettingsToDictionary()
+//
+//        let appSettingsSaveSuccessful = NSKeyedArchiver.archiveRootObject(appSettings, toFile: AppData.archiveAppSettings.path)
+//        let timeSettingsSaveSuccessful = NSKeyedArchiver.archiveRootObject(timeSettings, toFile: AppData.archiveTimeSettings.path)
+//        let colorSettingsSaveSuccessful = NSKeyedArchiver.archiveRootObject(colorSettings, toFile: AppData.archiveColorSettings.path)
+//        let miscSaveSuccessful = NSKeyedArchiver.archiveRootObject(misc, toFile: AppData.archiveMisc.path)
+//
+//        print("Saved app settings: \(appSettingsSaveSuccessful)")
+//        print("Saved time settings: \(timeSettingsSaveSuccessful)")
+//        print("Saved color settings: \(colorSettingsSaveSuccessful)")
+//        print("Saved misc: \(miscSaveSuccessful)")
+//
+//    }
+//
+//    func load() {
+//
+//        if let loadAppSettings = NSKeyedUnarchiver.unarchiveObject(withFile: AppData.archiveAppSettings.path) as? [String : Bool] {
+//            appSettings = loadAppSettings
+//        }
+//        if let loadTimeSettings = NSKeyedUnarchiver.unarchiveObject(withFile: AppData.archiveTimeSettings.path) as? [String : Date] {
+//            timeSettings = loadTimeSettings
+//        }
+//
+//        if let loadColorSettings = NSKeyedUnarchiver.unarchiveObject(withFile: AppData.archiveColorSettings.path) as? [String : UIColor] {
+//            colorSettings = loadColorSettings
+//        }
+//
+//        if let loadMisc = NSKeyedUnarchiver.unarchiveObject(withFile: AppData.archiveMisc.path) as? [String : String] {
+//            misc = loadMisc
+//        }
+//
+//        setAppValues()
+//
+//    }
     
     //MARK: - Color Functions
 
@@ -124,22 +145,6 @@ class AppData: NSObject, NSCoding {
         setColorScheme()
         
     }
-    
-//    func darknessCheckOLD(for color:UIColor? = nil) -> Bool {
-//        
-//        var r: CGFloat = 0.0, g: CGFloat = 0.0, b: CGFloat = 0.0, a: CGFloat = 0.0
-//        
-//        color?.getRed(&r, green: &g, blue: &b, alpha: &a)
-//        
-//        let twoLowColors = (r < 0.7 || g < 0.7)
-//        
-//        if r  < 0.7 && g  < 0.7 && b < 0.7 {
-//            return true
-//        } else {
-//            return false
-//        }
-//        
-//    }
     
     func darknessCheck(for color: UIColor?) -> Bool {
         
@@ -156,8 +161,10 @@ class AppData: NSObject, NSCoding {
     
     func setColorScheme() {
         
-        colorScheme = ColorSchemeOf(.analogous, color: appColor, isFlatScheme: true)
-        
+        //colorScheme = ColorSchemeOf(.analogous, color: appColor, isFlatScheme: true)
+        colorScheme = ColorSchemeOf(.complementary, color: appColor, isFlatScheme: true)
+        //colorScheme = ColorSchemeOf(.triadic, color: appColor, isFlatScheme: true)
+        colorScheme.remove(at: 2)
     }
     
     func setAppValues() {
@@ -215,33 +222,78 @@ class AppData: NSObject, NSCoding {
     //MARK: - NSCoding
     
     func encode(with aCoder: NSCoder) {
-        aCoder.encode(appSettings, forKey: "appSettings")
-        aCoder.encode(timeSettings, forKey: "timeSettings")
-        aCoder.encode(colorSettings, forKey: "colorSettings")
-        aCoder.encode(appColorName, forKey: "miscSettings")
+        aCoder.encode(taskResetTime, forKey: Key.taskResetTimeKey)
+        aCoder.encode(taskLastTime, forKey: Key.taskLastTimeKey)
+        aCoder.encode(taskCurrentTime, forKey: Key.taskCurrentTimeKey)
+        aCoder.encode(appColor, forKey: Key.appColorKey)
+        aCoder.encode(appColorName, forKey: Key.appColorNameKey)
+        aCoder.encode(resetOffset, forKey: Key.resetOffsetKey)
+        aCoder.encode(isFullVersion, forKey: Key.isFullVersionKey)
+        aCoder.encode(isNightMode, forKey: Key.isNightModeKey)
+        aCoder.encode(usesCircularProgress, forKey: Key.usesCircularProgressKey)
+
+//        aCoder.encode(appSettings, forKey: "appSettings")
+//        aCoder.encode(timeSettings, forKey: "timeSettings")
+//        aCoder.encode(colorSettings, forKey: "colorSettings")
+//        aCoder.encode(appColorName, forKey: "miscSettings")
     }
     
     required convenience init?(coder aDecoder: NSCoder) {
         
-        guard let appSettings = aDecoder.decodeObject(forKey: "appSettings") as? [String : Bool] else {
-            return nil
-        }
-        guard let timeSettings = aDecoder.decodeObject(forKey: "timeSettings") as? [String : Date] else {
-            return nil
-        }
-        guard let colorSettings = aDecoder.decodeObject(forKey: "colorSettings") as? [String : UIColor] else {
-            return nil
-        }
-        guard let misc = aDecoder.decodeObject(forKey: "miscSettings") as? [String : String] else {
-            return nil
-        }
+        let taskResetTime = aDecoder.decodeObject(forKey: Key.taskResetTimeKey) as? Date ?? Date()
+        
+        let taskLastTime = aDecoder.decodeObject(forKey: Key.taskLastTimeKey) as? Date  ?? Date()
+
+        let taskCurrentTime = aDecoder.decodeObject(forKey: Key.taskCurrentTimeKey) as? Date ?? Date()
+
+        let appColor = aDecoder.decodeObject(forKey: Key.appColorKey) as? UIColor ?? FlatSkyBlue()
+        
+        let appColorName = aDecoder.decodeObject(forKey: Key.appColorNameKey) as? String ?? "Sky Blue"
+
+        let resetOffset = aDecoder.decodeObject(forKey: Key.resetOffsetKey) as? String  ?? "12:00"
+
+        let isFullVersion = aDecoder.decodeBool(forKey: Key.isFullVersionKey)
+        let isNightMode = aDecoder.decodeBool(forKey: Key.isNightModeKey)
+        let isGlass = aDecoder.decodeBool(forKey: Key.isGlassKey)
+        let usesCircularProgress = aDecoder.decodeBool(forKey: Key.usesCircularProgressKey)
+        //let time = aDecoder.decodeBool(forKey: Key.timeKey)
+
+//        guard let appSettings = aDecoder.decodeObject(forKey: "appSettings") as? [String : Bool] else {
+//            return nil
+//        }
+//        guard let timeSettings = aDecoder.decodeObject(forKey: "timeSettings") as? [String : Date] else {
+//            return nil
+//        }
+//        guard let colorSettings = aDecoder.decodeObject(forKey: "colorSettings") as? [String : UIColor] else {
+//            return nil
+//        }
+//        guard let misc = aDecoder.decodeObject(forKey: "miscSettings") as? [String : String] else {
+//            return nil
+//        }
         
         // Must call designated initializer.
-        self.init(appSettings: appSettings,  timeSettings: timeSettings, colorSettings: colorSettings, misc: misc)
+//        self.init(appSettings: appSettings,  timeSettings: timeSettings, colorSettings: colorSettings, misc: misc)
+        
+        self.init(taskResetTime: taskResetTime, taskLastTime: taskLastTime, taskCurrentTime: taskCurrentTime, appColor: appColor, appColorName: appColorName, resetOffset: resetOffset, isFullVersion: isFullVersion, isNightMode: isNightMode, isGlass: isGlass, usesCircularProgress: usesCircularProgress)
         
     }
     
     //MARK: - Init
+    
+    init(taskResetTime: Date, taskLastTime: Date, taskCurrentTime: Date, appColor: UIColor, appColorName: String, resetOffset: String, isFullVersion: Bool, isNightMode: Bool, isGlass: Bool, usesCircularProgress: Bool) {
+        
+        self.taskResetTime = taskResetTime
+        self.taskLastTime = taskLastTime
+        self.taskCurrentTime = taskCurrentTime
+        self.appColor = appColor
+        self.appColorName = appColorName
+        self.resetOffset = resetOffset
+        self.isFullVersion = isFullVersion
+        self.isNightMode = isNightMode
+        self.isGlass = isGlass
+        self.usesCircularProgress = usesCircularProgress
+        
+    }
     
     init(appSettings: [String : Bool], timeSettings: [String : Date], colorSettings: [String : UIColor], misc: [String : String]) {
         

@@ -20,61 +20,65 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="86i-Q9-Led">
-                        <rect key="frame" x="223" y="14" width="60" height="60"/>
+                        <rect key="frame" x="233" y="15" width="60" height="60"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="60" id="8DG-o5-pBa"/>
                             <constraint firstAttribute="width" constant="60" id="nEG-6H-s9b"/>
                         </constraints>
                     </button>
                     <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="iTT-zF-9w1">
-                        <rect key="frame" x="223" y="14" width="60" height="60"/>
+                        <rect key="frame" x="231" y="15" width="60" height="60"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="60" id="jtx-b3-gfo"/>
+                            <constraint firstAttribute="height" constant="60" id="pSx-B4-3a9"/>
+                        </constraints>
                     </imageView>
                     <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="cbw-Ma-Ii8">
-                        <rect key="frame" x="20" y="89" width="301" height="2"/>
+                        <rect key="frame" x="20" y="88.5" width="301" height="2"/>
                     </progressView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="qwb-0M-IN8">
-                        <rect key="frame" x="20" y="14" width="100" height="30"/>
+                        <rect key="frame" x="20" y="10" width="100" height="21.5"/>
                         <constraints>
                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="100" id="5Br-LB-dHo"/>
                         </constraints>
-                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="JLT-D6-15X">
-                        <rect key="frame" x="20" y="54" width="100" height="21"/>
+                        <rect key="frame" x="20" y="41.5" width="100" height="31.5"/>
                         <constraints>
                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="100" id="TY0-ac-p2S"/>
                         </constraints>
-                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="26"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ux3-Rl-bzA">
+                    <view hidden="YES" alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ux3-Rl-bzA">
                         <rect key="frame" x="0.0" y="0.0" width="333" height="106"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </view>
                 </subviews>
             </view>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
+                <constraint firstItem="iTT-zF-9w1" firstAttribute="leading" secondItem="86i-Q9-Led" secondAttribute="trailing" constant="-62" id="2Re-xe-U0Z"/>
                 <constraint firstItem="Ux3-Rl-bzA" firstAttribute="top" secondItem="A3t-p8-L8K" secondAttribute="top" id="3m0-9a-Kuu"/>
-                <constraint firstItem="cbw-Ma-Ii8" firstAttribute="top" secondItem="86i-Q9-Led" secondAttribute="bottom" constant="15" id="8P7-58-Smv"/>
+                <constraint firstItem="cbw-Ma-Ii8" firstAttribute="top" secondItem="JLT-D6-15X" secondAttribute="bottom" constant="15" id="6vg-8r-0tn"/>
                 <constraint firstItem="iTT-zF-9w1" firstAttribute="top" secondItem="86i-Q9-Led" secondAttribute="top" id="IIY-Pm-RFH"/>
                 <constraint firstAttribute="bottom" secondItem="Ux3-Rl-bzA" secondAttribute="bottom" id="LFj-B9-1wo"/>
                 <constraint firstItem="qwb-0M-IN8" firstAttribute="leading" secondItem="A3t-p8-L8K" secondAttribute="leading" constant="20" id="MrJ-dj-USv"/>
                 <constraint firstItem="qwb-0M-IN8" firstAttribute="trailing" secondItem="JLT-D6-15X" secondAttribute="trailing" id="Mrl-UU-wZk"/>
                 <constraint firstItem="iTT-zF-9w1" firstAttribute="bottom" secondItem="86i-Q9-Led" secondAttribute="bottom" id="NIL-Jh-Wdc"/>
                 <constraint firstAttribute="trailing" secondItem="Ux3-Rl-bzA" secondAttribute="trailing" id="Qdn-wt-y85"/>
-                <constraint firstItem="iTT-zF-9w1" firstAttribute="leading" secondItem="86i-Q9-Led" secondAttribute="leading" id="RFx-9Z-JSU"/>
-                <constraint firstAttribute="trailing" secondItem="86i-Q9-Led" secondAttribute="trailing" constant="50" id="RQh-m9-sq3"/>
+                <constraint firstAttribute="trailing" secondItem="86i-Q9-Led" secondAttribute="trailing" constant="40" id="RQh-m9-sq3"/>
                 <constraint firstItem="JLT-D6-15X" firstAttribute="top" secondItem="qwb-0M-IN8" secondAttribute="bottom" constant="10" id="fBz-AJ-SGn"/>
-                <constraint firstItem="iTT-zF-9w1" firstAttribute="trailing" secondItem="86i-Q9-Led" secondAttribute="trailing" id="hrn-RC-FIa"/>
-                <constraint firstItem="qwb-0M-IN8" firstAttribute="top" secondItem="A3t-p8-L8K" secondAttribute="top" constant="14" id="htg-DG-hWS"/>
-                <constraint firstItem="cbw-Ma-Ii8" firstAttribute="top" secondItem="qwb-0M-IN8" secondAttribute="bottom" constant="45" id="jUL-Mz-LNq"/>
+                <constraint firstItem="qwb-0M-IN8" firstAttribute="top" secondItem="A3t-p8-L8K" secondAttribute="top" constant="10" id="htg-DG-hWS"/>
+                <constraint firstItem="86i-Q9-Led" firstAttribute="top" secondItem="A3t-p8-L8K" secondAttribute="top" constant="15" id="k9G-j4-k9z"/>
                 <constraint firstItem="JLT-D6-15X" firstAttribute="leading" secondItem="cbw-Ma-Ii8" secondAttribute="leading" id="oZO-qH-wqO"/>
                 <constraint firstItem="Ux3-Rl-bzA" firstAttribute="leading" secondItem="A3t-p8-L8K" secondAttribute="leading" id="pv9-ql-7K5"/>
                 <constraint firstItem="qwb-0M-IN8" firstAttribute="leading" secondItem="JLT-D6-15X" secondAttribute="leading" id="qRs-b6-ZRn"/>
                 <constraint firstAttribute="trailing" secondItem="cbw-Ma-Ii8" secondAttribute="trailing" constant="12" id="uiK-ZU-AsB"/>
-                <constraint firstItem="86i-Q9-Led" firstAttribute="top" secondItem="qwb-0M-IN8" secondAttribute="top" id="z5Z-Av-Vhq"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="O1b-yj-71E"/>
             <size key="customSize" width="333" height="106"/>
