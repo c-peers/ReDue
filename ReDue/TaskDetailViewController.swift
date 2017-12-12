@@ -85,7 +85,7 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
         
         setElapsedTime()
         
-        if task.rollover > 0 && !task.isRunning {
+        if task.rollover > 0 && !task.isRunning && task.isToday {
             resetRolloverButton.isHidden = false
         } else {
             resetRolloverButton.isHidden = true
@@ -148,14 +148,15 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
         
         self.removeObserver(self, forKeyPath: #keyPath(timer.elapsedTime))
         
-        guard let taskIndex = vc.tasks.index(of: task) else { return }
-        let indexPath = IndexPath(item: taskIndex, section: 0)
-        //let indexPath = vc.taskList.indexPath(for: cell)
-        let cell = vc.taskList.cellForItem(at: indexPath) as! TaskCollectionViewCell
-        
-        cell.taskNameField.text = task.name
-        _ = cell.formatTimer(for: task)
-        //vc.taskList.reloadItems(at: [indexPath])
+        if task.isToday {
+            guard let taskIndex = vc.tasks.index(of: task) else { return }
+            let indexPath = IndexPath(item: taskIndex, section: 0)
+            let cell = vc.taskList.cellForItem(at: indexPath) as! TaskCollectionViewCell
+            
+            cell.taskNameField.text = task.name
+            _ = cell.formatTimer(for: task)
+            //vc.taskList.reloadItems(at: [indexPath])
+        }
         
     }
     

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="9wX-dh-SMo">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="9wX-dh-SMo">
     <device id="retina4_0" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <capability name="Alignment constraints to the first baseline" minToolsVersion="6.0"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
@@ -923,11 +923,11 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="H0s-Mk-Y02" customClass="BarChartView" customModule="Charts">
-                                <rect key="frame" x="55" y="319" width="210" height="159"/>
+                                <rect key="frame" x="55" y="324" width="210" height="154"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="j5Z-ne-lTq">
-                                <rect key="frame" x="101.5" y="174" width="117" height="75"/>
+                                <rect key="frame" x="101.5" y="179" width="117" height="75"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="117" id="4wZ-Zc-nHB"/>
                                     <constraint firstAttribute="height" constant="75" id="emN-bg-mnX"/>
@@ -937,7 +937,7 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Recent Progress" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tPw-eQ-5kE">
-                                <rect key="frame" x="55" y="289" width="142" height="25"/>
+                                <rect key="frame" x="55" y="294" width="142" height="25"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -950,7 +950,7 @@
                                 </constraints>
                             </view>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YGE-iJ-BTw">
-                                <rect key="frame" x="127" y="144" width="66" height="28"/>
+                                <rect key="frame" x="127" y="139" width="66" height="28"/>
                                 <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="13"/>
                                 <state key="normal" title="Too much?"/>
                                 <connections>
@@ -968,12 +968,12 @@
                             <constraint firstItem="iDp-XT-KAg" firstAttribute="bottom" secondItem="8A0-ij-Q4M" secondAttribute="bottom" id="HI2-hN-9bF"/>
                             <constraint firstItem="tPw-eQ-5kE" firstAttribute="leading" secondItem="ySm-pY-put" secondAttribute="leadingMargin" constant="39" id="N7p-UP-uRs"/>
                             <constraint firstItem="hi4-ID-NXk" firstAttribute="top" secondItem="iDp-XT-KAg" secondAttribute="top" constant="30" id="QrB-qo-plc"/>
-                            <constraint firstItem="YGE-iJ-BTw" firstAttribute="top" secondItem="hi4-ID-NXk" secondAttribute="bottom" id="RuY-rp-deA"/>
+                            <constraint firstItem="YGE-iJ-BTw" firstAttribute="top" secondItem="hi4-ID-NXk" secondAttribute="bottom" constant="-5" id="RuY-rp-deA"/>
                             <constraint firstItem="iDp-XT-KAg" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="tPw-eQ-5kE" secondAttribute="trailingMargin" id="TPO-ef-bBS"/>
                             <constraint firstItem="j5Z-ne-lTq" firstAttribute="centerX" secondItem="iDp-XT-KAg" secondAttribute="centerX" id="Vz3-5l-038"/>
                             <constraint firstItem="8A0-ij-Q4M" firstAttribute="top" secondItem="H0s-Mk-Y02" secondAttribute="bottom" constant="40" id="dtB-fW-emh"/>
                             <constraint firstItem="H0s-Mk-Y02" firstAttribute="top" secondItem="j5Z-ne-lTq" secondAttribute="bottom" constant="70" id="iuf-yj-8Go"/>
-                            <constraint firstItem="j5Z-ne-lTq" firstAttribute="top" secondItem="hi4-ID-NXk" secondAttribute="bottom" constant="30" id="jqa-c9-1FK"/>
+                            <constraint firstItem="j5Z-ne-lTq" firstAttribute="top" secondItem="hi4-ID-NXk" secondAttribute="bottom" constant="35" id="jqa-c9-1FK"/>
                             <constraint firstItem="iDp-XT-KAg" firstAttribute="trailing" secondItem="8A0-ij-Q4M" secondAttribute="trailing" id="n67-Yj-i0C"/>
                             <constraint firstItem="H0s-Mk-Y02" firstAttribute="top" secondItem="tPw-eQ-5kE" secondAttribute="bottom" constant="5" id="pwY-fe-14V"/>
                             <constraint firstItem="hi4-ID-NXk" firstAttribute="centerX" secondItem="iDp-XT-KAg" secondAttribute="centerX" id="rvj-E1-Rek"/>
@@ -1461,7 +1461,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="NUe-xS-xq1" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
-                                <rect key="frame" x="16" y="414.5" width="288" height="42"/>
+                                <rect key="frame" x="16" y="419.5" width="288" height="42"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="42" id="qWh-iN-9Dg"/>
                                 </constraints>
@@ -1510,7 +1510,7 @@
                             <constraint firstItem="Goa-tT-yaA" firstAttribute="centerX" secondItem="XwC-hj-3Bi" secondAttribute="centerX" id="Sws-yM-djN"/>
                             <constraint firstItem="ADg-6H-HrU" firstAttribute="leading" secondItem="XwC-hj-3Bi" secondAttribute="leading" constant="16" id="T4g-u0-ZJV"/>
                             <constraint firstItem="us7-OD-rsz" firstAttribute="leading" secondItem="XwC-hj-3Bi" secondAttribute="leading" constant="16" id="T9b-VA-CNC"/>
-                            <constraint firstItem="NUe-xS-xq1" firstAttribute="top" secondItem="us7-OD-rsz" secondAttribute="bottom" constant="30" id="TwB-Ll-JZ4"/>
+                            <constraint firstItem="NUe-xS-xq1" firstAttribute="top" secondItem="us7-OD-rsz" secondAttribute="bottom" constant="35" id="TwB-Ll-JZ4"/>
                             <constraint firstItem="us7-OD-rsz" firstAttribute="centerX" secondItem="XwC-hj-3Bi" secondAttribute="centerX" id="UMj-ye-oNc"/>
                             <constraint firstItem="Oii-7k-6VH" firstAttribute="leading" secondItem="XwC-hj-3Bi" secondAttribute="leading" constant="16" id="Wjd-PR-lme"/>
                             <constraint firstItem="58p-54-GV3" firstAttribute="width" secondItem="Oii-7k-6VH" secondAttribute="width" id="YH4-06-gop"/>

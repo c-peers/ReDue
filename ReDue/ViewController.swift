@@ -1007,10 +1007,6 @@ extension TaskViewController: UICollectionViewDelegate, UICollectionViewDataSour
         //cell.playStopButton.addSubview(cell.buttonBackground)
         //cell.playStopButton.sendSubview(toBack: cell.buttonBackground)
         
-        cell.backgroundColor = cellBGColor
-        cell.taskNameField.textColor = ContrastColorOf(cellBGColor, returnFlat: true)
-        cell.taskTimeRemaining.textColor = ContrastColorOf(cellBGColor, returnFlat: true)
-        cell.nextRunLabel.textColor = ContrastColorOf(cellBGColor, returnFlat: true)
 //        if appData.darknessCheck(for: cellBGColor) {
 //            cell.taskNameField.textColor = .white
 //            cell.taskTimeRemaining.textColor = .white
@@ -1020,37 +1016,53 @@ extension TaskViewController: UICollectionViewDelegate, UICollectionViewDataSour
 //        }
         
         if appData.isGlass {
-            let blurEffect = UIBlurEffect(style: .extraLight)
+
+            let blurEffect = UIBlurEffect(style: .light)
             let blurEffectView = UIVisualEffectView(effect: blurEffect)
-            blurEffectView.frame = cell.bounds
-            cell.backgroundColor = UIColor(white:1, alpha:0)
-            //cell.backgroundView = blurEffectView
-            //cell.contentView.backgroundColor = .clear
-            //cell.isOpaque = false
-            //cell.layer.opacity = 0.5
-            //cell.backgroundColor = .clear
-            //cell.layer.backgroundColor = UIColor.clear.cgColor
-            //cell.insertSubview(blurEffectView, at: 0)
+            blurEffectView.frame = cell.contentView.bounds
+            cell.contentView.addSubview(blurEffectView)
+            cell.contentView.sendSubview(toBack: blurEffectView)
+            cell.backgroundColor = .clear
+            
+            cell.layer.cornerRadius = 10.0
+            
+            cell.layer.shadowOpacity = 0.0
+            cell.layer.borderWidth = 0.0
+            
+            cell.contentView.clipsToBounds = true
+            cell.clipsToBounds = true
+            cell.layer.masksToBounds = true
+            
+            setCellColor(forCell: cell)
+            
+        } else {
+        
+            let borderColor = cellBGColor.darken(byPercentage: 0.3)?.cgColor
+            setBorder(for: cell.layer, borderWidth: 2.0, borderColor: borderColor!, radius: 10.0)
+
+            cell.layer.shadowColor = UIColor.black.cgColor
+            cell.layer.shadowOffset = CGSize(width: 0, height: 2.0)// CGSize.zero
+            cell.layer.shadowRadius = 2.0
+            cell.layer.shadowOpacity = 1.0
+
+            cell.layer.shadowPath = UIBezierPath(roundedRect: cell.layer.bounds, cornerRadius: cell.layer.cornerRadius).cgPath
+            cell.layer.masksToBounds = false
+
+            setCellColor(cellBGColor, forCell: cell)
+
         }
-        
-        let borderColor = cellBGColor.darken(byPercentage: 0.3)?.cgColor
-        
-        cell.layer.masksToBounds = false
-        cell.layer.cornerRadius = 5.0
-        setBorder(for: cell.layer, borderWidth: 2.0, borderColor: borderColor!, radius: 10.0)
-        
-        cell.layer.shadowColor = UIColor.black.cgColor
-        cell.layer.shadowOffset = CGSize(width: 0, height: 2.0)// CGSize.zero
-        cell.layer.shadowRadius = 2.0
-        cell.layer.shadowOpacity = 1.0
-        
-        cell.layer.shadowPath = UIBezierPath(roundedRect: cell.layer.bounds, cornerRadius: cell.layer.cornerRadius).cgPath
         
         if type == .line {
             
             cell.progressView.barHeight = 6.0
             //cell.progressView.transform = cell.progressView.transform.scaledBy(x: 1.0, y: 2.0)
-            setBorder(for: cell.progressView.layer, borderWidth: 0.2, borderColor: borderColor!, radius: 5.0)
+            let borderColor = cellBGColor.darken(byPercentage: 0.3)?.cgColor
+            if !appData.isGlass {
+                setBorder(for: cell.progressView.layer, borderWidth: 0.2, borderColor: borderColor!, radius: 5.0)
+            } else {
+                setBorder(for: cell.progressView.layer, borderWidth: 0.0, borderColor: UIColor.clear.cgColor, radius: 0.0)
+            }
+            
             calculateProgress(for: cell, ofType: .line)
             //cell.progressView.progressTintColor = UIColor.darkGray
             cell.progressView.clipsToBounds = true
@@ -1091,6 +1103,25 @@ extension TaskViewController: UICollectionViewDelegate, UICollectionViewDataSour
             debug(cell, task)
         }
         
+    }
+    
+    func setCellColor(_ background: UIColor = .black, forCell cell: TaskCollectionViewCell) {
+        cell.backgroundColor = background
+        cell.taskNameField.textColor = ContrastColorOf(background, returnFlat: true)
+        cell.taskTimeRemaining.textColor = ContrastColorOf(background, returnFlat: true)
+        cell.nextRunLabel.textColor = ContrastColorOf(background, returnFlat: true)
+    }
+    
+    // Actually creates the desired blur effect
+    func vibrancyEffectView(forBlurEffectView blurEffectView:UIVisualEffectView) -> UIVisualEffectView {
+        
+        let vibrancy = UIVibrancyEffect(blurEffect: blurEffectView.effect as! UIBlurEffect)
+        let vibrancyView = UIVisualEffectView(effect: vibrancy)
+        
+        vibrancyView.isUserInteractionEnabled = false
+        vibrancyView.frame = blurEffectView.bounds
+        vibrancyView.autoresizingMask = .flexibleWidth
+        return vibrancyView
     }
     
     func debug(_ cell: TaskCollectionViewCell, _ task: Task) {

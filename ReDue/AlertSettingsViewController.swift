@@ -21,8 +21,8 @@ class AlertSettingsViewController: UIViewController, UITableViewDelegate, UITabl
     var task: Task?
     var appData = AppData()
     
-    var selectedAudio: AudioAlert?
-    var selectedVibration: VibrateAlert?
+    var selectedAudio: AudioAlert = .none
+    var selectedVibration: VibrateAlert = .none
     
     var presentingVC = UIViewController()
     
@@ -55,16 +55,15 @@ class AlertSettingsViewController: UIViewController, UITableViewDelegate, UITabl
         
         if let _ = task {
             let vc = presentingVC as! TaskSettingsViewController
-            if let audioAlert = selectedAudio, let vibrateAlert = selectedVibration {
-                vc.task.audioAlert = audioAlert
-                vc.audio = audioAlert
-                vc.task.vibrateAlert = vibrateAlert
-                vc.vibrate = vibrateAlert
-                
-                text = timer.setAlertText(for: audioAlert, and: vibrateAlert)
-                //text = String(describing: audioAlert)
-            }
-//            if let vibrateAlert = selectedVibration {
+            vc.task.audioAlert = selectedAudio
+            vc.audio = selectedAudio
+            vc.task.vibrateAlert = selectedVibration
+            vc.vibrate = selectedVibration
+            
+            text = timer.setAlertText(for: selectedAudio, and: selectedVibration)
+            //text = String(describing: audioAlert)
+            
+            //            if let vibrateAlert = selectedVibration {
 //                vc.task.vibrateAlert = vibrateAlert
 //                vc.vibrate = vibrateAlert
 //                if text.isEmpty {
@@ -78,14 +77,13 @@ class AlertSettingsViewController: UIViewController, UITableViewDelegate, UITabl
             vc.resignResponder()
         } else {
             let vc = presentingVC as! NewTasksViewController
-            if let audioAlert = selectedAudio, let vibrateAlert = selectedVibration {
-                vc.audioAlert = audioAlert
-                vc.vibrateAlert = vibrateAlert
-
-                text = timer.setAlertText(for: audioAlert, and: vibrateAlert)
-                //text = String(describing: audioAlert)
-            }
-//            if let vibrateAlert = selectedVibration {
+            vc.audioAlert = selectedAudio
+            vc.vibrateAlert = selectedVibration
+            
+            text = timer.setAlertText(for: selectedAudio, and: selectedVibration)
+            //text = String(describing: audioAlert)
+            
+            //            if let vibrateAlert = selectedVibration {
 //                if text.isEmpty {
 //                    text = String(describing: vibrateAlert)
 //                } else {
