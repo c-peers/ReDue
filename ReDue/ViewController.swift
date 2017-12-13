@@ -1020,8 +1020,15 @@ extension TaskViewController: UICollectionViewDelegate, UICollectionViewDataSour
             let blurEffect = UIBlurEffect(style: .light)
             let blurEffectView = UIVisualEffectView(effect: blurEffect)
             blurEffectView.frame = cell.contentView.bounds
-            cell.contentView.addSubview(blurEffectView)
-            cell.contentView.sendSubview(toBack: blurEffectView)
+            
+            let subviews = cell.contentView.subviews
+            let x = subviews.count
+            //let y = subviews[0].subviews
+            if !subviews.contains(where: {$0 is UIVisualEffectView}) {
+                cell.contentView.addSubview(blurEffectView)
+                cell.contentView.sendSubview(toBack: blurEffectView)
+            }
+            
             cell.backgroundColor = .clear
             
             cell.layer.cornerRadius = 10.0
@@ -1105,7 +1112,7 @@ extension TaskViewController: UICollectionViewDelegate, UICollectionViewDataSour
         
     }
     
-    func setCellColor(_ background: UIColor = .black, forCell cell: TaskCollectionViewCell) {
+    func setCellColor(_ background: UIColor = .clear, forCell cell: TaskCollectionViewCell) {
         cell.backgroundColor = background
         cell.taskNameField.textColor = ContrastColorOf(background, returnFlat: true)
         cell.taskTimeRemaining.textColor = ContrastColorOf(background, returnFlat: true)

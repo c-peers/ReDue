@@ -127,7 +127,8 @@ class AppSettingsViewController: UITableViewController {
         save()
 
         let vc = self.navigationController!.viewControllers.first as? TaskViewController
-        vc?.taskList.reloadData()        
+        vc?.taskList.reloadData()
+        vc?.taskList.collectionViewLayout.invalidateLayout()
 
     }
     
