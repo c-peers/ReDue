@@ -18,6 +18,7 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
     
     @IBOutlet weak var taskTimeLabel: UILabel!
     @IBOutlet weak var taskStartButton: UIButton!
+    @IBOutlet weak var resetRolloverButton: UIButton!
     @IBOutlet weak var recentTaskHistory: BarChartView!
     @IBOutlet weak var bannerView: GADBannerView!
     @IBOutlet weak var bannerHeight: NSLayoutConstraint!
@@ -84,12 +85,15 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
         
         setElapsedTime()
         
+        if task.rollover > 0 && !task.isRunning {
+            resetRolloverButton.isHidden = false
+        } else {
+            resetRolloverButton.isHidden = true
+        }
+        
         if timer.isEnabled && task.isRunning {
             
-            taskStartButton.setImage(#imageLiteral(resourceName: "Pause"), for: .normal)
-            let stencil = #imageLiteral(resourceName: "Pause").withRenderingMode(.alwaysTemplate)
-            taskStartButton.setImage(stencil, for: .normal)
-            taskStartButton.tintColor = UIColor.white
+            setImage(as: #imageLiteral(resourceName: "Pause"))
             
             //taskTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self,
             //                                 selector: #selector(timerRunning), userInfo: nil,
@@ -142,9 +146,16 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
             vc.runningCompletionTime = task.completed
         }
         
-    }
-    
-    override func viewDidDisappear(_ animated: Bool) {
+        self.removeObserver(self, forKeyPath: #keyPath(timer.elapsedTime))
+        
+        guard let taskIndex = vc.tasks.index(of: task) else { return }
+        let indexPath = IndexPath(item: taskIndex, section: 0)
+        //let indexPath = vc.taskList.indexPath(for: cell)
+        let cell = vc.taskList.cellForItem(at: indexPath) as! TaskCollectionViewCell
+        
+        cell.taskNameField.text = task.name
+        _ = cell.formatTimer(for: task)
+        //vc.taskList.reloadItems(at: [indexPath])
         
     }
     
@@ -236,6 +247,7 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
         let remainingTimeAsString = timer.getRemainingTimeAsString(withRemaining: remainingTime.rounded())
         
         if remainingTime > 0 {
+            print("\(taskTimeLabel.text!) time remaining")
             taskTimeLabel.text = remainingTimeAsString
             taskStartButton.isEnabled = true
 
@@ -267,9 +279,7 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
             
             timerStopped()
             
-            let stencil = #imageLiteral(resourceName: "Play").withRenderingMode(.alwaysTemplate)
-            taskStartButton.setImage(stencil, for: .normal)
-            taskStartButton.tintColor = UIColor.white
+            setImage(as: #imageLiteral(resourceName: "Play"))
             
         }
     }
@@ -280,6 +290,14 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
     func timerStopped() {
         
         timer.run.invalidate()
+        
+        if task.vibrateAlert != .none {
+            timer.vibrate(for: task)
+        }
+        
+        if task.audioAlert != .none {
+            timer.playAudio(for: task)
+        }
         
         timer.endTime = Date().timeIntervalSince1970
         
@@ -341,14 +359,23 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
         if appData.darknessCheck(for: darkerThemeColor) {
             taskTimeLabel.textColor = .white
             recentProgressLabel.textColor = .white
+            resetRolloverButton.setTitleColor(.white, for: .normal)
         } else {
             taskTimeLabel.textColor = .black
             recentProgressLabel.textColor = .black
+            resetRolloverButton.setTitleColor(.black, for: .normal)
         }
         
     }
 
     //MARK: - Button Related Functions
+    
+    func setImage(as image: UIImage) {
+        let stencil = image.withRenderingMode(.alwaysTemplate)
+        taskStartButton.setImage(stencil, for: .normal)
+        taskStartButton.tintColor = .white
+        
+    }
     
     func startButtonSetup() {
         
@@ -362,9 +389,7 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
         taskStartButton.layer.shadowPath = UIBezierPath(roundedRect: taskStartButton.layer.bounds, cornerRadius: taskStartButton.layer.cornerRadius).cgPath
         
         //taskStartButton.setImage(#imageLiteral(resourceName: "Play"), for: .normal)
-        let stencil = #imageLiteral(resourceName: "Play").withRenderingMode(.alwaysTemplate)
-        taskStartButton.setImage(stencil, for: .normal)
-        taskStartButton.tintColor = UIColor.white
+        setImage(as: #imageLiteral(resourceName: "Play"))
         taskStartButton.backgroundColor = appData.appColor
         
     }
@@ -376,9 +401,9 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
             task.isRunning = true
             timer.isEnabled = true
             
-            let stencil = #imageLiteral(resourceName: "Pause").withRenderingMode(.alwaysTemplate)
-            taskStartButton.setImage(stencil, for: .normal)
-            taskStartButton.tintColor = UIColor.white
+            resetRolloverButton.isHidden = true
+            
+            setImage(as: #imageLiteral(resourceName: "Pause"))
             
             //taskStartButton.setImage(#imageLiteral(resourceName: "Pause"), for: .normal)
             
@@ -392,11 +417,13 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
 
         } else {
             
+            if task.rollover > 0 {
+                resetRolloverButton.isHidden = false
+            }
+            
             timerStopped()
             
-            let stencil = #imageLiteral(resourceName: "Play").withRenderingMode(.alwaysTemplate)
-            taskStartButton.setImage(stencil, for: .normal)
-            taskStartButton.tintColor = UIColor.white
+            setImage(as: #imageLiteral(resourceName: "Play"))
             //taskStartButton.setImage(#imageLiteral(resourceName: "Play"), for: .normal)
             
             NotificationCenter.default.post(name: Notification.Name("StopTimerNotification"), object: nil)
@@ -409,6 +436,10 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
             
         }
         
+    }
+    
+    @IBAction func resetRolloverTapped(_ sender: UIButton) {
+        popAlert(forType: .reset)
     }
     
     @objc func settingsTapped() {
@@ -442,24 +473,40 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
         if type == .delete {
             title = "Delete Task"
             message = "Are you sure you want to delete this?"
-        } else {
+        } else if type == .upgradeNeeded {
             title = "Restricted"
             message = "Task statistics unlocked after purchase"
+        } else if type == .reset {
+            title = "Reset Timer"
+            message = "Are you sure you want to reset the timer to its default length?"
+        } else {
+            title = ""
+            message = ""
         }
         
         let alertController = UIAlertController(title: title,
                                                 message: message,
                                                 preferredStyle: UIAlertControllerStyle.alert)
         
-        let yesAction = UIAlertAction(title: "Yes", style: UIAlertActionStyle.default){ (action: UIAlertAction) in
+        let yesAction = UIAlertAction(title: "Yes", style: .default){ (action: UIAlertAction) in
             print("Hello")
             self.performSegue(withIdentifier: "taskDeletedUnwindSegue", sender: self)
         }
-        let noAction = UIAlertAction(title: "No", style: UIAlertActionStyle.cancel, handler: nil)
-        let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.cancel, handler: nil)
+        let noAction = UIAlertAction(title: "No", style: .cancel, handler: nil)
+        let okAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+        let resetAction = UIAlertAction(title: "Yes", style: .default){ (action:
+            UIAlertAction) in
+            print("Resetting rollover")
+            self.task.forfeitAccumulatedTime()
+            self.formatTimer()
+            self.resetRolloverButton.isHidden = true
+        }
         
         if type == .delete {
             alertController.addAction(yesAction)
+            alertController.addAction(noAction)
+        } else if type == .reset {
+            alertController.addAction(resetAction)
             alertController.addAction(noAction)
         } else {
             alertController.addAction(okAction)
@@ -751,6 +798,10 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
             preparePresenter(ofHeight: 0.7, ofWidth: 0.8)
         }
         
+        // Stop the task if it is currently running
+        timer.run.invalidate()
+        setImage(as: #imageLiteral(resourceName: "Play"))
+
         customPresentViewController(addPresenter, viewController: taskSettingsVC, animated: true, completion: nil)
     }
     

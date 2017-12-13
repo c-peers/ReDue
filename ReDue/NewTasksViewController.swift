@@ -9,12 +9,7 @@
 import UIKit
 import Chameleon
 import SkyFloatingLabelTextField
-
-enum AlertType {
-    case empty, duplicate
-    case missed, complete
-    case delete, upgradeNeeded
-}
+import Presentr
 
 class NewTasksViewController: UIViewController, UIScrollViewDelegate {
 
@@ -28,6 +23,7 @@ class NewTasksViewController: UIViewController, UIScrollViewDelegate {
     @IBOutlet weak var taskNameTextField: SkyFloatingLabelTextField!
     @IBOutlet weak var taskLengthTextField: SkyFloatingLabelTextField!
     @IBOutlet weak var occurrenceRateTextField: SkyFloatingLabelTextField!
+    @IBOutlet weak var alertTextField: SkyFloatingLabelTextField!
     
     @IBOutlet weak var sunday: UIButton!
     @IBOutlet weak var monday: UIButton!
@@ -46,8 +42,11 @@ class NewTasksViewController: UIViewController, UIScrollViewDelegate {
     var textFieldArray = [SkyFloatingLabelTextField]()
     var keyboardOffset:CGFloat = 0.0
     
+    var audioAlert: AudioAlert = .none
+    var vibrateAlert: VibrateAlert = .none
+    
     // For occurrence
-    var taskDays = [String]()
+    var taskDays = ["Sunday": false, "Monday": false, "Tuesday": false, "Wednesday": false, "Thursday": false, "Friday": false, "Saturday": false]
     
     // For pickerview
     var hours = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"]
@@ -71,7 +70,34 @@ class NewTasksViewController: UIViewController, UIScrollViewDelegate {
     
     var check = Check()
     
-    var navigationBar: UINavigationBar?
+    let addPresenter: Presentr = {
+        let width = ModalSize.fluid(percentage: 0.8)
+        let height = ModalSize.fluid(percentage: 0.8)
+        let center = ModalCenterPosition.center
+        let customType = PresentationType.custom(width: width, height: height, center: center)
+        
+        let customPresenter = Presentr(presentationType: customType)
+        //let customPresenter = Presentr(presentationType: .popup)
+        
+        customPresenter.transitionType = .coverVertical
+        customPresenter.dismissTransitionType = .coverVertical
+        customPresenter.roundCorners = true
+        customPresenter.cornerRadius = 10.0
+        customPresenter.backgroundColor = UIColor.lightGray
+        customPresenter.backgroundOpacity = 0.5
+        customPresenter.dismissOnSwipe = false
+        customPresenter.blurBackground = true
+        customPresenter.blurStyle = .regular
+        customPresenter.keyboardTranslationType = .moveUp
+        
+        let opacity: Float = 0.5
+        let offset = CGSize(width: 2.0, height: 2.0)
+        let radius = CGFloat(3.0)
+        let shadow = PresentrShadow(shadowColor: .black, shadowOpacity: opacity, shadowOffset: offset, shadowRadius: radius)
+        customPresenter.dropShadow = shadow
+        
+        return customPresenter
+    }()
 
     //MARK: - View and Basic Functions
     
@@ -80,11 +106,14 @@ class NewTasksViewController: UIViewController, UIScrollViewDelegate {
         super.viewDidLoad()
         
         // Array of textfields for easier setup and color changing
-        textFieldArray = [taskNameTextField, taskLengthTextField, occurrenceRateTextField]
+        textFieldArray = [taskNameTextField, taskLengthTextField, occurrenceRateTextField, alertTextField]
         
         for textField in textFieldArray {
             autoResizePlaceholderText(for: textField)
+            setDelegate(for: textField)
         }
+        
+        alertTextField.inputView = UIView()
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWasShown), name: NSNotification.Name.UIKeyboardDidShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillBeHidden), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
@@ -126,12 +155,9 @@ class NewTasksViewController: UIViewController, UIScrollViewDelegate {
         
         timePickerView.dataSource = self
         timePickerView.delegate = self
-        taskLengthTextField.delegate = self
         taskLengthTextField.inputView = timePickerView
         taskLengthTextField.inputAccessoryView = pickerToolBar
         
-        taskNameTextField.delegate = self
-
         //******************************
         // Occurrence rate start
         //******************************
@@ -145,7 +171,6 @@ class NewTasksViewController: UIViewController, UIScrollViewDelegate {
         frequencyPickerView.dataSource = self
         frequencyPickerView.delegate = self
         frequencyPickerView.tag = 1
-        occurrenceRateTextField.delegate = self
         occurrenceRateTextField.inputView = frequencyPickerView
         occurrenceRateTextField.inputAccessoryView = pickerToolBar
         //occurrenceRateTextField.inputAccessoryView = decimalPadToolBar
@@ -209,6 +234,10 @@ class NewTasksViewController: UIViewController, UIScrollViewDelegate {
                 label.adjustsFontSizeToFitWidth = true
             }
         }
+    }
+    
+    func setDelegate(for textField: SkyFloatingLabelTextField) {
+        textField.delegate = self
     }
     
     func setTheme() {
@@ -277,7 +306,7 @@ class NewTasksViewController: UIViewController, UIScrollViewDelegate {
             }
             
             let currentWeek = check.currentWeek
-            let newTask = Task(name: taskName, time: taskTime, days: taskDays, multiplier: 1.0, rollover: 0.0, frequency: taskFrequency, completed: 0.0, runWeek: currentWeek)
+            let newTask = Task(name: taskName, time: taskTime, days: taskDays, multiplier: 1.0, rollover: 0.0, frequency: taskFrequency, completed: 0.0, runWeek: currentWeek, audioAlert: audioAlert, vibrateAlert: vibrateAlert)
             
             //vc.initializeCheck()
             vc.check.ifTaskWillRunToday(newTask)
@@ -286,6 +315,35 @@ class NewTasksViewController: UIViewController, UIScrollViewDelegate {
             vc.taskNames.append(taskName)
 
         }
+    }
+    
+    func preparePresenter(ofHeight height: Float, ofWidth width: Float) {
+        let width = ModalSize.fluid(percentage: width)
+        let height = ModalSize.fluid(percentage: height)
+        let center = ModalCenterPosition.center
+        let customType = PresentationType.custom(width: width, height: height, center: center)
+        
+        addPresenter.presentationType = customType
+        
+    }
+    
+    func presentAlertSettingsVC() {
+        let alertSettingsViewController = self.storyboard?.instantiateViewController(withIdentifier: "AlertSettingsVC") as! AlertSettingsViewController
+        alertSettingsViewController.appData = appData
+        alertSettingsViewController.presentingVC = self
+
+        //        switch appData.deviceType {
+//        case .legacy:
+//            preparePresenter(ofHeight: 0.8, ofWidth: 0.9)
+//        case .normal:
+//            preparePresenter(ofHeight: 0.8, ofWidth: 0.8)
+//        case .large:
+//            preparePresenter(ofHeight: 0.7, ofWidth: 0.8)
+//        case .X:
+//            preparePresenter(ofHeight: 0.7, ofWidth: 0.8)
+//        }
+        
+        customPresentViewController(addPresenter, viewController: alertSettingsViewController, animated: true, completion: nil)
     }
     
     //MARK: - Button Actions/Functions
@@ -314,11 +372,11 @@ class NewTasksViewController: UIViewController, UIScrollViewDelegate {
     @IBAction func sundayTapped(_ sender: UIButton) {
 
         if sunday.tag == 0 {
-            taskDays.append("Sunday")
+            taskDays["Sunday"] = true
         } else {
-            taskDays = taskDays.filter { $0 != "Sunday" }
+            taskDays["Sunday"] = false
         }
-        
+
         buttonAction(for: sender)
         
     }
@@ -326,11 +384,11 @@ class NewTasksViewController: UIViewController, UIScrollViewDelegate {
     @IBAction func mondayTapped(_ sender: UIButton) {
 
         if monday.tag == 0 {
-            taskDays.append("Monday")
+            taskDays["Monday"] = true
         } else {
-            taskDays = taskDays.filter { $0 != "Monday" }
+            taskDays["Monday"] = false
         }
-        
+
         buttonAction(for: sender)
         
     }
@@ -338,9 +396,9 @@ class NewTasksViewController: UIViewController, UIScrollViewDelegate {
     @IBAction func tuesdayTapped(_ sender: UIButton) {
 
         if tuesday.tag == 0 {
-            taskDays.append("Tuesday")
+            taskDays["Tuesday"] = true
         } else {
-            taskDays = taskDays.filter { $0 != "Tuesday" }
+            taskDays["Tuesday"] = false
         }
         
         buttonAction(for: sender)
@@ -350,9 +408,9 @@ class NewTasksViewController: UIViewController, UIScrollViewDelegate {
     @IBAction func wednesdayTapped(_ sender: UIButton) {
 
         if wednesday.tag == 0 {
-            taskDays.append("Wednesday")
+            taskDays["Wednesday"] = true
         } else {
-            taskDays = taskDays.filter { $0 != "Wednesday" }
+            taskDays["Wednesday"] = false
         }
         
         buttonAction(for: sender)
@@ -362,9 +420,9 @@ class NewTasksViewController: UIViewController, UIScrollViewDelegate {
     @IBAction func thursdayTapped(_ sender: UIButton) {
 
         if thursday.tag == 0 {
-            taskDays.append("Thursday")
+            taskDays["Thursday"] = true
         } else {
-            taskDays = taskDays.filter { $0 != "Thursday" }
+            taskDays["Thursday"] = false
         }
         
         buttonAction(for: sender)
@@ -374,9 +432,9 @@ class NewTasksViewController: UIViewController, UIScrollViewDelegate {
     @IBAction func fridayTapped(_ sender: UIButton) {
 
         if friday.tag == 0 {
-            taskDays.append("Friday")
+            taskDays["Friday"] = true
         } else {
-            taskDays = taskDays.filter { $0 != "Friday" }
+            taskDays["Friday"] = false
         }
         
         buttonAction(for: sender)
@@ -386,9 +444,9 @@ class NewTasksViewController: UIViewController, UIScrollViewDelegate {
     @IBAction func saturdayTapped(_ sender: UIButton) {
 
         if saturday.tag == 0 {
-            taskDays.append("Saturday")
+            taskDays["Saturday"] = true
         } else {
-            taskDays = taskDays.filter { $0 != "Saturday" }
+            taskDays["Saturday"] = false
         }
         
         buttonAction(for: sender)
@@ -467,7 +525,7 @@ class NewTasksViewController: UIViewController, UIScrollViewDelegate {
         
     }
     
-    //MARK: - Keyoard Functions
+    //MARK: - Keyboard Functions
     
     func registerForKeyboardNotifications(){
         //Adding notifies on keyboard appearing
@@ -751,6 +809,10 @@ extension NewTasksViewController: UITextFieldDelegate {
     
     func textFieldDidBeginEditing(_ textField: UITextField){
         activeTextField = textField as? SkyFloatingLabelTextField
+        
+        if activeTextField == alertTextField {
+            presentAlertSettingsVC()
+        }
     }
     
     func textFieldDidEndEditing(_ textField: UITextField){

@@ -16,7 +16,7 @@ class Task: NSObject, NSCoding {
     // Basic task information
     var name = String()
     var time = 0.0
-    var days = [String]()
+    var days = [String: Bool]()
     var multiplier = 1.0
     var rollover = 0.0
     var weightedTime = 0.0
@@ -26,15 +26,17 @@ class Task: NSObject, NSCoding {
     @objc dynamic var completed = 0.0
     
     var runWeek = 0
-    
     var isToday = false
-    
     var isRunning = false
+    
+    var audioAlert: AudioAlert = .none
+    var vibrateAlert: VibrateAlert = .none
     
     // Cumulative statistics
     var totalTime = 0.0
     var missedTime = 0.0
     var completedTime = 0.0
+    var forfeitedTime = 0.0
     var totalDays = 0
     var fullDays = 0
     var partialDays = 0
@@ -73,6 +75,7 @@ class Task: NSObject, NSCoding {
         static let totalTimeKey = "totalTimeKey"
         static let missedTimeKey = "missedTimeKey"
         static let completedTimeKey = "completedTimeKey"
+        static let forfeitedTimeKey = "forfeitedTimeKey"
         static let totalDaysKey = "totalDaysKey"
         static let fullDaysKey = "fullDaysKey"
         static let partialDaysKey = "partialDaysKey"
@@ -85,6 +88,9 @@ class Task: NSObject, NSCoding {
         static let missedTimeHistoryKey = "missedTimeHistoryKey"
         static let completedTimeHistoryKey = "completedTimeHistoryKey"
         //static let previousDatesKey = "previousDatesKey"
+
+        static let audioAlertKey = "audioAlertKey"
+        static let vibrateAlertKey = "vibrateAlertKey"
 
     }
 
@@ -176,6 +182,15 @@ class Task: NSObject, NSCoding {
             
         }
                 
+    }
+    
+    func forfeitAccumulatedTime() {
+        
+        forfeitedTime += (weightedTime - time)
+        currentStreak = 0
+        
+        rollover = 0
+        setWeightedTime()
     }
     
     func addHistory(date: Date) {
@@ -285,7 +300,7 @@ class Task: NSObject, NSCoding {
             return nil
         }
 
-        guard let days = aDecoder.decodeObject(forKey: Key.daysKey) as? [String] else {
+        guard let days = aDecoder.decodeObject(forKey: Key.daysKey) as? [String: Bool] else {
             return nil
         }
         
@@ -316,24 +331,28 @@ class Task: NSObject, NSCoding {
         let completedTimeHistory = aDecoder.decodeObject(forKey: Key.completedTimeHistoryKey) as? [Date: Double] ?? [Date: Double]()
         //let previousDates = aDecoder.decodeObject(forKey: Key.previousDatesKey) as? [Date] ?? [Date]()
         
+        let audioAlert = aDecoder.decodeObject(forKey: Key.audioAlertKey) as? AudioAlert ?? .none
+        let vibrateAlert = aDecoder.decodeObject(forKey: Key.vibrateAlertKey) as? VibrateAlert ?? .none
+        
         // Must call designated initializer.
-        self.init(name: name, time: time, days: days, multiplier: multiplier, rollover: rollover, frequency: frequency, completed: completed, runWeek: runWeek, totalTime: totalTime, missedTime: missedTime, completedTime: completedTime, totalDays: totalDays, fullDays: fullDays, partialDays: partialDays, missedDays: missedDays, currentStreak: currentStreak, bestStreak: bestStreak, taskTimeHistory: taskTimeHistory, missedTimeHistory: missedTimeHistory, completedTimeHistory: completedTimeHistory)
+        self.init(name: name, time: time, days: days, multiplier: multiplier, rollover: rollover, frequency: frequency, completed: completed, runWeek: runWeek, totalTime: totalTime, missedTime: missedTime, completedTime: completedTime, totalDays: totalDays, fullDays: fullDays, partialDays: partialDays, missedDays: missedDays, currentStreak: currentStreak, bestStreak: bestStreak, taskTimeHistory: taskTimeHistory, missedTimeHistory: missedTimeHistory, completedTimeHistory: completedTimeHistory, audioAlert: audioAlert, vibrateAlert: vibrateAlert)
 
     }
     
     //MARK: - Init
     
     convenience override init() {
-        self.init(name: "", time: 0.0, days: [], multiplier: 0.0, rollover: 0.0, frequency: 0.0, completed: 0.0, runWeek: 0, totalTime: 0.0, missedTime: 0.0, completedTime: 0.0, totalDays: 0, fullDays: 0, partialDays: 0, missedDays: 0, currentStreak: 0, bestStreak: 0, taskTimeHistory: [Date: Double](), missedTimeHistory: [Date: Double](), completedTimeHistory: [Date: Double]())
+        let days = ["Sunday": false, "Monday": false, "Tuesday": false, "Wednesday": false, "Thursday": false, "Friday": false, "Saturday": false]
+        self.init(name: "", time: 0.0, days: days, multiplier: 0.0, rollover: 0.0, frequency: 0.0, completed: 0.0, runWeek: 0, totalTime: 0.0, missedTime: 0.0, completedTime: 0.0, totalDays: 0, fullDays: 0, partialDays: 0, missedDays: 0, currentStreak: 0, bestStreak: 0, taskTimeHistory: [Date: Double](), missedTimeHistory: [Date: Double](), completedTimeHistory: [Date: Double](), audioAlert: .none, vibrateAlert: .none)
     }
     
-    convenience init(name: String, time: Double, days: [String], multiplier: Double, rollover: Double, frequency: Double, completed: Double, runWeek: Int) {
+    convenience init(name: String, time: Double, days: [String: Bool], multiplier: Double, rollover: Double, frequency: Double, completed: Double, runWeek: Int, audioAlert: AudioAlert, vibrateAlert: VibrateAlert) {
         
-        self.init(name: name, time: time, days: days, multiplier: multiplier, rollover: rollover, frequency: frequency, completed: completed, runWeek: runWeek, totalTime: 0.0, missedTime: 0.0, completedTime: 0.0, totalDays: 0, fullDays: 0, partialDays: 0, missedDays: 0, currentStreak: 0, bestStreak: 0, taskTimeHistory: [Date: Double](), missedTimeHistory: [Date: Double](), completedTimeHistory: [Date: Double]())
+        self.init(name: name, time: time, days: days, multiplier: multiplier, rollover: rollover, frequency: frequency, completed: completed, runWeek: runWeek, totalTime: 0.0, missedTime: 0.0, completedTime: 0.0, totalDays: 0, fullDays: 0, partialDays: 0, missedDays: 0, currentStreak: 0, bestStreak: 0, taskTimeHistory: [Date: Double](), missedTimeHistory: [Date: Double](), completedTimeHistory: [Date: Double](), audioAlert: audioAlert, vibrateAlert: vibrateAlert)
         
     }
     
-    init(name: String, time: Double, days: [String], multiplier: Double, rollover: Double, frequency: Double, completed: Double, runWeek: Int, totalTime: Double, missedTime: Double, completedTime: Double, totalDays: Int, fullDays: Int, partialDays: Int, missedDays: Int, currentStreak: Int, bestStreak: Int, taskTimeHistory: [Date: Double], missedTimeHistory: [Date: Double], completedTimeHistory: [Date: Double]) {
+    init(name: String, time: Double, days: [String: Bool], multiplier: Double, rollover: Double, frequency: Double, completed: Double, runWeek: Int, totalTime: Double, missedTime: Double, completedTime: Double, totalDays: Int, fullDays: Int, partialDays: Int, missedDays: Int, currentStreak: Int, bestStreak: Int, taskTimeHistory: [Date: Double], missedTimeHistory: [Date: Double], completedTimeHistory: [Date: Double], audioAlert: AudioAlert, vibrateAlert: VibrateAlert) {
         
         self.name = name
         self.time = time
@@ -362,6 +381,9 @@ class Task: NSObject, NSCoding {
         self.missedTimeHistory = missedTimeHistory
         self.completedTimeHistory = completedTimeHistory
         //self.previousDates = previousDates
+        
+        self.audioAlert = audioAlert
+        self.vibrateAlert = vibrateAlert
 
     }
     

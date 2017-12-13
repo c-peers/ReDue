@@ -9,6 +9,7 @@
 import UIKit
 import KDCircularProgress
 import SwiftyBeaver
+import Chameleon
 
 class TaskCollectionViewCell: UICollectionViewCell {
 
@@ -19,6 +20,7 @@ class TaskCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var progressView: UIProgressView!
     @IBOutlet weak var buttonBackground: UIImageView!
     @IBOutlet weak var circleProgressView: KDCircularProgress!
+    @IBOutlet weak var nextRunLabel: UILabel!
     
     weak var mainVC = TaskViewController()
     var appData = AppData()
@@ -217,6 +219,14 @@ class TaskCollectionViewCell: UICollectionViewCell {
         timer.firedFromMainVC = false
         task.isRunning = false
         
+        if task.vibrateAlert != .none {
+            timer.vibrate(for: task)
+        }
+        
+        if task.audioAlert != .none {
+            timer.playAudio(for: task)
+        }
+        
         timer.endTime = Date().timeIntervalSince1970
         
         var elapsedTime = (timer.endTime - timer.startTime).rounded()
@@ -257,9 +267,9 @@ class TaskCollectionViewCell: UICollectionViewCell {
     func setImage(as image: UIImage) {
         let stencil = image.withRenderingMode(.alwaysTemplate)
         playStopButton.setImage(stencil, for: .normal)
-        playStopButton.tintColor = appData.appColor
+        playStopButton.tintColor = FlatWhite()
         
-        buttonBackground.alpha = 0.0
+        //buttonBackground.alpha = 0.0
     }
     
     func calculateProgress(ofType type: CellType) {

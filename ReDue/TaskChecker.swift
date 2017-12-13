@@ -48,7 +48,7 @@ class Check {
         let dayOfWeekString = dayFor(date)
         print("Today is \(dayOfWeekString)")
         
-        return task.days.contains(dayOfWeekString)
+        return task.days[dayOfWeekString]!
         
     }
     

@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C406B9231FD6269300CEA02C /* Corsica.wav in Resources */ = {isa = PBXBuildFile; fileRef = C406B91F1FD6269200CEA02C /* Corsica.wav */; };
+		C406B9241FD6269300CEA02C /* Nuclear.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = C406B9201FD6269200CEA02C /* Nuclear.mp3 */; };
+		C406B9251FD6269300CEA02C /* School_Bell.wav in Resources */ = {isa = PBXBuildFile; fileRef = C406B9211FD6269200CEA02C /* School_Bell.wav */; };
+		C406B9261FD6269300CEA02C /* Short_Buzzer.wav in Resources */ = {isa = PBXBuildFile; fileRef = C406B9221FD6269200CEA02C /* Short_Buzzer.wav */; };
+		C458B9141FCD3E1F009CB2FD /* DynamicTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C458B9131FCD3E1F009CB2FD /* DynamicTable.swift */; };
+		C458B9161FCD3F47009CB2FD /* AlertSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C458B9151FCD3F47009CB2FD /* AlertSettingsViewController.swift */; };
+		C45E62CD1FCEE8C90074D90C /* Enums.swift in Sources */ = {isa = PBXBuildFile; fileRef = C45E62CC1FCEE8C90074D90C /* Enums.swift */; };
 		C475C2BA1FB1574C00ADA21D /* ReDue.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C475C2B81FB1574C00ADA21D /* ReDue.xcdatamodeld */; };
 		C475C2BC1FB1574C00ADA21D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C475C2BB1FB1574C00ADA21D /* Assets.xcassets */; };
 		C475C2CA1FB1574C00ADA21D /* ReDueTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C475C2C91FB1574C00ADA21D /* ReDueTests.swift */; };
@@ -253,6 +260,13 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		C406B91F1FD6269200CEA02C /* Corsica.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Corsica.wav; sourceTree = "<group>"; };
+		C406B9201FD6269200CEA02C /* Nuclear.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Nuclear.mp3; sourceTree = "<group>"; };
+		C406B9211FD6269200CEA02C /* School_Bell.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = School_Bell.wav; sourceTree = "<group>"; };
+		C406B9221FD6269200CEA02C /* Short_Buzzer.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Short_Buzzer.wav; sourceTree = "<group>"; };
+		C458B9131FCD3E1F009CB2FD /* DynamicTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DynamicTable.swift; sourceTree = "<group>"; };
+		C458B9151FCD3F47009CB2FD /* AlertSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertSettingsViewController.swift; sourceTree = "<group>"; };
+		C45E62CC1FCEE8C90074D90C /* Enums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enums.swift; sourceTree = "<group>"; };
 		C475C2AE1FB1574C00ADA21D /* ReDue.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ReDue.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C475C2B91FB1574C00ADA21D /* ReDue.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ReDue.xcdatamodel; sourceTree = "<group>"; };
 		C475C2BB1FB1574C00ADA21D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -335,6 +349,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		C406B91E1FD6269200CEA02C /* Sounds */ = {
+			isa = PBXGroup;
+			children = (
+				C406B91F1FD6269200CEA02C /* Corsica.wav */,
+				C406B9201FD6269200CEA02C /* Nuclear.mp3 */,
+				C406B9211FD6269200CEA02C /* School_Bell.wav */,
+				C406B9221FD6269200CEA02C /* Short_Buzzer.wav */,
+			);
+			path = Sounds;
+			sourceTree = "<group>";
+		};
 		C475C2A51FB1574C00ADA21D = {
 			isa = PBXGroup;
 			children = (
@@ -368,11 +393,13 @@
 				C475C36C1FB193EE00ADA21D /* GoogleMobileAds.framework */,
 				C475C2BB1FB1574C00ADA21D /* Assets.xcassets */,
 				C475C2FA1FB1580C00ADA21D /* Images.xcassets */,
+				C406B91E1FD6269200CEA02C /* Sounds */,
 				C475C2F81FB1580C00ADA21D /* AppDelegate.swift */,
 				C475C2F41FB1580B00ADA21D /* Task.swift */,
 				C475C2F61FB1580B00ADA21D /* AppData.swift */,
 				C475C2ED1FB1580A00ADA21D /* DataHandler.swift */,
 				C475C2E91FB1580A00ADA21D /* Singleton.swift */,
+				C45E62CC1FCEE8C90074D90C /* Enums.swift */,
 				C4A510211FBD77300012D3C1 /* ModalInfoView.xib */,
 				C4A510231FBD7B0D0012D3C1 /* ModalInfoView.swift */,
 				C475C3C21FB34ACD00ADA21D /* IAPHelper.swift */,
@@ -381,6 +408,8 @@
 				C475C2E41FB1580A00ADA21D /* SettingsVCs */,
 				C475C3161FB1587500ADA21D /* LaunchScreen.storyboard */,
 				C475C3181FB1587500ADA21D /* Main.storyboard */,
+				C458B9151FCD3F47009CB2FD /* AlertSettingsViewController.swift */,
+				C458B9131FCD3E1F009CB2FD /* DynamicTable.swift */,
 				C475C2EC1FB1580A00ADA21D /* TaskChecker.swift */,
 				C475C2E31FB1580A00ADA21D /* ViewController.swift */,
 				C475C2FB1FB1580C00ADA21D /* NewTasksViewController.swift */,
@@ -763,9 +792,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C406B9241FD6269300CEA02C /* Nuclear.mp3 in Resources */,
 				C475C31B1FB1587500ADA21D /* Main.storyboard in Resources */,
 				C4A510221FBD77300012D3C1 /* ModalInfoView.xib in Resources */,
+				C406B9261FD6269300CEA02C /* Short_Buzzer.wav in Resources */,
+				C406B9251FD6269300CEA02C /* School_Bell.wav in Resources */,
 				C475C30F1FB1580D00ADA21D /* TaskCollectionViewCell.xib in Resources */,
+				C406B9231FD6269300CEA02C /* Corsica.wav in Resources */,
 				C475C3131FB1580D00ADA21D /* TaskCircleProgressCollectionViewCell.xib in Resources */,
 				C475C2BC1FB1574C00ADA21D /* Assets.xcassets in Resources */,
 				C475C31A1FB1587500ADA21D /* LaunchScreen.storyboard in Resources */,
@@ -798,6 +831,7 @@
 				C4A510241FBD7B0D0012D3C1 /* ModalInfoView.swift in Sources */,
 				C475C3091FB1580D00ADA21D /* TimePicker.swift in Sources */,
 				C475C2FF1FB1580D00ADA21D /* ViewController.swift in Sources */,
+				C458B9161FCD3F47009CB2FD /* AlertSettingsViewController.swift in Sources */,
 				C475C3081FB1580D00ADA21D /* DataHandler.swift in Sources */,
 				C475C3141FB1580D00ADA21D /* TaskDetailViewController.swift in Sources */,
 				C4A510201FB959BF0012D3C1 /* AppSettingsVCBackup.swift in Sources */,
@@ -812,6 +846,8 @@
 				C475C3011FB1580D00ADA21D /* ColorSettingsViewController.swift in Sources */,
 				C475C3001FB1580D00ADA21D /* AppSettingsViewController.swift in Sources */,
 				C475C30C1FB1580D00ADA21D /* Task.swift in Sources */,
+				C458B9141FCD3E1F009CB2FD /* DynamicTable.swift in Sources */,
+				C45E62CD1FCEE8C90074D90C /* Enums.swift in Sources */,
 				C475C3071FB1580D00ADA21D /* TaskChecker.swift in Sources */,
 				C475C3061FB1580D00ADA21D /* TaskCollectionViewCell.swift in Sources */,
 				C475C3031FB1580D00ADA21D /* ResetTimeSettingsViewController.swift in Sources */,

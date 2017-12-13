@@ -8,6 +8,7 @@
 
 import Foundation
 import UserNotifications
+import AVFoundation
 
 class CountdownTimer: NSObject {
     
@@ -128,14 +129,65 @@ class CountdownTimer: NSObject {
 //
 //    }
     
+    // MARK: - Audio and Vibration Functions
+    
+    func vibrate(for task: Task) {
+        _ = task.vibrateAlert.run
+    }
+    
+    func playAudio(for task: Task) {
+        
+        guard let periodIndex = task.audioAlert.rawValue.index(of: ".") else { return }
+        let indexAfterPeriod = task.audioAlert.rawValue.index(after: periodIndex)
+        let fileName = task.audioAlert.rawValue[..<periodIndex]
+        let fileType = task.audioAlert.rawValue[indexAfterPeriod...]//.suffix(from: periodIndex)
+        
+        //var player : AVAudioPlayer?
+        let path = Bundle.main.path(forResource: String(fileName), ofType: String(fileType), inDirectory: "Sounds")
+        let url = URL(fileURLWithPath: path!)
+        
+        do {
+            let sound = try AVAudioPlayer(contentsOf: url)
+            //player = sound
+            sound.numberOfLoops = 1
+            sound.prepareToPlay()
+            sound.play()
+        } catch {
+            print("error loading file")
+        }
+        
+    }
+    
+    func setAlertText(for audio: AudioAlert, and vibrate: VibrateAlert) -> String {
+        
+        var alertText = String()
+        if audio != .none {
+            guard let periodIndex = audio.rawValue.index(of: ".") else { return "" }
+            let name = audio.rawValue.prefix(upTo: periodIndex).replacingOccurrences(of: "_", with: " ")
+            alertText = "Play " + name
+        }
+        
+        if vibrate != .none {
+            alertText += (audio != .none) ? " and " : ""
+            alertText += String(describing: vibrate) + " vibration"
+        }
+        
+        if alertText.isEmpty {
+            alertText = "None"
+        }
+        
+        return alertText
+        
+    }
+    
     // MARK: - Notification Functions
     
     func setFinishedNotification(for task: String, atTime time: Double) {
         
         let randomSeed = Int(arc4random_uniform(14) % 7)
         let notification = UNMutableNotificationContent()
-        notification.title = getAlertTitle(forType: .missed, withSeed: randomSeed)
-        notification.body = getAlertBody(forType: .missed, withSeed: randomSeed, for: task)
+        notification.title = getAlertTitle(forType: .complete, withSeed: randomSeed)
+        notification.body = getAlertBody(forType: .complete, withSeed: randomSeed, for: task)
 
         let id = task + "Complete"
         let notificationTrigger = UNTimeIntervalNotificationTrigger(timeInterval: time, repeats: false)

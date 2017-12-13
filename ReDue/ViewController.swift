@@ -13,11 +13,6 @@ import GoogleMobileAds
 import Presentr
 import SwiftyBeaver
 
-enum CellType {
-    case circular
-    case line
-}
-
 class TaskViewController: UIViewController, GADBannerViewDelegate {
 
     //MARK: - Outlets
@@ -296,12 +291,12 @@ class TaskViewController: UIViewController, GADBannerViewDelegate {
         
     }
     
-    func setImage(as image: UIImage, forCell cell: TaskCollectionViewCell) {
-        let stencil = image.withRenderingMode(.alwaysTemplate)
-        cell.playStopButton.setImage(stencil, for: .normal)
-        cell.playStopButton.tintColor = FlatWhite() //appData.appColor
-        
-        cell.buttonBackground.alpha = 0.0
+//    func setImage(as image: UIImage, forCell cell: TaskCollectionViewCell) {
+//        let stencil = image.withRenderingMode(.alwaysTemplate)
+//        cell.playStopButton.setImage(stencil, for: .normal)
+//        cell.playStopButton.tintColor = FlatWhite() //appData.appColor
+    
+        //cell.buttonBackground.alpha = 0.0
         
 //        var playBackground = image.resizeImageWith(ratio: 1.2)
 //
@@ -319,7 +314,7 @@ class TaskViewController: UIViewController, GADBannerViewDelegate {
 //            cell.playStopButton.tintColor = .black
 //        }
         
-    }
+//    }
     
     func setTask(as task: String) -> Task {
         return tasks.first(where: { $0.name == task })!
@@ -359,7 +354,7 @@ class TaskViewController: UIViewController, GADBannerViewDelegate {
             
             cell.taskTimeRemaining.text = "Complete"
             
-            setImage(as: #imageLiteral(resourceName: "Play"), forCell: cell)
+            //setImage(as: #imageLiteral(resourceName: "Play"), forCell: cell)
             cell.playStopButton.isEnabled = false
             
             cell.timer.cancelMissedTimeNotification(for: taskName)
@@ -491,6 +486,7 @@ class TaskViewController: UIViewController, GADBannerViewDelegate {
                 if let cell = taskCells.first(where: { $0.taskNameField.text == task.name }) {
                     let (remainingTimeString,_) = cell.formatTimer(for: task)
                     cell.timer.setMissedTimeNotification(for: task.name, at: timeToReset, withRemaining: remainingTimeString)
+                    cell.nextRunLabel.isHidden = true
                 }
             }
             
@@ -615,63 +611,63 @@ class TaskViewController: UIViewController, GADBannerViewDelegate {
     
     //@IBAction func taskStartStopButtonPressed(_ sender: UIButton) {
     @objc func taskStartStopButtonPressed(sender: UIButton) {
-        guard let cell = sender.superview?.superview as? TaskCollectionViewCell else {
-            return
-        }
-        
-        let id = cell.reuseIdentifier
-        
-        let taskName = cell.taskNameField.text!
-        let task = setTask(as: taskName)
-        
-        if !cell.timer.isEnabled {
-            
-            task.isRunning = true
-            cell.timer.isEnabled = true
-            cell.timer.firedFromMainVC = true
-            
-            setImage(as: #imageLiteral(resourceName: "Pause"), forCell: cell)
-            
-            let weightedTime = task.weightedTime
-            let elapsedTime = task.completed
-            let remainingTime = weightedTime - elapsedTime
-            
-            if id == "taskCollectionCell_Circle" {
-                
-                let currentProgress = 1 - remainingTime/weightedTime
-                let currentAngle = currentProgress * 360
-                
-                cell.circleProgressView.animate(fromAngle: currentAngle, toAngle: 359.9, duration: remainingTime as TimeInterval, relativeDuration: true, completion: nil)
-            }
-            
-            cell.timer.startTime = Date().timeIntervalSince1970
-            
-            selectedCell = cell
-            
-            cell.timer.setFinishedNotification(for: task.name, atTime: remainingTime)
-            cell.timer.run = Timer.scheduledTimer(timeInterval: 1.0, target: cell,
-                                                 selector: #selector(TaskCollectionViewCell.timerRunning), userInfo: nil,
-                                                 repeats: true)
-            
-            
-        } else {
-            
-            setImage(as: #imageLiteral(resourceName: "Play"), forCell: cell)
-            
-            if id == "taskCollectionCell_Circle" {
-                timerStopped(for: task, ofType: .circular)
-            } else {
-                timerStopped(for: task, ofType: .line)
-            }
-            
-            cell.timer.cancelFinishedNotification(for: task.name)
-            
-            if willResetTasks {
-                resetTaskTimers()
-            }
-            
-        }
-        
+//        guard let cell = sender.superview?.superview as? TaskCollectionViewCell else {
+//            return
+//        }
+//
+//        let id = cell.reuseIdentifier
+//
+//        let taskName = cell.taskNameField.text!
+//        let task = setTask(as: taskName)
+//
+//        if !cell.timer.isEnabled {
+//
+//            task.isRunning = true
+//            cell.timer.isEnabled = true
+//            cell.timer.firedFromMainVC = true
+//
+//            setImage(as: #imageLiteral(resourceName: "Pause"), forCell: cell)
+//
+//            let weightedTime = task.weightedTime
+//            let elapsedTime = task.completed
+//            let remainingTime = weightedTime - elapsedTime
+//
+//            if id == "taskCollectionCell_Circle" {
+//
+//                let currentProgress = 1 - remainingTime/weightedTime
+//                let currentAngle = currentProgress * 360
+//
+//                cell.circleProgressView.animate(fromAngle: currentAngle, toAngle: 359.9, duration: remainingTime as TimeInterval, relativeDuration: true, completion: nil)
+//            }
+//
+//            cell.timer.startTime = Date().timeIntervalSince1970
+//
+//            selectedCell = cell
+//
+//            cell.timer.setFinishedNotification(for: task.name, atTime: remainingTime)
+//            cell.timer.run = Timer.scheduledTimer(timeInterval: 1.0, target: cell,
+//                                                 selector: #selector(TaskCollectionViewCell.timerRunning), userInfo: nil,
+//                                                 repeats: true)
+//
+//
+//        } else {
+//
+//            setImage(as: #imageLiteral(resourceName: "Play"), forCell: cell)
+//
+//            if id == "taskCollectionCell_Circle" {
+//                timerStopped(for: task, ofType: .circular)
+//            } else {
+//                timerStopped(for: task, ofType: .line)
+//            }
+//
+//            cell.timer.cancelFinishedNotification(for: task.name)
+//
+//            if willResetTasks {
+//                resetTaskTimers()
+//            }
+//
+//        }
+//
     }
     
    //MARK: - Data Handling
@@ -705,7 +701,7 @@ class TaskViewController: UIViewController, GADBannerViewDelegate {
             
             for cell in cells {
                 if cell.timer.isEnabled {
-                    setImage(as: #imageLiteral(resourceName: "Play"), forCell: cell)
+                    cell.setImage(as: #imageLiteral(resourceName: "Play"))
                     cell.timer.run.invalidate()
                 }
             }
@@ -897,6 +893,7 @@ extension TaskViewController: UICollectionViewDelegate, UICollectionViewDataSour
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
+        getTaskNames()
         let taskName = taskNames[indexPath.row]
         let task = setTask(as: taskName)
         
@@ -910,9 +907,9 @@ extension TaskViewController: UICollectionViewDelegate, UICollectionViewDataSour
     
     func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         
-        if let cell = cell as? TaskCollectionViewCell {
+        //if let cell = cell as? TaskCollectionViewCell {
             //cell.removeObserver()
-        }
+        //}
     }
     
     //MARK: CollectionView Helper Functions
@@ -971,6 +968,7 @@ extension TaskViewController: UICollectionViewDelegate, UICollectionViewDataSour
     
     func setupCollectionCell(for cell: TaskCollectionViewCell, ofType type: CellType, at indexPath: IndexPath) {
         
+        getTaskNames()
         let taskName = taskNames[indexPath.row]
         let task = setTask(as: taskName)
         
@@ -990,9 +988,9 @@ extension TaskViewController: UICollectionViewDelegate, UICollectionViewDataSour
         }
         
         if cell.timer.isEnabled && task.isRunning, let _ = selectedTask?.name {
-            setImage(as: #imageLiteral(resourceName: "Pause"), forCell: cell)
+            cell.setImage(as: #imageLiteral(resourceName: "Pause"))
         } else {
-            setImage(as: #imageLiteral(resourceName: "Play"), forCell: cell)
+            cell.setImage(as: #imageLiteral(resourceName: "Play"))
         }
         
         //let gradientBackground = GradientColor(.leftToRight, frame: cell.frame, colors: [UIColor.flatSkyBlue, UIColor.flatSkyBlueDark])
@@ -1004,11 +1002,15 @@ extension TaskViewController: UICollectionViewDelegate, UICollectionViewDataSour
         cell.buttonBackground.backgroundColor = cellBGColor.darken(byPercentage: 0.2)
         cell.buttonBackground.layer.cornerRadius = cell.buttonBackground.frame.size.width / 2
         cell.buttonBackground.clipsToBounds = true
-        cell.buttonBackground.addSubview(cell.playStopButton)
+        //cell.buttonBackground.addSubview(cell.playStopButton)
+        
+        //cell.playStopButton.addSubview(cell.buttonBackground)
+        //cell.playStopButton.sendSubview(toBack: cell.buttonBackground)
         
         cell.backgroundColor = cellBGColor
         cell.taskNameField.textColor = ContrastColorOf(cellBGColor, returnFlat: true)
         cell.taskTimeRemaining.textColor = ContrastColorOf(cellBGColor, returnFlat: true)
+        cell.nextRunLabel.textColor = ContrastColorOf(cellBGColor, returnFlat: true)
 //        if appData.darknessCheck(for: cellBGColor) {
 //            cell.taskNameField.textColor = .white
 //            cell.taskTimeRemaining.textColor = .white
@@ -1077,6 +1079,7 @@ extension TaskViewController: UICollectionViewDelegate, UICollectionViewDataSour
             if check.access(for: task, upTo: now) {
                 saveData()
             }
+            cell.nextRunLabel.isHidden = true
         } else {
             cell.playStopButton.isHidden = true
             cell.buttonBackground.alpha = 0
@@ -1084,8 +1087,68 @@ extension TaskViewController: UICollectionViewDelegate, UICollectionViewDataSour
             //cell.progressView.isHidden = true
         }
         
+        if !task.isToday {
+            debug(cell, task)
+        }
+        
     }
     
+    func debug(_ cell: TaskCollectionViewCell, _ task: Task) {
+        
+        let nextRunWeek = task.runWeek
+        var nextRunDay = "EMPTY"
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "EEEE"
+        let currentDateString = dateFormatter.string(from: Date())
+        
+        let days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+        
+        var reindexedDays = [String]()
+        
+        guard let todayIndex = days.index(of: currentDateString) else { return }
+        for i in 0..<days.count {
+            reindexedDays.append(days[(todayIndex + i) % days.count])
+        }
+        
+        var daysFromNow = 1
+        
+        for i in 0..<reindexedDays.count {
+            
+            daysFromNow = i
+            if task.days[reindexedDays[i]]! {
+                nextRunDay = reindexedDays[i]
+                break
+            }
+        }
+        
+        let calendar = Calendar.current
+        var calculatedNextRunDay = calendar.date(byAdding: .day, value: daysFromNow, to:
+            Date())
+        
+        var runWeek = task.runWeek
+        let thatWeek = calendar.dateComponents([.weekOfYear], from: calculatedNextRunDay!)
+        if runWeek != thatWeek.weekOfYear {
+            runWeek += Int(task.frequency)
+            calculatedNextRunDay = calendar.date(byAdding: .weekOfYear, value: (runWeek - thatWeek.weekOfYear!), to: calculatedNextRunDay!)
+        }
+
+        dateFormatter.dateFormat = "MM/dd"
+        let mmdd = dateFormatter.string(from: calculatedNextRunDay!)
+        print(calculatedNextRunDay!)
+        
+//        var comps = calendar.dateComponents([.weekOfYear, .yearForWeekOfYear], from: Date())
+//        comps.weekday = 2 // Monday
+//        let mondayInWeek = calendar.date(from: comps)!
+        
+        dateFormatter.dateFormat = "EEEE"
+        if nextRunDay == dateFormatter.string(from: calculatedNextRunDay!) {
+            cell.nextRunLabel.text = "Next run: \(nextRunDay) \(mmdd)"
+            cell.nextRunLabel.isHidden = false
+
+        }
+        
+    }
 }
 
 //MARK: - Progress View Height Extension

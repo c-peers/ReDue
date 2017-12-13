@@ -9,13 +9,6 @@
 import Foundation
 import Chameleon
 
-enum DeviceType {
-    case legacy
-    case normal
-    case large
-    case X
-}
-
 class AppData: NSObject, NSCoding {
 
     //MARK: - Properties

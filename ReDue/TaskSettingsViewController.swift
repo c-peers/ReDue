@@ -10,6 +10,7 @@ import UIKit
 import Chameleon
 import SkyFloatingLabelTextField
 import SwiftyBeaver
+import Presentr
 
 class TaskSettingsViewController: UIViewController {
 
@@ -21,6 +22,7 @@ class TaskSettingsViewController: UIViewController {
     @IBOutlet weak var taskNameTextField: SkyFloatingLabelTextField!
     @IBOutlet weak var taskLengthTextField: SkyFloatingLabelTextField!
     @IBOutlet weak var occurrenceRateTextField: SkyFloatingLabelTextField!
+    @IBOutlet weak var alertTextField: SkyFloatingLabelTextField!
 
     @IBOutlet weak var occurrenceLabel: UILabel!
 
@@ -44,15 +46,19 @@ class TaskSettingsViewController: UIViewController {
     var task = Task()
     var taskName = ""
     var taskTime = 0.0
-    var taskDays = [""]
+    var taskDays = ["Sunday": false, "Monday": false, "Tuesday": false, "Wednesday": false, "Thursday": false, "Friday": false, "Saturday": false]
     var frequency = 0.0
     var multiplier = 1.0
+    var audio: AudioAlert = .none
+    var vibrate: VibrateAlert = .none
     
     var originalTime = 0.0
-    var originalDays = [""]
+    var originalDays = ["Sunday": false, "Monday": false, "Tuesday": false, "Wednesday": false, "Thursday": false, "Friday": false, "Saturday": false]
     var originalFrequency = 0.0
     var originalMultiplier = 0.0
-    
+    var originalAudio: AudioAlert = .none
+    var originalVibrate: VibrateAlert = .none
+
     var valuesChanged = false
     
     var appData = AppData()
@@ -83,19 +89,51 @@ class TaskSettingsViewController: UIViewController {
     var frequencyPickerView = UIPickerView()
     let pickerViewDatasource = TaskTimePicker()
     
+    let addPresenter: Presentr = {
+        let width = ModalSize.fluid(percentage: 0.8)
+        let height = ModalSize.fluid(percentage: 0.8)
+        let center = ModalCenterPosition.center
+        let customType = PresentationType.custom(width: width, height: height, center: center)
+        
+        let customPresenter = Presentr(presentationType: customType)
+        //let customPresenter = Presentr(presentationType: .popup)
+        
+        customPresenter.transitionType = .coverVertical
+        customPresenter.dismissTransitionType = .coverVertical
+        customPresenter.roundCorners = true
+        customPresenter.cornerRadius = 10.0
+        customPresenter.backgroundColor = UIColor.lightGray
+        customPresenter.backgroundOpacity = 0.5
+        customPresenter.dismissOnSwipe = false
+        customPresenter.blurBackground = true
+        customPresenter.blurStyle = .regular
+        customPresenter.keyboardTranslationType = .moveUp
+        
+        let opacity: Float = 0.5
+        let offset = CGSize(width: 2.0, height: 2.0)
+        let radius = CGFloat(3.0)
+        let shadow = PresentrShadow(shadowColor: .black, shadowOpacity: opacity, shadowOffset: offset, shadowRadius: radius)
+        customPresenter.dropShadow = shadow
+        
+        return customPresenter
+    }()
+    
     //MARK: - View and Basic Functions
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         // Array of textfields for easier setup and color changing
-        textFieldArray = [taskNameTextField, taskLengthTextField, occurrenceRateTextField]
+        textFieldArray = [taskNameTextField, taskLengthTextField, occurrenceRateTextField, alertTextField]
         
         setTheme()
 
         taskNameTextField.delegate = self
         taskLengthTextField.delegate = self
         occurrenceRateTextField.delegate = self
+        alertTextField.delegate = self
+        
+        alertTextField.inputView = UIView()
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWasShown), name: NSNotification.Name.UIKeyboardDidShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillBeHidden), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
@@ -185,7 +223,11 @@ class TaskSettingsViewController: UIViewController {
         let daysChanged = (taskDays == originalDays) ? false : true
         var frequencyChanged = (frequency == originalFrequency) ? false : true
         let rolloverChanged = (multiplier == originalMultiplier) ? false : true
-
+        var alertsChanged = (audio == originalAudio && vibrate == originalVibrate) ? false : true
+        
+        print(taskDays)
+        print(originalDays)
+        
         if let string = newString, let textField = field {
             
             let text = textField.text! + string
@@ -197,13 +239,15 @@ class TaskSettingsViewController: UIViewController {
                 nameChanged = !compare(taskLengthTextField, with: text)
             case taskLengthTextField:
                 timeChanged = !compare(occurrenceRateTextField, with: text)
+            case alertTextField:
+                alertsChanged = !compare(alertTextField, with: text)
             default:
                 break
             }
             
         }
         
-        let finalCheck = nameChanged || timeChanged || daysChanged || frequencyChanged || rolloverChanged
+        let finalCheck = nameChanged || timeChanged || daysChanged || frequencyChanged || rolloverChanged || alertsChanged
         print(finalCheck)
         
         if finalCheck {
@@ -233,7 +277,9 @@ class TaskSettingsViewController: UIViewController {
         let daysChanged = (taskDays == originalDays) ? false : true
         let frequencyChanged = (frequency == originalFrequency) ? false : true
         let rolloverChanged = (multiplier == originalMultiplier) ? false : true
-
+        let audioAlertChanged = (audio == originalAudio) ? false : true
+        let vibrateAlertChanged = (vibrate == originalVibrate) ? false : true
+        
         // Some fuckery to get the parent VC
         let nav = self.presentingViewController as? UINavigationController
         let i = nav?.viewControllers.count
@@ -258,13 +304,12 @@ class TaskSettingsViewController: UIViewController {
             
             let check = Check()
             let today = check.dayFor(Date())
-            let removedDay = task.days.filter{ item in !taskDays.contains(item) }
-            if task.isToday && removedDay.contains(today) {
+            
+            if task.isToday && task.days[today] != originalDays[today] && originalDays[today] == true {
                 task.removeHistory(date: Date())
             }
             
-            let addedDay = taskDays.filter{ item in !task.days.contains(item) }
-            if addedDay.contains(today) {
+            if task.days[today] != originalDays[today] && originalDays[today] == false {
                 _ = vc.check.access(for: task, upTo: Date())
             }
             
@@ -287,6 +332,14 @@ class TaskSettingsViewController: UIViewController {
             log.info("Task time changed to \(task.time)")
             log.info("New weighted time is \(task.weightedTime)")
         }
+        
+        if audioAlertChanged {
+            task.audioAlert = audio
+        }
+        
+        if vibrateAlertChanged {
+            task.vibrateAlert = vibrate
+        }
 
         //        if let frequency = occurrenceRateTextField.text {
 //            taskData.taskFrequency = Double(frequency)!
@@ -301,6 +354,17 @@ class TaskSettingsViewController: UIViewController {
         vc.checkTask()
         vc.taskChartSetup()
         vc.loadChartData()
+        
+        //let rootVC = self.navigationController?.viewControllers.first as! TaskViewController
+        let rootVC = nav?.viewControllers.first as! TaskViewController
+
+        guard let taskIndex = rootVC.tasks.index(of: task) else { return }
+        let indexPath = IndexPath(item: taskIndex, section: 0)
+        rootVC.taskList.reloadItems(at: [indexPath])
+        //let indexPath = vc.taskList.indexPath(for: cell)
+        //let cell = vc.taskList.cellForItem(at: indexPath) as! TaskCollectionViewCell
+        //cell.taskNameField.text = task.name
+        
 
     }
     
@@ -418,11 +482,15 @@ class TaskSettingsViewController: UIViewController {
         taskDays = task.days
         frequency = task.frequency
         multiplier = task.multiplier
+        audio = task.audioAlert
+        vibrate = task.vibrateAlert
         
         originalTime = taskTime
         originalDays = taskDays
         originalFrequency = frequency
         originalMultiplier = multiplier
+        originalAudio = audio
+        originalVibrate = vibrate
         
         taskNameTextField.text = task.name
         taskLengthTextField.text = setTaskTime()
@@ -434,6 +502,9 @@ class TaskSettingsViewController: UIViewController {
             occurrenceRateTextField.text = "Every " + String(freq) + " weeks"
         }
         
+        alertTextField.text = timer.setAlertText(for: audio, and: vibrate)
+        
+        
         rolloverSlider.value = Float(multiplier)
         let sliderValueAsString = String(rolloverSlider.value)
         rolloverSliderValueLabel.text = sliderValueAsString + "x of leftover time added to next task"
@@ -441,25 +512,25 @@ class TaskSettingsViewController: UIViewController {
         for day in taskDays {
             
             switch day {
-            case "Sunday":
+            case ("Sunday", true):
                 sunday.tag = 1
                 setButtonOn(for: sunday)
-            case "Monday":
+            case ("Monday", true):
                 monday.tag = 1
                 setButtonOn(for: monday)
-            case "Tuesday":
+            case ("Tuesday", true):
                 tuesday.tag = 1
                 setButtonOn(for: tuesday)
-            case "Wednesday":
+            case ("Wednesday", true):
                 wednesday.tag = 1
                 setButtonOn(for: wednesday)
-            case "Thursday":
+            case ("Thursday", true):
                 thursday.tag = 1
                 setButtonOn(for: thursday)
-            case "Friday":
+            case ("Friday", true):
                 friday.tag = 1
                 setButtonOn(for: friday)
-            case "Saturday":
+            case ("Saturday", true):
                 saturday.tag = 1
                 setButtonOn(for: saturday)
             default:
@@ -487,6 +558,38 @@ class TaskSettingsViewController: UIViewController {
         
         return timeString
         
+    }
+    
+    //MARK: - Navigation
+    
+    func preparePresenter(ofHeight height: Float, ofWidth width: Float) {
+        let width = ModalSize.fluid(percentage: width)
+        let height = ModalSize.fluid(percentage: height)
+        let center = ModalCenterPosition.center
+        let customType = PresentationType.custom(width: width, height: height, center: center)
+        
+        addPresenter.presentationType = customType
+        
+    }
+    
+    func presentAlertSettingsVC() {
+        let alertSettingsViewController = self.storyboard?.instantiateViewController(withIdentifier: "AlertSettingsVC") as! AlertSettingsViewController
+        alertSettingsViewController.appData = appData
+        alertSettingsViewController.task = task
+        alertSettingsViewController.presentingVC = self
+
+        //        switch appData.deviceType {
+        //        case .legacy:
+        //            preparePresenter(ofHeight: 0.8, ofWidth: 0.9)
+        //        case .normal:
+        //            preparePresenter(ofHeight: 0.8, ofWidth: 0.8)
+        //        case .large:
+        //            preparePresenter(ofHeight: 0.7, ofWidth: 0.8)
+        //        case .X:
+        //            preparePresenter(ofHeight: 0.7, ofWidth: 0.8)
+        //        }
+        
+        customPresentViewController(addPresenter, viewController: alertSettingsViewController, animated: true, completion: nil)
     }
     
     //MARK: - Button Actions/Functions
@@ -534,9 +637,9 @@ class TaskSettingsViewController: UIViewController {
     @IBAction func sundayTapped(_ sender: UIButton) {
 
         if sunday.tag == 0 {
-            taskDays.append("Sunday")
+            taskDays["Sunday"] = true
         } else {
-            taskDays = taskDays.filter { $0 != "Sunday" }
+            taskDays["Sunday"] = false
         }
         
         buttonAction(for: sender)
@@ -546,9 +649,9 @@ class TaskSettingsViewController: UIViewController {
     @IBAction func mondayTapped(_ sender: UIButton) {
 
         if monday.tag == 0 {
-            taskDays.append("Monday")
+            taskDays["Monday"] = true
         } else {
-            taskDays = taskDays.filter { $0 != "Monday" }
+            taskDays["Monday"] = false
         }
         
         buttonAction(for: sender)
@@ -558,9 +661,9 @@ class TaskSettingsViewController: UIViewController {
     @IBAction func tuesdayTapped(_ sender: UIButton) {
         
         if tuesday.tag == 0 {
-            taskDays.append("Tuesday")
+            taskDays["Tuesday"] = true
         } else {
-            taskDays = taskDays.filter { $0 != "Tuesday" }
+            taskDays["Tuesday"] = false
         }
         
         buttonAction(for: sender)
@@ -570,9 +673,9 @@ class TaskSettingsViewController: UIViewController {
     @IBAction func wednesdayTapped(_ sender: UIButton) {
         
         if wednesday.tag == 0 {
-            taskDays.append("Wednesday")
+            taskDays["Wednesday"] = true
         } else {
-            taskDays = taskDays.filter { $0 != "Wednesday" }
+            taskDays["Wednesday"] = false
         }
         
         buttonAction(for: sender)
@@ -582,9 +685,9 @@ class TaskSettingsViewController: UIViewController {
     @IBAction func thursdayTapped(_ sender: UIButton) {
         
         if thursday.tag == 0 {
-            taskDays.append("Thursday")
+            taskDays["Thursday"] = true
         } else {
-            taskDays = taskDays.filter { $0 != "Thursday" }
+            taskDays["Thursday"] = false
         }
         
         buttonAction(for: sender)
@@ -594,9 +697,9 @@ class TaskSettingsViewController: UIViewController {
     @IBAction func fridayTapped(_ sender: UIButton) {
         
         if friday.tag == 0 {
-            taskDays.append("Friday")
+            taskDays["Friday"] = true
         } else {
-            taskDays = taskDays.filter { $0 != "Friday" }
+            taskDays["Friday"] = false
         }
         
         buttonAction(for: sender)
@@ -606,9 +709,9 @@ class TaskSettingsViewController: UIViewController {
     @IBAction func saturdayTapped(_ sender: UIButton) {
 
         if saturday.tag == 0 {
-            taskDays.append("Saturday")
+            taskDays["Saturday"] = true
         } else {
-            taskDays = taskDays.filter { $0 != "Saturday" }
+            taskDays["Saturday"] = false
         }
         
         buttonAction(for: sender)
@@ -620,17 +723,22 @@ class TaskSettingsViewController: UIViewController {
         let taskNameWasEntered = taskNameTextField.hasText
         let taskTimeWasEntered = taskLengthTextField.hasText
         let frequencyWasEntered = occurrenceRateTextField.hasText
-        let taskDaysWereEntered = !taskDays.isEmpty
+        let taskDaysWereEntered = taskDays.first(where: {$0.value == true})
         
         if taskNames.index(of: taskNameTextField.text!) != nil {
             
             taskNameTextField.errorMessage = "This name already exists"
             popAlert(alertType: .duplicate)
             
-        } else if taskNameWasEntered && taskTimeWasEntered && frequencyWasEntered && taskDaysWereEntered {
+        } else if taskNameWasEntered && taskTimeWasEntered && frequencyWasEntered && (taskDaysWereEntered != nil) {
             
-            let daysChanged = (taskDays == originalDays) ? false : true
-            if daysChanged && task.isToday {
+            let daysChanged = (taskDays == originalDays) ? false: true
+            
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "EEEE"
+            let today: String = dateFormatter.string(from: Date())
+            
+            if daysChanged && task.isToday && taskDays[today] == false {
                 popConfirmationAlert()
             } else {
                 dismiss(animated: true, completion: nil)
@@ -832,6 +940,11 @@ extension TaskSettingsViewController: UITextFieldDelegate {
     
     func textFieldDidBeginEditing(_ textField: UITextField){
         activeTextField = textField
+        
+        if activeTextField == alertTextField {
+            presentAlertSettingsVC()
+    
+        }
     }
     
     func textFieldDidEndEditing(_ textField: UITextField){
