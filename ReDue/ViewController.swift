@@ -31,13 +31,11 @@ class TaskViewController: UIViewController, GADBannerViewDelegate {
     //var timer = CountdownTimer()
     var check = Check()
     
-    var secondaryTimer = Timer()
-    
-    var timerFiringFromTaskVC = false
+    var runningTaskVCs = [TaskDetailViewController]()
     
     var selectedTask: Task?
     var selectedCell: TaskCollectionViewCell?
-    var runningCompletionTime = 0.0
+    var runningCompletionTime = 0.0 //TODO: What is this????
     
     var willResetTasks = false
     var now = Date()
@@ -203,11 +201,6 @@ class TaskViewController: UIViewController, GADBannerViewDelegate {
                 selectedCell = taskList.cellForItem(at: indexPath) as? TaskCollectionViewCell
                 
                 _ = cell.formatTimer(for: selectedTask!)
-                
-                //secondaryTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self,
-                //                                      selector: #selector(TaskCollectionViewCell.timerRunning),
-                //                                      userInfo: nil,
-                //                                      repeats: true)
                 
             } else {
                 //secondaryTimer.invalidate()
@@ -821,6 +814,32 @@ class TaskViewController: UIViewController, GADBannerViewDelegate {
         customPresentViewController(addPresenter, viewController: newTaskViewController, animated: true, completion: nil)
     }
     
+    func presentTaskDetailVC() {
+        
+        let taskCells = getTaskCells()
+        guard let cell = taskCells?.first(where: { $0.taskNameField.text == selectedTask!.name }) else { return }
+
+        let taskVC: TaskDetailViewController
+        
+        if let vc = runningTaskVCs.first(where: {$0.task.name == cell.taskNameField.text}) {
+            taskVC = vc
+        } else {
+            taskVC = self.storyboard!.instantiateViewController(withIdentifier: "TaskDetailVC") as! TaskDetailViewController
+                //TaskDetailViewController()
+            
+            taskVC.appData = appData
+            taskVC.task = selectedTask!
+            taskVC.tasks = tasks
+            taskVC.taskNames = taskNames
+            taskVC.timer = cell.timer
+
+        }
+        
+        
+        self.navigationController?.pushViewController(taskVC, animated: true)
+        
+
+    }
 }
 
 //MARK: - Collection View Delegate
@@ -901,7 +920,8 @@ extension TaskViewController: UICollectionViewDelegate, UICollectionViewDataSour
         
         print("Selected task is \(task.name)")
         
-        performSegue(withIdentifier: "taskDetailSegue", sender: self)
+        presentTaskDetailVC()
+        //performSegue(withIdentifier: "taskDetailSegue", sender: self)
         
     }
     
@@ -1021,9 +1041,10 @@ extension TaskViewController: UICollectionViewDelegate, UICollectionViewDataSour
             let blurEffectView = UIVisualEffectView(effect: blurEffect)
             blurEffectView.frame = cell.contentView.bounds
             
+            /* Only add blur effect the first time.
+               Without this the blur is added every time you
+               switch back to this view */
             let subviews = cell.contentView.subviews
-            let x = subviews.count
-            //let y = subviews[0].subviews
             if !subviews.contains(where: {$0 is UIVisualEffectView}) {
                 cell.contentView.addSubview(blurEffectView)
                 cell.contentView.sendSubview(toBack: blurEffectView)
