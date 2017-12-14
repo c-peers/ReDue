@@ -27,11 +27,11 @@ class TaskStatsViewController: UIViewController, UIScrollViewDelegate {
         return [missedTimeHistory: "Missed Time Bar Chart", completedTimeHistory: "Completed Time Bar Chart"]
     }
     
-    let nameLabels = ["Task Time", "   Completed", "   Missed", "Total Days", "    Complete", "    Partial Complete", "    Missed", "Current Streak", "Best Streak"]
+    let nameLabels = ["Task Time", "   Completed", "   Missed", "   Forfeited", "Total Days", "    Complete", "    Partial Complete", "    Missed", "Current Streak", "Best Streak"]
 
 //    let nameLabels = ["Task Time", "Completed Task Time", "Missed Task Time", "Total Days", "Total Days (Complete)", "Total Days (Partial Complete", "Total Days (Missed)", "Current Streak", "Best Streak"]
 
-    var valueLabels = ["0.0", "0.0", "0.0", "0.0", "0.0", "0.0", "0.0", "0.0", "0.0"]
+    var valueLabels = ["0", "0", "0", "0", "0", "0", "0", "0", "0", "0"]
     
     var accessDates = [String]()
     
@@ -41,6 +41,14 @@ class TaskStatsViewController: UIViewController, UIScrollViewDelegate {
     var testData = [300, 300, 150, 200, 450, 600, 300, 600, 450, 480]
     
     // MARK: - View and Init
+    override func viewWillAppear(_ animated: Bool) {
+        scrollView.delegate = self
+        scrollView.contentSize.width = view.bounds.width
+        scrollView.contentSize.height = CGFloat(970)
+
+        //navigationController?.toolbar.isHidden = true
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -48,16 +56,11 @@ class TaskStatsViewController: UIViewController, UIScrollViewDelegate {
         view.backgroundColor = darkerThemeColor
         scrollView.backgroundColor = darkerThemeColor
         bgView.backgroundColor = darkerThemeColor
-        navigationController?.toolbar.isHidden = true
         
         setLabelColor(for: missedTimeHistoryLabel)
         setLabelColor(for: completedTimeHistoryLabel)
         setLabelColor(for: statisticsTitleLabel)
-        
-        scrollView.delegate = self
-        scrollView.contentSize.width = view.bounds.width
-        scrollView.contentSize.height = CGFloat(950)
-        
+ 
         getAccessDates()
         
         setStatNameLabels()
@@ -114,11 +117,9 @@ class TaskStatsViewController: UIViewController, UIScrollViewDelegate {
     func setStatNameLabels() {
         
         for label in statsNameLabels {
-            
             let index = statsNameLabels.index(of: label)
             label.text = nameLabels[index!]
             setLabelColor(for: label)
-
         }
         
     }
@@ -128,18 +129,20 @@ class TaskStatsViewController: UIViewController, UIScrollViewDelegate {
         valueLabels[0] = String(task.totalTime)
         valueLabels[1] = String(task.completedTime)
         valueLabels[2] = String(task.missedTime)
-        valueLabels[3] = String(task.totalDays) + " Days"
-        valueLabels[4] = String(task.fullDays) + " Days"
-        valueLabels[5] = String(task.partialDays) + " Days"
-        valueLabels[6] = String(task.missedDays) + " Days"
-        valueLabels[7] = String(task.currentStreak) + " Days"
-        valueLabels[8] = String(task.bestStreak) + " Days"
+        valueLabels[3] = String(task.forfeitedTime)
+        valueLabels[4] = String(task.totalDays) + " Days"
+        valueLabels[5] = String(task.fullDays) + " Days"
+        valueLabels[6] = String(task.partialDays) + " Days"
+        valueLabels[7] = String(task.missedDays) + " Days"
+        valueLabels[8] = String(task.currentStreak) + " Days"
+        valueLabels[9] = String(task.bestStreak) + " Days"
 
         for label in statsValueLabels {
             setLabelColor(for: label)
             guard let index = statsValueLabels.index(of: label) else { return }
             
-            if index < 3 {
+            // The first four labels could have multiple units
+            if index < 4 {
                 label.text = formatLabel(withData: valueLabels[index])
             } else {
                 label.text = valueLabels[index]
@@ -190,6 +193,8 @@ class TaskStatsViewController: UIViewController, UIScrollViewDelegate {
         
     }
     
+    /* Time lables will be set up to months.
+       I doubt people will do years worth of a task. */
     func formatLabel(withData dataString: String) -> String {
         
         let data = Double(dataString)

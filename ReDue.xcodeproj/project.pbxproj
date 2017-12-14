@@ -51,7 +51,6 @@
 		C475C3681FB164D000ADA21D /* SkyFloatingLabelTextField.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C475C3521FB1649500ADA21D /* SkyFloatingLabelTextField.framework */; };
 		C475C3691FB164D000ADA21D /* SkyFloatingLabelTextField.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C475C3521FB1649500ADA21D /* SkyFloatingLabelTextField.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C475C36D1FB193EE00ADA21D /* GoogleMobileAds.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C475C36C1FB193EE00ADA21D /* GoogleMobileAds.framework */; };
-		C475C3BA1FB294CD00ADA21D /* NavTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C475C3B91FB294CD00ADA21D /* NavTest.swift */; };
 		C475C3C11FB3380E00ADA21D /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C475C3C01FB3380E00ADA21D /* StoreKit.framework */; };
 		C475C3C41FB34ACD00ADA21D /* IAPHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C475C3C21FB34ACD00ADA21D /* IAPHelper.swift */; };
 		C475C3C51FB34ACD00ADA21D /* IAP.swift in Sources */ = {isa = PBXBuildFile; fileRef = C475C3C31FB34ACD00ADA21D /* IAP.swift */; };
@@ -305,7 +304,6 @@
 		C475C3421FB1648500ADA21D /* Presentr.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Presentr.xcodeproj; path = Presentr/Presentr.xcodeproj; sourceTree = "<group>"; };
 		C475C34B1FB1649500ADA21D /* SkyFloatingLabelTextField.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SkyFloatingLabelTextField.xcodeproj; path = SkyFloatingLabelTextField/SkyFloatingLabelTextField/SkyFloatingLabelTextField.xcodeproj; sourceTree = "<group>"; };
 		C475C36C1FB193EE00ADA21D /* GoogleMobileAds.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleMobileAds.framework; sourceTree = "<group>"; };
-		C475C3B91FB294CD00ADA21D /* NavTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavTest.swift; sourceTree = "<group>"; };
 		C475C3C01FB3380E00ADA21D /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		C475C3C21FB34ACD00ADA21D /* IAPHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IAPHelper.swift; sourceTree = "<group>"; };
 		C475C3C31FB34ACD00ADA21D /* IAP.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IAP.swift; sourceTree = "<group>"; };
@@ -415,7 +413,6 @@
 				C475C2F71FB1580B00ADA21D /* TaskCollectionViewCell.xib */,
 				C475C2FC1FB1580C00ADA21D /* TaskCircleProgressCollectionViewCell.xib */,
 				C475C2FD1FB1580C00ADA21D /* TaskDetailViewController.swift */,
-				C475C3B91FB294CD00ADA21D /* NavTest.swift */,
 				C475C2FE1FB1580D00ADA21D /* TaskSettingsViewController.swift */,
 				C475C2EA1FB1580A00ADA21D /* TaskStatsViewController.swift */,
 				C475C2EE1FB1580B00ADA21D /* TimePicker.swift */,
@@ -824,7 +821,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C475C3BA1FB294CD00ADA21D /* NavTest.swift in Sources */,
 				C4A510241FBD7B0D0012D3C1 /* ModalInfoView.swift in Sources */,
 				C475C3091FB1580D00ADA21D /* TimePicker.swift in Sources */,
 				C475C2FF1FB1580D00ADA21D /* ViewController.swift in Sources */,

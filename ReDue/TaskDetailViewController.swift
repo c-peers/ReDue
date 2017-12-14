@@ -485,6 +485,7 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
         
 //        if appData.isFullVersion {
 //            print("Go to Stats")
+        navigationController?.toolbar.isHidden = true
             performSegue(withIdentifier: "taskStatsSegue", sender: self)
 //        } else {
 //            popAlert(forType: .upgradeNeeded)
