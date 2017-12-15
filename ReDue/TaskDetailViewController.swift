@@ -532,6 +532,7 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
             print("Resetting rollover")
             self.task.forfeitAccumulatedTime()
             self.formatTimer()
+            self.saveData()
             UIView.animate(withDuration: 0.5, animations: {
                 self.resetRolloverButton.isHidden = true
                 self.resetRolloverButton.alpha = 0
@@ -829,9 +830,9 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
         case .normal:
             preparePresenter(ofHeight: 0.8, ofWidth: 0.8)
         case .large:
-            preparePresenter(ofHeight: 0.7, ofWidth: 0.8)
+            preparePresenter(ofHeight: 0.6, ofWidth: 0.8)
         case .X:
-            preparePresenter(ofHeight: 0.7, ofWidth: 0.8)
+            preparePresenter(ofHeight: 0.6, ofWidth: 0.8)
         }
         
         // Stop the task if it is currently running

@@ -1154,7 +1154,7 @@ extension TaskViewController: UICollectionViewDelegate, UICollectionViewDataSour
     
     func debug(_ cell: TaskCollectionViewCell, _ task: Task) {
         
-        let nextRunWeek = task.runWeek
+        //let nextRunWeek = task.runWeek
         var nextRunDay = "EMPTY"
         
         let dateFormatter = DateFormatter()

@@ -332,17 +332,17 @@ class NewTasksViewController: UIViewController, UIScrollViewDelegate {
         alertSettingsViewController.appData = appData
         alertSettingsViewController.presentingVC = self
 
-        //        switch appData.deviceType {
-//        case .legacy:
-//            preparePresenter(ofHeight: 0.8, ofWidth: 0.9)
-//        case .normal:
-//            preparePresenter(ofHeight: 0.8, ofWidth: 0.8)
-//        case .large:
-//            preparePresenter(ofHeight: 0.7, ofWidth: 0.8)
-//        case .X:
-//            preparePresenter(ofHeight: 0.7, ofWidth: 0.8)
-//        }
-        
+        switch appData.deviceType {
+        case .legacy:
+            preparePresenter(ofHeight: 0.5, ofWidth: 0.9)
+        case .normal:
+            preparePresenter(ofHeight: 0.4, ofWidth: 0.8)
+        case .large:
+            preparePresenter(ofHeight: 0.4, ofWidth: 0.8)
+        case .X:
+            preparePresenter(ofHeight: 0.4, ofWidth: 0.8)
+        }
+
         customPresentViewController(addPresenter, viewController: alertSettingsViewController, animated: true, completion: nil)
     }
     
