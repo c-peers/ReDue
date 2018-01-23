@@ -110,9 +110,12 @@ class AlertSettingsViewController: UIViewController, UITableViewDelegate, UITabl
         
         cells.append(DynamicTableCells.HeaderItem(value: "Play a sound"))
         for audio in audioArray {
-            guard let periodIndex = audio.rawValue.index(of: ".") else { break }
-            let name = audio.rawValue.prefix(upTo: periodIndex).replacingOccurrences(of: "_", with: " ")
-            cells.append(DynamicTableCells.Item(value: name, type: .audio))
+            if let periodIndex = audio.rawValue.index(of: ".") {
+                let name = audio.rawValue.prefix(upTo: periodIndex).replacingOccurrences(of: "_", with: " ")
+                cells.append(DynamicTableCells.Item(value: name, type: .audio))
+            } else {
+                cells.append(DynamicTableCells.Item(value: "none", type: .audio))
+            }
         }
         
         cells.append(DynamicTableCells.HeaderItem(value: "Vibrate"))

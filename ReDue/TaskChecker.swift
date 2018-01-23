@@ -79,7 +79,7 @@ class Check {
         
         let frequency = task.frequency
         let lastRunWeek = task.runWeek
-        let nextRunWeek = lastRunWeek + Int(frequency)
+        let nextRunWeek = (lastRunWeek + Int(frequency)) % 52
         
         if weekOfYear == nextRunWeek {
             task.runWeek = nextRunWeek

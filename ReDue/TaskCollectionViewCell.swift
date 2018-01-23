@@ -219,14 +219,6 @@ class TaskCollectionViewCell: UICollectionViewCell {
         timer.firedFromMainVC = false
         task.isRunning = false
         
-        if task.vibrateAlert != .none {
-            timer.vibrate(for: task)
-        }
-        
-        if task.audioAlert != .none {
-            timer.playAudio(for: task)
-        }
-        
         timer.endTime = Date().timeIntervalSince1970
         
         var elapsedTime = (timer.endTime - timer.startTime).rounded()
@@ -235,11 +227,23 @@ class TaskCollectionViewCell: UICollectionViewCell {
             elapsedTime = task.weightedTime
         }
         
+        task.completed += elapsedTime
+        
         if type == .circular {
             circleProgressView.pauseAnimation()
         }
         
-        task.completed += elapsedTime
+        if task.completed >= task.weightedTime {
+            
+            if task.vibrateAlert != .none {
+                timer.vibrate(for: task)
+            }
+            
+            if task.audioAlert != .none {
+                timer.playAudio(for: task)
+            }
+            
+        }
         
         if let date = task.getAccessDate(lengthFromEnd: 0) {
             

@@ -143,7 +143,10 @@ class CountdownTimer: NSObject {
         let fileType = task.audioAlert.rawValue[indexAfterPeriod...]//.suffix(from: periodIndex)
         
         //var player : AVAudioPlayer?
-        let path = Bundle.main.path(forResource: String(fileName), ofType: String(fileType), inDirectory: "Sounds")
+        print(String(fileName))
+        print(String(fileType))
+        let path = Bundle.main.path(forResource: String(fileName), ofType: String(fileType))
+//            Bundle.main.path(forResource: "Corsica"/*String(fileName)*/, ofType: "wav"/*String(fileType)*/, inDirectory: "Sounds")
         let url = URL(fileURLWithPath: path!)
         
         do {

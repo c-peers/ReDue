@@ -306,14 +306,6 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
         
         timer.run.invalidate()
         
-        if task.vibrateAlert != .none {
-            timer.vibrate(for: task)
-        }
-        
-        if task.audioAlert != .none {
-            timer.playAudio(for: task)
-        }
-        
         timer.endTime = Date().timeIntervalSince1970
         
         var elapsedTime = (timer.endTime - timer.startTime).rounded()
@@ -323,6 +315,18 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
         }
         
         task.completed += elapsedTime
+        
+        if task.completed >= task.weightedTime {
+            
+            if task.vibrateAlert != .none {
+                timer.vibrate(for: task)
+            }
+            
+            if task.audioAlert != .none {
+                timer.playAudio(for: task)
+            }
+            
+        }
         
         if let date = task.getAccessDate(lengthFromEnd: 0) {
             task.completedTimeHistory[date]! += elapsedTime
@@ -457,7 +461,7 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
             NotificationCenter.default.post(name: Notification.Name("StopTimerNotification"), object: nil)
             timer.cancelFinishedNotification(for: task.name)
             
-            // Remove the instance from the VCarray since the timer was stopped
+            // Remove the instance from the VC array since the timer was stopped
             if let index = mainVC.runningTaskVCs.index(of: self) {
                 mainVC.runningTaskVCs.remove(at: index)
             }
