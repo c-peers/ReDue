@@ -117,12 +117,17 @@ class TaskViewController: UIViewController, GADBannerViewDelegate {
         // Determine the time interval between now and when the timers will reset
         // Set a timer to go off at that time
         
+        // Offset times so that reset always occurs at "midnight" for easy calculation
+        now = currentTimeIs()
+        let then = check.offsetDate(appData.taskLastTime, by: appData.resetOffset)
+        lastUsed = then
+        
         for task in tasks {
             if check.changeOfWeek(between: lastUsed, and: now) {
                 
                 let frequency = task.frequency
                 let lastRunWeek = task.runWeek
-                let nextRunWeek = lastRunWeek + Int(frequency)
+                let nextRunWeek = (lastRunWeek + Int(frequency)) % 52
 
                 if check.currentWeek == nextRunWeek {
                     task.runWeek = nextRunWeek
@@ -411,10 +416,10 @@ class TaskViewController: UIViewController, GADBannerViewDelegate {
     
     func timeCheck() {
         
-        // Offset times so that reset always occurs at "midnight" for easy calculation
-        now = currentTimeIs()
+//        // Offset times so that reset always occurs at "midnight" for easy calculation
+//        now = currentTimeIs()
         let then = check.offsetDate(appData.taskLastTime, by: appData.resetOffset)
-        lastUsed = then
+//        lastUsed = then
         
         let calendar = Calendar.current
         let currentTimeZone = TimeZone.current
@@ -804,11 +809,11 @@ class TaskViewController: UIViewController, GADBannerViewDelegate {
         case .legacy:
             preparePresenter(ofHeight: 0.8, ofWidth: 0.9)
         case .normal:
-            preparePresenter(ofHeight: 0.8, ofWidth: 0.8)
+            preparePresenter(ofHeight: 0.7, ofWidth: 0.8)
         case .large:
             preparePresenter(ofHeight: 0.7, ofWidth: 0.8)
         case .X:
-            preparePresenter(ofHeight: 0.7, ofWidth: 0.8)
+            preparePresenter(ofHeight: 0.6, ofWidth: 0.8)
         }
 
         customPresentViewController(addPresenter, viewController: newTaskViewController, animated: true, completion: nil)
@@ -1152,6 +1157,11 @@ extension TaskViewController: UICollectionViewDelegate, UICollectionViewDataSour
         return vibrancyView
     }
     
+    /* Takes the set task days and then reorders them with the
+       next run day at [0]. It then checks to see how far away the next run day is.
+       If the task doesn't run every week then the function will add
+       the neccessary number of weeks to obtain the correct next run date.
+     */
     func debug(_ cell: TaskCollectionViewCell, _ task: Task) {
         
         //let nextRunWeek = task.runWeek
@@ -1165,6 +1175,7 @@ extension TaskViewController: UICollectionViewDelegate, UICollectionViewDataSour
         
         var reindexedDays = [String]()
         
+        // Reorders the week with the current day at [0]
         guard let todayIndex = days.index(of: currentDateString) else { return }
         for i in 0..<days.count {
             reindexedDays.append(days[(todayIndex + i) % days.count])
@@ -1181,15 +1192,18 @@ extension TaskViewController: UICollectionViewDelegate, UICollectionViewDataSour
             }
         }
         
+        // Add the number of days until next run time to current date
         let calendar = Calendar.current
         var calculatedNextRunDay = calendar.date(byAdding: .day, value: daysFromNow, to:
             Date())
         
+        /* If the task will not run this week then add the appropriate number of weeks
+           to get the actual run date. */
         var runWeek = task.runWeek
         let thatWeek = calendar.dateComponents([.weekOfYear], from: calculatedNextRunDay!)
         if runWeek != thatWeek.weekOfYear {
             runWeek += Int(task.frequency)
-            calculatedNextRunDay = calendar.date(byAdding: .weekOfYear, value: (runWeek - thatWeek.weekOfYear!), to: calculatedNextRunDay!)
+            calculatedNextRunDay = calendar.date(byAdding: .weekOfYear, value: ((runWeek % 52) - thatWeek.weekOfYear!), to: calculatedNextRunDay!)
         }
 
         dateFormatter.dateFormat = "MM/dd"
