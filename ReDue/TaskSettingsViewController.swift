@@ -161,9 +161,9 @@ class TaskSettingsViewController: UIViewController {
         // Pickerview initialization start
         //******************************
         
-        for number in 1...12 {
+        for number in 1...59 {
             
-            minutes.append(String(number * 5))
+            minutes.append(String(number))
             
         }
         
@@ -211,9 +211,6 @@ class TaskSettingsViewController: UIViewController {
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        if valuesChanged {
-            saveTaskData()
-        }
     }
     
     func didValuesChange(added newString: String? = nil, to field: SkyFloatingLabelTextField? = nil) {
@@ -410,7 +407,7 @@ class TaskSettingsViewController: UIViewController {
         let minutes = Int(task.time / 60)
         
         timePickerView.selectRow(hours, inComponent: 0, animated: true)
-        timePickerView.selectRow(minutes/5, inComponent: 1, animated: true)
+        timePickerView.selectRow(minutes, inComponent: 1, animated: true)
 
         setupPickerToolBar()
         
@@ -737,25 +734,28 @@ class TaskSettingsViewController: UIViewController {
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "EEEE"
             let today: String = dateFormatter.string(from: Date())
-            
+
             if daysChanged && task.isToday && taskDays[today] == false {
                 popConfirmationAlert()
             } else {
+                if valuesChanged {
+                    saveTaskData()
+                }
                 dismiss(animated: true, completion: nil)
             }
             
         } else {
             
             if !taskNameWasEntered {
-                taskNameTextField.errorMessage = "Need a Name"
+                taskNameTextField.errorMessage = "Please enter a name"
             }
             
             if !taskTimeWasEntered {
-                taskLengthTextField.errorMessage = "Need a Time"
+                taskLengthTextField.errorMessage = "Please enter a time"
             }
             
             if !frequencyWasEntered {
-                occurrenceRateTextField.errorMessage = "Need frequency"
+                occurrenceRateTextField.errorMessage = "Please enter the task frequency"
             }
             
             popAlert(alertType: .empty)
@@ -978,6 +978,8 @@ extension TaskSettingsViewController: UIPickerViewDataSource, UIPickerViewDelega
                 taskLengthTextField.text = selectedHours + " hours"
             } else if selectedHours != "0" && selectedMinutes != "0" {
                 taskLengthTextField.text = selectedHours + " hours " + selectedMinutes + " minutes"
+            } else {
+                taskLengthTextField.text = ""
             }
             
             taskTime = Double((Int(selectedHours)! * 3600) + (Int(selectedMinutes)! * 60))

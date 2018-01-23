@@ -128,9 +128,9 @@ class NewTasksViewController: UIViewController, UIScrollViewDelegate {
         // Pickerview initialization start
         //******************************
 
-        for number in 1...12 {
+        for number in 1...59 {
             
-            minutes.append(String(number * 5))
+            minutes.append(String(number))
             
         }
         
@@ -467,7 +467,7 @@ class NewTasksViewController: UIViewController, UIScrollViewDelegate {
     func taskVerification() {
         
         let taskNameWasEntered = taskNameTextField.hasText
-        let taskTimeWasEntered = taskLengthTextField.hasText
+        let taskTimeWasEntered = { return (self.selectedHours != "0" || self.selectedMinutes != "0") }
         let frequencyWasEntered = occurrenceRateTextField.hasText
         let taskDaysWereEntered = !taskDays.isEmpty
 
@@ -476,22 +476,22 @@ class NewTasksViewController: UIViewController, UIScrollViewDelegate {
             taskNameTextField.errorMessage = "This name already exists"
             popAlert(alertType: .duplicate)
             
-        } else if taskNameWasEntered && taskTimeWasEntered && frequencyWasEntered && taskDaysWereEntered {
+        } else if taskNameWasEntered && taskTimeWasEntered() && frequencyWasEntered && taskDaysWereEntered {
             
             performSegue(withIdentifier: "createdTaskUnwindSegue", sender: self)
             
         } else {
             
             if !taskNameWasEntered {
-                taskNameTextField.errorMessage = "Need a Name"
+                taskNameTextField.errorMessage = "Please enter a name"
             }
             
-            if !taskTimeWasEntered {
-                taskLengthTextField.errorMessage = "Need a Time"
+            if !taskTimeWasEntered() {
+                taskLengthTextField.errorMessage = "Please enter a time"
             }
             
             if !frequencyWasEntered {
-                occurrenceRateTextField.errorMessage = "Need frequency"
+                occurrenceRateTextField.errorMessage = "Please enter the frequency of the task"
             }
             
             popAlert(alertType: .empty)
@@ -614,6 +614,8 @@ extension NewTasksViewController: UIPickerViewDelegate, UIPickerViewDataSource {
                 taskLengthTextField.text = selectedHours + " hours"
             } else if selectedHours != "0" && selectedMinutes != "0" {
                 taskLengthTextField.text = selectedHours + " hours " + selectedMinutes + " minutes"
+            } else {
+                taskLengthTextField.text = ""
             }
             
             selectedFromPicker = pickerView.view(forRow: row, forComponent: component) as! UILabel
