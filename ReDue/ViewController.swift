@@ -1216,7 +1216,9 @@ extension TaskViewController: UICollectionViewDelegate, UICollectionViewDataSour
         
         dateFormatter.dateFormat = "EEEE"
         if nextRunDay == dateFormatter.string(from: calculatedNextRunDay!) {
-            cell.nextRunLabel.text = "Next run: \(nextRunDay) \(mmdd)"
+            dateFormatter.dateFormat = "EEE"
+            let abbrevNextRunDay = dateFormatter.string(from: calculatedNextRunDay!)
+            cell.nextRunLabel.text = "Next run:\n\(abbrevNextRunDay) \(mmdd)"
             cell.nextRunLabel.isHidden = false
 
         }
