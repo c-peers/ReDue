@@ -803,6 +803,7 @@ class TaskSettingsViewController: UIViewController {
                                                 preferredStyle: UIAlertControllerStyle.alert)
         
         let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.default){ (action: UIAlertAction) in
+            self.saveTaskData()
             self.dismiss(animated: true, completion: nil)
         }
         
