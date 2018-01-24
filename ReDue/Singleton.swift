@@ -132,6 +132,7 @@ class CountdownTimer: NSObject {
     // MARK: - Audio and Vibration Functions
     
     func vibrate(for task: Task) {
+        AudioServicesPlaySystemSound(kSystemSoundID_Vibrate)
         _ = task.vibrateAlert.run
     }
     
@@ -145,7 +146,8 @@ class CountdownTimer: NSObject {
         //var player : AVAudioPlayer?
         print(String(fileName))
         print(String(fileType))
-        let path = Bundle.main.path(forResource: String(fileName), ofType: String(fileType))
+        let path = Bundle.main.path(forResource: task.audioAlert.rawValue, ofType: nil)
+        //let path = Bundle.main.path(forResource: String(fileName), ofType: String(fileType))
 //            Bundle.main.path(forResource: "Corsica"/*String(fileName)*/, ofType: "wav"/*String(fileType)*/, inDirectory: "Sounds")
         let url = URL(fileURLWithPath: path!)
         

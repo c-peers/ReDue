@@ -261,7 +261,8 @@ class TaskViewController: UIViewController, GADBannerViewDelegate {
         
         let darkerThemeColor = appData.appColor.darken(byPercentage: 0.25)
         
-        view.backgroundColor = darkerThemeColor //FlatWhite()
+        //view.backgroundColor = darkerThemeColor //FlatWhite()
+        view.backgroundColor = FlatWhite().darken(byPercentage: 0.1)
         taskList.backgroundColor = .clear
         taskList.backgroundView = UIView(frame: .zero)
         //taskList.backgroundView?.backgroundColor = darkerThemeColor //FlatWhite() //darkerThemeColor
