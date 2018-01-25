@@ -84,6 +84,8 @@ class TaskViewController: UIViewController, GADBannerViewDelegate {
         return customPresenter
     }()
 
+    var colors = Colors(main: HexColor("247BA0")!, bg: FlatWhite(), task1: HexColor("70C1B3")!, task2: HexColor("B2DBBF")!, progress: HexColor("FF1654")!)
+    
     //MARK: - View and Basic Functions
     
     override func viewDidLoad() {
@@ -252,17 +254,22 @@ class TaskViewController: UIViewController, GADBannerViewDelegate {
     
     func setTheme() {
         
+        colors = Colors.init(main: appData.mainColor!, bg: appData.bgColor!, task1: appData.taskColor1!, task2: appData.taskColor2!, progress: appData.progressColor!)
+        
         let navigationBar = navigationController?.navigationBar
         navigationBar?.barTintColor = appData.appColor
+        navigationBar?.barTintColor = appData.mainColor
         //navigationBar?.mixedBarStyle = MixedBarStyle(normal: .default, night: .blackTranslucent)
         
         let toolbar = navigationController?.toolbar
         toolbar?.barTintColor = appData.appColor
+        toolbar?.barTintColor = appData.mainColor
         
-        let darkerThemeColor = appData.appColor.darken(byPercentage: 0.25)
+        //let darkerThemeColor = appData.appColor.darken(byPercentage: 0.25)
         
-        //view.backgroundColor = darkerThemeColor //FlatWhite()
+        //view.backgroundColor = darkerThemeColor
         view.backgroundColor = FlatWhite().darken(byPercentage: 0.1)
+        view.backgroundColor = appData.bgColor
         taskList.backgroundColor = .clear
         taskList.backgroundView = UIView(frame: .zero)
         //taskList.backgroundView?.backgroundColor = darkerThemeColor //FlatWhite() //darkerThemeColor
@@ -277,14 +284,14 @@ class TaskViewController: UIViewController, GADBannerViewDelegate {
         
         if appData.darknessCheck(for: bgColor) {
             
-            navigationBar?.tintColor = UIColor.white
-            toolbar?.tintColor = UIColor.white
+            navigationBar?.tintColor = .white
+            toolbar?.tintColor = .white
             setStatusBarStyle(.lightContent)
            
         } else {
             
-            navigationBar?.tintColor = UIColor.black
-            toolbar?.tintColor = UIColor.black
+            navigationBar?.tintColor = .black
+            toolbar?.tintColor = .black
             setStatusBarStyle(.default)
         }
         
@@ -960,8 +967,11 @@ extension TaskViewController: UICollectionViewDelegate, UICollectionViewDataSour
         layout.scrollDirection = .vertical
         layout.itemSize = cellSize
         layout.sectionInset = UIEdgeInsets(top: 20, left: 10, bottom: 10, right: 10)
-        layout.minimumLineSpacing = 5.0
-        layout.minimumInteritemSpacing = 5.0
+        
+        // These two don't seem to work
+        layout.minimumLineSpacing = 20.0
+        layout.minimumInteritemSpacing = 20.0
+        
         taskList.setCollectionViewLayout(layout, animated: true)
         
         //taskList.reloadData()
@@ -1023,7 +1033,26 @@ extension TaskViewController: UICollectionViewDelegate, UICollectionViewDataSour
         
         //cell.backgroundColor = gradientBackground
         
-        let cellBGColor = RandomFlatColorWithShade(.light) //FlatWhite() //appData.colorScheme[indexPath.row % 4]
+        //let cellBGColor = RandomFlatColorWithShade(.light) //FlatWhite() //appData.colorScheme[indexPath.row % 4]
+        
+        var taskColors = [UIColor]()
+        taskColors.append(colors.task1)
+        taskColors.append(colors.task2)
+        taskColors.append(colors.task3)
+        taskColors.append(colors.task4)
+        taskColors.append(colors.task5)
+        taskColors.append(colors.task6)
+        taskColors.append(colors.task7)
+        taskColors.append(colors.task8)
+        taskColors.append(colors.task9)
+        taskColors.append(colors.task10)
+
+//        taskColors.append(color1.darken(byPercentage: 0.1)!)
+//        taskColors.append(color2.darken(byPercentage: 0.1)!)
+//        taskColors.append(color1.lighten(byPercentage: 0.1)!)
+//        taskColors.append(color2.lighten(byPercentage: 0.1)!)
+
+        let cellBGColor = taskColors[indexPath.row % 10]
         
         cell.buttonBackground.backgroundColor = cellBGColor.darken(byPercentage: 0.2)
         cell.buttonBackground.layer.cornerRadius = cell.buttonBackground.frame.size.width / 2
@@ -1071,13 +1100,13 @@ extension TaskViewController: UICollectionViewDelegate, UICollectionViewDataSour
             
         } else {
         
-            let borderColor = cellBGColor.darken(byPercentage: 0.3)?.cgColor
-            setBorder(for: cell.layer, borderWidth: 2.0, borderColor: borderColor!, radius: 10.0)
+            //let borderColor = cellBGColor.darken(byPercentage: 0.3)?.cgColor
+            setBorder(for: cell.layer, borderWidth: 2.0, borderColor: UIColor.clear.cgColor, radius: 10.0)
 
             cell.layer.shadowColor = UIColor.black.cgColor
-            cell.layer.shadowOffset = CGSize(width: 0, height: 2.0)// CGSize.zero
+            cell.layer.shadowOffset = CGSize(width: 6.0, height: 5.0)// CGSize.zero
             cell.layer.shadowRadius = 2.0
-            cell.layer.shadowOpacity = 1.0
+            cell.layer.shadowOpacity = 0.5
 
             cell.layer.shadowPath = UIBezierPath(roundedRect: cell.layer.bounds, cornerRadius: cell.layer.cornerRadius).cgPath
             cell.layer.masksToBounds = false
@@ -1089,10 +1118,12 @@ extension TaskViewController: UICollectionViewDelegate, UICollectionViewDataSour
         if type == .line {
             
             cell.progressView.barHeight = 6.0
+            cell.progressView.layer.cornerRadius = 5.0
+            cell.progressView.progressTintColor = appData.progressColor
             //cell.progressView.transform = cell.progressView.transform.scaledBy(x: 1.0, y: 2.0)
-            let borderColor = cellBGColor.darken(byPercentage: 0.3)?.cgColor
+            //let borderColor = cellBGColor.darken(byPercentage: 0.3)?.cgColor
             if !appData.isGlass {
-                setBorder(for: cell.progressView.layer, borderWidth: 0.2, borderColor: borderColor!, radius: 5.0)
+                //setBorder(for: cell.progressView.layer, borderWidth: 0.2, borderColor: borderColor!, radius: 5.0)
             } else {
                 setBorder(for: cell.progressView.layer, borderWidth: 0.0, borderColor: UIColor.clear.cgColor, radius: 0.0)
             }
@@ -1117,6 +1148,8 @@ extension TaskViewController: UICollectionViewDelegate, UICollectionViewDataSour
             
         }
 
+        /* Show play Button, timer, next task day, etc.
+           depending on whether the task will occur today or not */
         if task.isToday {
             _ = cell.formatTimer(for: task, ofType: type)
             //cell.progressView.isHidden = false
@@ -1276,6 +1309,95 @@ extension UIViewController {
         
         present(alertController,animated: true,completion: nil)
         
-    }
+    } 
+    
 }
 
+//MARK: - Color Scheme Extension
+
+extension UIViewController {
+    
+    struct Colors {
+        var main: UIColor
+        var bg: UIColor
+        var task1: UIColor
+        var task2: UIColor
+        var progress: UIColor
+        
+        let darkMain: UIColor
+        let darkBG: UIColor
+        let lightTask1: UIColor
+        let lightTask2: UIColor
+        let darkTask1: UIColor
+        let darkTask2: UIColor
+        let task3: UIColor
+        let task4: UIColor
+        let task5: UIColor
+        let task6: UIColor
+        let task7: UIColor
+        let task8: UIColor
+        let task9: UIColor
+        let task10: UIColor
+
+        static let colorLevel1: CGFloat = 0.1
+        static let colorLevel2: CGFloat = 0.25
+        static let colorLevel3: CGFloat = 0.5
+        static let colorLevel4: CGFloat = 0.6
+        
+        init(main: UIColor, bg: UIColor, task1: UIColor, task2: UIColor, progress: UIColor) {
+            self.main = main
+            self.bg = bg
+            self.task1 = task1
+            self.task2 = task2
+            self.progress = progress
+            
+            self.darkMain = main.darken(byPercentage: 0.2)!
+            self.darkBG = bg.darken(byPercentage: 0.1)!
+            self.darkTask1 = task1.darken(byPercentage: 0.1)!
+            self.darkTask2 = task2.darken(byPercentage: 0.1)!
+            self.lightTask1 = task1.lighten(byPercentage: 0.1)!
+            self.lightTask2 = task2.lighten(byPercentage: 0.1)!
+            
+            self.task3 = task1.adjustBrightness(by: -5)
+            self.task4 = task2.adjustBrightness(by: 30)
+            self.task5 = task1.adjustBrightness(by: 20)
+            self.task6 = task2.adjustBrightness(by: -10)
+            self.task7 = task1.adjust(by: -5)!
+            self.task8 = task2.adjust(by: 30)!
+            self.task9 = task1.adjust(by: 20)!
+            self.task10 = task2.adjust(by: -10)!
+        }
+        
+    }
+
+}
+
+extension UIColor {
+    
+    func adjustBrightness(by percentage: CGFloat = 30.0) -> UIColor {
+        var h: CGFloat = 0, s: CGFloat = 0, b: CGFloat = 0, a: CGFloat = 0
+        if self.getHue(&h, saturation: &s, brightness: &b, alpha: &a) {
+            if b < 1.0 {
+                let newB: CGFloat = max(min(b + (percentage/100.0)*b, 1.0), 0,0)
+                return UIColor(hue: h, saturation: s, brightness: newB, alpha: a)
+            } else {
+                let newS: CGFloat = min(max(s - (percentage/100.0)*s, 0.0), 1.0)
+                return UIColor(hue: h, saturation: newS, brightness: b, alpha: a)
+            }
+        }
+        return self
+    }
+
+    func adjust(by percentage:CGFloat=30.0) -> UIColor? {
+        var r:CGFloat=0, g:CGFloat=0, b:CGFloat=0, a:CGFloat=0;
+        if(self.getRed(&r, green: &g, blue: &b, alpha: &a)){
+            return UIColor(red: min(r + percentage/100, 1.0),
+                           green: min(g + percentage/100, 1.0),
+                           blue: min(b + percentage/100, 1.0),
+                           alpha: a)
+        }else{
+            return nil
+        }
+    }
+    
+}

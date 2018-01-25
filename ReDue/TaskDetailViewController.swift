@@ -74,6 +74,8 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
         return customPresenter
     }()
     
+    var colors = Colors(main: HexColor("247BA0")!, bg: FlatWhite(), task1: HexColor("70C1B3")!, task2: HexColor("B2DBBF")!, progress: HexColor("FF1654")!)
+    
     //MARK: - View and Basic Functions
     
     override func viewWillAppear(_ animated: Bool) {
@@ -82,6 +84,8 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
         self.title = task.name
         navigationController?.toolbar.isHidden = false
         prepareNavBar()
+        
+        startButtonSetup()
         
         setElapsedTime()
         
@@ -114,8 +118,6 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        startButtonSetup()
-
         // Add appData to the check class
         initializeCheck()
         
@@ -358,6 +360,8 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
     
     func setTheme() {
         
+        colors = Colors.init(main: appData.mainColor!, bg: appData.bgColor!, task1: appData.taskColor1!, task2: appData.taskColor2!, progress: appData.progressColor!)
+        
         if appData.isNightMode {
             //NightNight.theme = .night
         } else {
@@ -367,8 +371,8 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
         let navigationBar = navigationController?.navigationBar
         let bgColor = navigationBar?.barTintColor
         
-        let darkerThemeColor = appData.appColor.darken(byPercentage: 0.25)
-        view.backgroundColor = darkerThemeColor
+        let darkerThemeColor = colors.darkMain //appData.appColor.darken(byPercentage: 0.25)
+        view.backgroundColor = colors.bg //.darken(byPercentage: Colors.darkLevelOne )//darkerThemeColor
 
         if appData.darknessCheck(for: bgColor) {
             navigationBar?.tintColor = .white
@@ -380,7 +384,7 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
             setStatusBarStyle(.default)
         }
         
-        if appData.darknessCheck(for: darkerThemeColor) {
+        if appData.darknessCheck(for: view.backgroundColor) {
             taskTimeLabel.textColor = .white
             recentProgressLabel.textColor = .white
             resetRolloverButton.setTitleColor(.white, for: .normal)
@@ -413,7 +417,7 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
         taskStartButton.layer.shadowPath = UIBezierPath(roundedRect: taskStartButton.layer.bounds, cornerRadius: taskStartButton.layer.cornerRadius).cgPath
         
         setImage(as: #imageLiteral(resourceName: "Play"))
-        taskStartButton.backgroundColor = appData.appColor
+        taskStartButton.backgroundColor = colors.main //appData.appColor
         
     }
     
@@ -638,8 +642,8 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
         xAxis.drawGridLinesEnabled = false
         xAxis.centerAxisLabelsEnabled = false
         
-        let darkerThemeColor = appData.appColor.darken(byPercentage: 0.25)
-        if appData.darknessCheck(for: darkerThemeColor) {
+        let darkerThemeColor = colors.darkMain //appData.appColor.darken(byPercentage: 0.25)
+        if appData.darknessCheck(for: view.backgroundColor) {
             xAxis.labelTextColor = .white
             rightAxis.labelTextColor = .white
             recentTaskHistory.noDataTextColor = .white
@@ -737,8 +741,8 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
             
             bar.colors = ChartColorTemplates.pastel()
             
-            let darkerThemeColor = appData.appColor.darken(byPercentage: 0.25)
-            if appData.darknessCheck(for: darkerThemeColor) {
+            let darkerThemeColor = colors.darkMain //appData.appColor.darken(byPercentage: 0.25)
+            if appData.darknessCheck(for: view.backgroundColor) {
                 bar.valueColors = [UIColor.white]
             } else {
                 bar.valueColors = [UIColor.black]

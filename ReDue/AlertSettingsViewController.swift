@@ -28,6 +28,8 @@ class AlertSettingsViewController: UIViewController, UITableViewDelegate, UITabl
     
     var cells: DynamicTableCells!
     
+    var colors = Colors(main: HexColor("247BA0")!, bg: FlatWhite(), task1: HexColor("70C1B3")!, task2: HexColor("B2DBBF")!, progress: HexColor("FF1654")!)
+
     override func viewDidLoad() {
         cells = DynamicTableCells()
         tableSetup()
@@ -39,10 +41,11 @@ class AlertSettingsViewController: UIViewController, UITableViewDelegate, UITabl
         alertTable.allowsMultipleSelection = true
         alertTable.tableFooterView = UIView(frame: .zero)
         
-        completeButton.layer.borderColor = appData.appColor.cgColor
+        guard let mainColor = appData.mainColor else { return }
+        completeButton.layer.borderColor = mainColor.cgColor //appData.appColor.cgColor
         completeButton.layer.borderWidth = 2
         completeButton.layer.cornerRadius = 10.0
-        completeButton.setTitleColor(appData.appColor, for: .normal)
+        completeButton.setTitleColor(mainColor /*appData.appColor*/, for: .normal)
 
         completeButton.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
         
@@ -129,7 +132,9 @@ class AlertSettingsViewController: UIViewController, UITableViewDelegate, UITabl
     
     private func setTheme() {
 
-        let darkerThemeColor = appData.appColor.darken(byPercentage: 0.25)
+        colors = Colors.init(main: appData.mainColor!, bg: appData.bgColor!, task1: appData.taskColor1!, task2: appData.taskColor2!, progress: appData.progressColor!)
+        
+        let darkerThemeColor = colors.darkMain //appData.appColor.darken(byPercentage: 0.25)
         
         view.backgroundColor = darkerThemeColor
         //view.tintColor = darkerThemeColor
@@ -166,7 +171,7 @@ class AlertSettingsViewController: UIViewController, UITableViewDelegate, UITabl
         
         if let cell = tableView.dequeueReusableCell(withIdentifier: "alertCell") as? AlertSettingsTableCell {
             
-            let darkerThemeColor = appData.appColor.darken(byPercentage: 0.25)
+            let darkerThemeColor = colors.darkMain //appData.appColor.darken(byPercentage: 0.25)
             cell.backgroundColor = darkerThemeColor
             
             if appData.darknessCheck(for: darkerThemeColor) {

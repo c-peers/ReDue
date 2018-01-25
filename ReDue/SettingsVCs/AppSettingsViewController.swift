@@ -37,6 +37,8 @@ class AppSettingsViewController: UITableViewController {
     var productsRequest = SKProductsRequest()
     var iapProducts = [SKProduct]()
 
+    var colors = Colors(main: HexColor("247BA0")!, bg: FlatWhite(), task1: HexColor("70C1B3")!, task2: HexColor("B2DBBF")!, progress: HexColor("FF1654")!)
+    
 //    var purchaseButtonInfo: UIButton = {
 //        let button = UIButton(type: UIButtonType.system)
 //        button.frame = CGRect(x: 0, y: 0, width: 150, height: 40)
@@ -157,7 +159,7 @@ class AppSettingsViewController: UITableViewController {
             cell.accessoryView?.backgroundColor = FlatBlack()
             cell.accessoryView?.tintColor = FlatGray()
         } else {
-            let darkerThemeColor = appData.appColor.darken(byPercentage: 0.25)
+            let darkerThemeColor = colors.bg //appData.appColor.darken(byPercentage: 0.25)
             cell.backgroundColor = darkerThemeColor
             //cell.textLabel?.backgroundColor = darkerThemeColor
             //cell.detailTextLabel?.backgroundColor = darkerThemeColor
@@ -177,7 +179,7 @@ class AppSettingsViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let themeView = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.size.width, height: 40))
         
-        let headerColor = appData.appColor.darken(byPercentage: 0.2)
+        let headerColor = colors.bg.darken(byPercentage: 0.3) //appData.appColor.darken(byPercentage: 0.2)
         themeView.backgroundColor = headerColor
         
         let label = UILabel(frame: CGRect(x: 10, y: 5, width: view.frame.size.width, height: 25))
@@ -305,13 +307,15 @@ class AppSettingsViewController: UITableViewController {
     }
     
     private func setTheme() {
-        //setThemeUsingPrimaryColor(self.appData.appColor, withSecondaryColor: UIColor.clear, andContentStyle: .contrast)
-        navigationController?.navigationBar.barTintColor = appData.appColor
-        navigationController?.toolbar.barTintColor = appData.appColor
         
-        let darkerThemeColor = appData.appColor.darken(byPercentage: 0.25)
-        tableView.backgroundColor = darkerThemeColor
-        tableView.separatorColor = appData.appColor.darken(byPercentage: 0.6)
+        colors = Colors.init(main: appData.mainColor!, bg: appData.bgColor!, task1: appData.taskColor1!, task2: appData.taskColor2!, progress: appData.progressColor!)
+        
+        navigationController?.navigationBar.barTintColor = colors.main //appData.appColor
+        navigationController?.toolbar.barTintColor = colors.main //appData.appColor
+        
+        let darkerThemeColor = colors.bg //appData.appColor.darken(byPercentage: 0.25)
+        tableView.backgroundColor = colors.bg //darkerThemeColor
+        tableView.separatorColor =  colors.bg.darken(byPercentage: 0.5) //appData.appColor.darken(byPercentage: 0.6)
         
         if appData.darknessCheck(for: darkerThemeColor) {
             footerText.textColor = .white

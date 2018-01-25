@@ -49,22 +49,24 @@ class NewTasksViewController: UIViewController, UIScrollViewDelegate {
     var taskDays = ["Sunday": false, "Monday": false, "Tuesday": false, "Wednesday": false, "Thursday": false, "Friday": false, "Saturday": false]
     
     // For pickerview
-    var hours = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"]
-    var minutes: [String] = ["0"]
-    var selectedHours = "0"
-    var selectedMinutes = "0"
-    
-    var frequency = [1: "week", 2: "other week", 3: "3rd week", 4: "4th week", 5: "5th week", 6: "6th week", 7: "7th week", 8: "8th week"]
+    //class Picker {
+        var hours = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"]
+        var minutes: [String] = ["0"]
+        var selectedHours = "0"
+        var selectedMinutes = "0"
+        var frequency = [1: "week", 2: "other week", 3: "3rd week", 4: "4th week", 5: "5th week", 6: "6th week", 7: "7th week", 8: "8th week"]
+        
+        var pickerData: [[String]] = []
+        var selectedFromPicker: UILabel!
 
-    var pickerData: [[String]] = []
-    var selectedFromPicker: UILabel!
+        var timePickerView = UIPickerView()
+        var frequencyPickerView = UIPickerView()
+        let pickerViewDatasource = TaskTimePicker()
+    //}
     
     var tasks = [String]()
     var taskFrequency = 0.0
     
-    var timePickerView = UIPickerView()
-    var frequencyPickerView = UIPickerView()
-    let pickerViewDatasource = TaskTimePicker()
     
     var appData = AppData()
     
@@ -98,9 +100,11 @@ class NewTasksViewController: UIViewController, UIScrollViewDelegate {
         
         return customPresenter
     }()
+    
+    var colors = Colors(main: HexColor("247BA0")!, bg: FlatWhite(), task1: HexColor("70C1B3")!, task2: HexColor("B2DBBF")!, progress: HexColor("FF1654")!)
 
     //MARK: - View and Basic Functions
-    
+
     override func viewDidLoad() {
         
         super.viewDidLoad()
@@ -140,7 +144,7 @@ class NewTasksViewController: UIViewController, UIScrollViewDelegate {
         let pickerToolBar = UIToolbar()
         pickerToolBar.barStyle = UIBarStyle.default
         pickerToolBar.isTranslucent = true
-        pickerToolBar.barTintColor = appData.appColor
+        pickerToolBar.barTintColor = colors.main //appData.appColor
         //pickerToolBar.tintColor = UIColor(red: 76/255, green: 217/255, blue: 100/255, alpha: 1)
         pickerToolBar.sizeToFit()
         
@@ -179,7 +183,7 @@ class NewTasksViewController: UIViewController, UIScrollViewDelegate {
         // Occurrence rate initialization finished
         //******************************
 
-        let themeColor = appData.appColor
+        let themeColor = colors.main //appData.appColor
         
         if appData.darknessCheck(for: themeColor) {
             
@@ -205,17 +209,17 @@ class NewTasksViewController: UIViewController, UIScrollViewDelegate {
         prepareDayButtons(for: friday)
         prepareDayButtons(for: saturday)
         
-        createButton.layer.borderColor = appData.appColor.cgColor
+        createButton.layer.borderColor = colors.main.cgColor //appData.appColor.cgColor
         createButton.layer.borderWidth = 2
         createButton.layer.cornerRadius = 10.0
         
-        createButton.setTitleColor(appData.appColor, for: .normal)
+        createButton.setTitleColor(colors.main /*appData.appColor*/, for: .normal)
         
     }
     
     func prepareDayButtons(for button: UIButton) {
         
-        let darkerThemeColor = appData.appColor.darken(byPercentage: 0.25)
+        let darkerThemeColor = colors.darkMain //appData.appColor.darken(byPercentage: 0.25)
         if appData.darknessCheck(for: darkerThemeColor) {
             button.setTitleColor(.white, for: .normal)
         } else {
@@ -223,7 +227,7 @@ class NewTasksViewController: UIViewController, UIScrollViewDelegate {
         }
         
         button.layer.borderWidth = 1
-        button.layer.borderColor = appData.appColor.cgColor
+        button.layer.borderColor = colors.main.cgColor //appData.appColor.cgColor
         button.tag = 0
     }
     
@@ -242,9 +246,12 @@ class NewTasksViewController: UIViewController, UIScrollViewDelegate {
     
     func setTheme() {
         
-        let themeColor = appData.appColor
-        let darkerThemeColor = themeColor.darken(byPercentage: 0.25)
+        colors = Colors.init(main: appData.mainColor!, bg: appData.bgColor!, task1: appData.taskColor1!, task2: appData.taskColor2!, progress: appData.progressColor!)
+
+        let themeColor = colors.main
+        //let themeColor = appData.appColor
         
+        let darkerThemeColor = colors.darkMain
         view.backgroundColor = darkerThemeColor
         
 //        if appData.isNightMode {
@@ -350,8 +357,8 @@ class NewTasksViewController: UIViewController, UIScrollViewDelegate {
     
     func buttonAction(for button: UIButton) {
         
-        let themeColor = appData.appColor
-        let darkerThemeColor = themeColor.darken(byPercentage: 0.25)
+        let themeColor = colors.main //appData.appColor
+        let darkerThemeColor = themeColor.darken(byPercentage: Colors.colorLevel1)
         
         if button.tag == 0 {
             UIView.animate(withDuration: 0.5, animations: { () -> Void in

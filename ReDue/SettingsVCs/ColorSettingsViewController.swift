@@ -15,42 +15,46 @@ class ColorSettingsViewController: UITableViewController {
     
     var previousCellIndex: IndexPath?
     var selectedColor: UIColor?
-    var selectedEnum: ThemeColor?
+    var selectedTheme: String?
+    var selectedEnum: ThemeColors?
     
-    var colors = ["Blue",
-                  "Brown",
-                  "Coffee",
-                  "Forest Green",
-                  "Gray",
-                  "Green",
-                  "Magenta",
-                  "Maroon",
-                  "Mint",
-                  "Navy Blue",
-                  "Pink",
-                  "Powder Blue",
-                  "Purple",
-                  "Red",
-                  "Sand",
-                  "Sky Blue",
-                  "Teal",
-                  "Watermelon",
-                  "White",
-                  "Dark Blue",
-                  "Dark Coffee",
-                  "Dark Gray",
-                  "Dark Green",
-                  "Dark Magenta",
-                  "Dark Mint",
-                  "Dark Orange",
-                  "Dark Pink",
-                  "Dark Powder Blue",
-                  "Dark Purple",
-                  "Dark Red",
-                  "Dark Sand",
-                  "Dark Sky Blue",
-                  "Dark Teal",
-                  "Dark Watermelon"]
+    var colors = Colors(main: HexColor("247BA0")!, bg: FlatWhite(), task1: HexColor("70C1B3")!, task2: HexColor("B2DBBF")!, progress: HexColor("FF1654")!)
+    
+    var colorList = [String]()
+//                  "Blue",
+//                  "Brown",
+//                  "Coffee",
+//                  "Forest Green",
+//                  "Gray",
+//                  "Green",
+//                  "Magenta",
+//                  "Maroon",
+//                  "Mint",
+//                  "Navy Blue",
+//                  "Pink",
+//                  "Powder Blue",
+//                  "Purple",
+//                  "Red",
+//                  "Sand",
+//                  "Sky Blue",
+//                  "Teal",
+//                  "Watermelon",
+//                  "White",
+//                  "Dark Blue",
+//                  "Dark Coffee",
+//                  "Dark Gray",
+//                  "Dark Green",
+//                  "Dark Magenta",
+//                  "Dark Mint",
+//                  "Dark Orange",
+//                  "Dark Pink",
+//                  "Dark Powder Blue",
+//                  "Dark Purple",
+//                  "Dark Red",
+//                  "Dark Sand",
+//                  "Dark Sky Blue",
+//                  "Dark Teal",
+//                  "Dark Watermelon"]
     
     // MARK: - UIViewController
     
@@ -62,15 +66,25 @@ class ColorSettingsViewController: UITableViewController {
         
         //tableView.register(UITableViewCell.self, forCellReuseIdentifier: "ColorCell")
         
+        colorList.removeAll()
+        
+        for color in ThemeColors.allValues {
+            let colorName = color.getColors().name.camelCaseToWords()
+            colorList.append(colorName.capitalizingFirstLetter())
+        }
+        
         setCurrentThemeColor()
         
     }
     
     func setCurrentThemeColor() {
+        
+        colors = Colors.init(main: appData.mainColor!, bg: appData.bgColor!, task1: appData.taskColor1!, task2: appData.taskColor2!, progress: appData.progressColor!)
+        
         //let themeColor = appData.appColor
-        let darkerThemeColor = appData.appColor.darken(byPercentage: 0.25)
+        let darkerThemeColor = colors.bg //appData.appColor.darken(byPercentage: 0.25)
         tableView.backgroundColor = darkerThemeColor
-        tableView.separatorColor = appData.appColor.darken(byPercentage: 0.6)
+        tableView.separatorColor = colors.bg.darken(byPercentage: Colors.colorLevel4) //appData.appColor.darken(byPercentage: 0.6)
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -91,17 +105,17 @@ class ColorSettingsViewController: UITableViewController {
             }
             
             let selectedCellText = cell.textLabel?.text
-            let enumValue = findEnum(for: selectedCellText!)
+            let enumValue = findTheme(for: selectedCellText!)
             selectedEnum = enumValue
-            selectedColor = enumValue.value
-
+            //selectedColor = enumValue.value
+            selectedTheme = enumValue.getColors().name
         }
         
         tableView.deselectRow(at: indexPath, animated: true)
    
         //setColor(as: colors[indexPath.row])
         
-        print(colors[indexPath.row])
+        print(colorList[indexPath.row])
         
     }
     
@@ -110,24 +124,25 @@ class ColorSettingsViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return colors.count
+        return colorList.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ColorCell", for: indexPath)
         
-        let cellText = colors[indexPath.row]
+        let cellText = colorList[indexPath.row]
         cell.textLabel?.text = cellText
         
         let camelCase = cellText.wordsToCamelCase()
-        let enumValue = findEnum(for: camelCase)
+        let enumValue = findTheme(for: camelCase)
+        let theme = enumValue.getColors()
         
-        if enumValue.value == appData.appColor {
+        if theme.main == appData.mainColor { //appData.appColor {
             cell.accessoryType = .checkmark
             previousCellIndex = indexPath
         }
         
-        let darkerThemeColor = appData.appColor.darken(byPercentage: 0.25)
+        let darkerThemeColor = colors.bg //appData.appColor.darken(byPercentage: 0.25)
         cell.backgroundColor = darkerThemeColor
         if appData.darknessCheck(for: darkerThemeColor) {
             cell.textLabel?.textColor = .white
@@ -244,18 +259,20 @@ class ColorSettingsViewController: UITableViewController {
         
     }
     
-    func findEnum(for string: String) -> ThemeColor {
+    func findTheme(for string: String) -> ThemeColors {
         
         let camelCase = string.wordsToCamelCase()
         print(camelCase)
         
         //let enumValue = ThemeColor(rawValue: camelCase)
-        return ThemeColor(rawValue: camelCase)!
+        //return ThemeColor(rawValue: camelCase)!
+        
+        return ThemeColors(rawValue: camelCase)!
     }
     
-    func stringValue(forEnum enumValue: ThemeColor) -> String {
+    func stringValue(forEnum enumValue: Theme) -> String {
         
-        let rawString = enumValue.rawValue
+        let rawString = enumValue.name //.rawValue
         let isDark = rawString.contains("dark")
         let stringValue: String
         
@@ -271,20 +288,36 @@ class ColorSettingsViewController: UITableViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         
-        if let themeColor = selectedColor {
-            appData.appColor = themeColor
-            //let appDelegate = UIApplication.shared.delegate as! AppDelegate
-            //        appDelegate.setTheme(as: selectedColor!)
+        if let theme = selectedEnum, let name = selectedTheme {
             
-            let colorString = selectedEnum?.rawValue.camelCaseToWords()
-            appData.appColorName = colorString!.capitalizingFirstLetter()
+            let colorString = name.camelCaseToWords()
+            appData.appColorName = colorString.capitalizingFirstLetter()
+            
+            appData.mainColor = theme.getColors().main
+            appData.bgColor = theme.getColors().bg
+            appData.taskColor1 = theme.getColors().task1
+            appData.taskColor2 = theme.getColors().task2
+            appData.progressColor = theme.getColors().progress
             
             let data = DataHandler()
             data.saveAppSettings(appData)
             
-            //appDelegate.appData.saveColorSettingsToDictionary()
-            //appDelegate.appData.save()
         }
+        
+//        if let themeColor = selectedColor {
+//            appData.appColor = themeColor
+//            //let appDelegate = UIApplication.shared.delegate as! AppDelegate
+//            //        appDelegate.setTheme(as: selectedColor!)
+//
+//            let colorString = selectedEnum?.rawValue.camelCaseToWords()
+//            appData.appColorName = colorString!.capitalizingFirstLetter()
+//            
+//            let data = DataHandler()
+//            data.saveAppSettings(appData)
+//
+//            //appDelegate.appData.saveColorSettingsToDictionary()
+//            //appDelegate.appData.save()
+//        }
         
     }
     
@@ -295,9 +328,10 @@ class ColorSettingsViewController: UITableViewController {
 //    }
     
     override func willMove(toParentViewController parent: UIViewController?) { // tricky part in iOS 10
-        if selectedColor != nil {
-            navigationController?.navigationBar.barTintColor = selectedColor
-            navigationController?.toolbar.barTintColor = selectedColor
+        //if selectedColor != nil {
+        if selectedEnum != nil {
+            navigationController?.navigationBar.barTintColor = selectedEnum?.getColors().main
+            navigationController?.toolbar.barTintColor = selectedEnum?.getColors().main
         }
         super.willMove(toParentViewController: parent)
     }

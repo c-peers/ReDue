@@ -38,7 +38,7 @@ class TaskStatsViewController: UIViewController, UIScrollViewDelegate {
     var task = Task()
     var appData = AppData()
 
-    var testData = [300, 300, 150, 200, 450, 600, 300, 600, 450, 480]
+    var colors = Colors(main: HexColor("247BA0")!, bg: FlatWhite(), task1: HexColor("70C1B3")!, task2: HexColor("B2DBBF")!, progress: HexColor("FF1654")!)
     
     // MARK: - View and Init
     override func viewWillAppear(_ animated: Bool) {
@@ -52,7 +52,9 @@ class TaskStatsViewController: UIViewController, UIScrollViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let darkerThemeColor = appData.appColor.darken(byPercentage: 0.25)
+        colors = Colors.init(main: appData.mainColor!, bg: appData.bgColor!, task1: appData.taskColor1!, task2: appData.taskColor2!, progress: appData.progressColor!)
+        
+        let darkerThemeColor = colors.bg //.darken(byPercentage: Colors.darkLevelOne) //appData.appColor.darken(byPercentage: 0.25)
         view.backgroundColor = darkerThemeColor
         scrollView.backgroundColor = darkerThemeColor
         bgView.backgroundColor = darkerThemeColor
@@ -85,8 +87,8 @@ class TaskStatsViewController: UIViewController, UIScrollViewDelegate {
     
     func setLabelColor(for label: UILabel) {
         
-        let darkerThemeColor = appData.appColor.darken(byPercentage: 0.25)
-        if appData.darknessCheck(for: darkerThemeColor) {
+        let darkerThemeColor = colors.darkMain //appData.appColor.darken(byPercentage: 0.25)
+        if appData.darknessCheck(for: colors.bg) {
             label.textColor = UIColor.white
         } else {
             label.textColor = UIColor.black
@@ -245,8 +247,8 @@ class TaskStatsViewController: UIViewController, UIScrollViewDelegate {
         leftAxis.axisMinimum = 0.0
         rightAxis.axisMinimum = 0.0
     
-        let darkerThemeColor = appData.appColor.darken(byPercentage: 0.25)
-        if appData.darknessCheck(for: darkerThemeColor) {
+        let darkerThemeColor = colors.darkMain //appData.appColor.darken(byPercentage: 0.25)
+        if appData.darknessCheck(for: colors.bg) {
             xAxis.labelTextColor = UIColor.white
             rightAxis.labelTextColor = UIColor.white
             missedTimeHistory.noDataTextColor = .white
@@ -291,8 +293,8 @@ class TaskStatsViewController: UIViewController, UIScrollViewDelegate {
         leftAxis.axisMinimum = 0.0
         rightAxis.axisMinimum = 0.0
 
-        let darkerThemeColor = appData.appColor.darken(byPercentage: 0.25)
-        if appData.darknessCheck(for: darkerThemeColor) {
+        let darkerThemeColor = colors.darkMain //appData.appColor.darken(byPercentage: 0.25)
+        if appData.darknessCheck(for: colors.bg) {
             xAxis.labelTextColor = UIColor.white
             rightAxis.labelTextColor = UIColor.white
             completedTimeHistory.noDataTextColor = .white
@@ -444,8 +446,8 @@ class TaskStatsViewController: UIViewController, UIScrollViewDelegate {
         
         bar.colors = ChartColorTemplates.pastel()
         
-        let darkerThemeColor = appData.appColor.darken(byPercentage: 0.25)
-        if appData.darknessCheck(for: darkerThemeColor) {
+        let darkerThemeColor = colors.darkMain //appData.appColor.darken(byPercentage: 0.25)
+        if appData.darknessCheck(for: colors.bg) {
             bar.valueColors = [UIColor.white]
         } else {
             bar.valueColors = [UIColor.black]

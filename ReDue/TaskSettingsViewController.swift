@@ -118,6 +118,8 @@ class TaskSettingsViewController: UIViewController {
         return customPresenter
     }()
     
+    var colors = Colors(main: HexColor("247BA0")!, bg: FlatWhite(), task1: HexColor("70C1B3")!, task2: HexColor("B2DBBF")!, progress: HexColor("FF1654")!)
+    
     //MARK: - View and Basic Functions
     
     override func viewDidLoad() {
@@ -194,7 +196,7 @@ class TaskSettingsViewController: UIViewController {
         //******************************
 
         
-        let themeColor = appData.appColor
+        let themeColor = colors.main //appData.appColor
         
         if appData.darknessCheck(for: themeColor) {
             decimalPadToolBar.tintColor = UIColor.white
@@ -202,11 +204,11 @@ class TaskSettingsViewController: UIViewController {
             decimalPadToolBar.tintColor = UIColor.black
         }
         
-        completeButton.layer.borderColor = appData.appColor.cgColor
+        completeButton.layer.borderColor = colors.main.cgColor //appData.appColor.cgColor
         completeButton.layer.borderWidth = 2
         completeButton.layer.cornerRadius = 10.0
         
-        completeButton.setTitleColor(appData.appColor, for: .normal)
+        completeButton.setTitleColor(colors.main /*appData.appColor*/, for: .normal)
 
     }
     
@@ -372,7 +374,7 @@ class TaskSettingsViewController: UIViewController {
         let pickerToolBar = UIToolbar()
         pickerToolBar.barStyle = UIBarStyle.default
         pickerToolBar.isTranslucent = true
-        pickerToolBar.barTintColor = appData.appColor
+        pickerToolBar.barTintColor = colors.main //appData.appColor
         pickerToolBar.sizeToFit()
         
         let doneButton = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.plain, target: self, action: #selector(donePicker))
@@ -383,7 +385,7 @@ class TaskSettingsViewController: UIViewController {
         
         pickerToolBar.isUserInteractionEnabled = true
         
-        let themeColor = appData.appColor
+        let themeColor = colors.main //appData.appColor
         
         if appData.darknessCheck(for: themeColor) {
             pickerToolBar.tintColor = UIColor.white
@@ -415,8 +417,10 @@ class TaskSettingsViewController: UIViewController {
     
     func setTheme() {
         
-        let themeColor = appData.appColor
-        let darkerThemeColor = themeColor.darken(byPercentage: 0.25)
+        colors = Colors.init(main: appData.mainColor!, bg: appData.bgColor!, task1: appData.taskColor1!, task2: appData.taskColor2!, progress: appData.progressColor!)
+        
+        let themeColor = colors.main //appData.appColor
+        let darkerThemeColor = colors.darkMain
         
         view.backgroundColor = darkerThemeColor
         //scrollView.backgroundColor = darkerThemeColor
@@ -460,7 +464,7 @@ class TaskSettingsViewController: UIViewController {
     
     func prepareDayButton(_ button: UIButton) {
 
-        let darkerThemeColor = appData.appColor.darken(byPercentage: 0.25)
+        let darkerThemeColor = colors.darkMain //appData.appColor.darken(byPercentage: 0.25)
         if appData.darknessCheck(for: darkerThemeColor) {
             button.setTitleColor(.white, for: .normal)
         } else {
@@ -468,7 +472,7 @@ class TaskSettingsViewController: UIViewController {
         }
         
         button.layer.borderWidth = 1
-        button.layer.borderColor = appData.appColor.cgColor
+        button.layer.borderColor = colors.main.cgColor //appData.appColor.cgColor
         button.tag = 0
     }
     
@@ -604,14 +608,14 @@ class TaskSettingsViewController: UIViewController {
     }
     
     func setButtonOn(for button: UIButton) {
-        button.layer.backgroundColor = self.appData.appColor.cgColor
+        button.layer.backgroundColor = colors.main.cgColor //self.appData.appColor.cgColor
         button.setTitleColor(UIColor.white, for: .normal)
     }
     
     func buttonAction(for button: UIButton) {
         
-        let themeColor = appData.appColor
-        let darkerThemeColor = themeColor.darken(byPercentage: 0.25)
+        let themeColor = colors.main //appData.appColor
+        let darkerThemeColor = colors.darkMain
         
         if button.tag == 0 {
             UIView.animate(withDuration: 0.5, animations: { () -> Void in
@@ -621,7 +625,7 @@ class TaskSettingsViewController: UIViewController {
             button.tag = 1
         } else {
             UIView.animate(withDuration: 0.5, animations: { () -> Void in
-                button.layer.backgroundColor = darkerThemeColor?.cgColor
+                button.layer.backgroundColor = darkerThemeColor.cgColor
                 //button.setTitleColor(UIColor.black, for: .normal)
             })
             button.tag = 0

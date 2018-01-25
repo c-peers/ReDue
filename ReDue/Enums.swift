@@ -135,6 +135,67 @@ enum ThemeColor: String {
     
 }
 
+enum ThemeColors: String, EnumCollection {
+    case lapis, desire, gunmetal, malachite, cerulean, maastricht, burgundy, lightOchre
+}
+
+extension ThemeColors {
+    func getColors() -> Theme {
+        switch self {
+        case .lapis:
+            return Theme(name: "Lapis", main: HexColor("247BA0")!, bg: HexColor("EEF5DB")! /*FlatWhite()*/, task1:
+                HexColor("70C1B3")!, task2: HexColor("B2DBBF")!, progress:
+                HexColor("FF1654")!)
+        case .desire:
+            return Theme(name: "Desire", main: HexColor("E63946")!, bg: HexColor("EEF5DB")! /*FlatWhite()*/, task1:
+                HexColor("A8DADC")!, task2: HexColor("457B9D")!, progress:
+                HexColor("1D3557")!)
+        case .gunmetal:
+            return Theme(name: "Gunmetal", main: HexColor("2B2D42")!, bg: HexColor("EEF5DB")! /*FlatWhite()*/, task1:
+                HexColor("EF233C")!, task2: HexColor("D90429")!, progress:
+                HexColor("8D99AE")!)
+        case .malachite:
+            return Theme(name: "Malachite", main: HexColor("20BF55")!, bg: HexColor("EEF5DB")! /*FlatWhite()*/, task1:
+                HexColor("0B4F6C")!, task2: HexColor("01BAEF")!, progress:
+                HexColor("757575")!)
+        case .cerulean:
+            return Theme(name: "Cerulean", main: HexColor("083D77")!, bg: HexColor("EEF5DB")! /*FlatWhite()*/, task1:
+                HexColor("F4D35E")!, task2: HexColor("EE964B")!, progress:
+                HexColor("F95738")!)
+        case .maastricht:
+            return Theme(name: "Maastricht", main: HexColor("0E103D")!, bg: HexColor("EEF5DB")! /*FlatWhite()*/, task1:
+                HexColor("A5668B")!, task2: HexColor("69306D")!, progress:
+                HexColor("D3BCC0")!)
+        case .burgundy:
+            return Theme(name: "Burgundy", main: HexColor("472D30")!, bg: HexColor("EEF5DB")! /*FlatWhite()*/, task1:
+                HexColor("E26D5C")!, task2: HexColor("723D46")!, progress:
+                HexColor("C9CBA3")!)
+        case .lightOchre:
+            return Theme(name: "Light Ochre", main: HexColor("EC7357")!, bg: HexColor("EEF5DB")! /*FlatWhite()*/, task1:
+                HexColor("E1CE7A")!, task2: HexColor("FDD692")!, progress:
+                HexColor("754F44")!)
+        }
+    }
+}
+
+struct Theme {
+    var name = "lapis"
+    var main = HexColor("247BA0")
+    var bg = HexColor("EEF5DB") /*FlatWhite()*/
+    var task1 = HexColor("70C1B3")
+    var task2 = HexColor("B2DBBF")
+    var progress = HexColor("FF1654")
+
+    init(name: String, main: UIColor, bg: UIColor, task1: UIColor, task2: UIColor, progress: UIColor) {
+        self.name = name
+        self.main = main
+        self.bg = bg
+        self.task1 = task1
+        self.task2 = task2
+        self.progress = progress
+    }
+}
+
 extension ThemeColor {
     var value: UIColor {
         get {

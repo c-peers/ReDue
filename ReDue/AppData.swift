@@ -23,6 +23,13 @@ class AppData: NSObject, NSCoding {
     var appColorName = "Sky Blue"
     var resetOffset = "12:00"
     
+    // Colors
+    var mainColor = HexColor("247BA0")
+    var bgColor = HexColor("EEF5DB") /*FlatWhite()*/
+    var taskColor1 = HexColor("70C1B3")
+    var taskColor2 = HexColor("B2DBBF")
+    var progressColor = HexColor("FF1654")
+    
     // App settings
     var isFullVersion = false
     var isNightMode = false
@@ -71,6 +78,13 @@ class AppData: NSObject, NSCoding {
         static let usesCircularProgressKey = "usesCircularProgressKey"
         static let deviceTypeKey = "deviceTypeKey"
         static let isGlassKey = "isGlassKey"
+        
+        static let mainColorKey = "mainColorKey"
+        static let bgColorKey = "bgColorKey"
+        static let taskColor1Key = "taskColor1Key"
+        static let taskColor2Key = "taskColor2Key"
+        static let progressColorKey = "progressColorKey"
+
         //static let Key = "Key"
     }
 
@@ -224,6 +238,11 @@ class AppData: NSObject, NSCoding {
         aCoder.encode(isFullVersion, forKey: Key.isFullVersionKey)
         aCoder.encode(isNightMode, forKey: Key.isNightModeKey)
         aCoder.encode(usesCircularProgress, forKey: Key.usesCircularProgressKey)
+        aCoder.encode(mainColor, forKey: Key.mainColorKey)
+        aCoder.encode(bgColor, forKey: Key.bgColorKey)
+        aCoder.encode(taskColor1, forKey: Key.taskColor1Key)
+        aCoder.encode(taskColor2, forKey: Key.taskColor2Key)
+        aCoder.encode(progressColor, forKey: Key.progressColorKey)
 
 //        aCoder.encode(appSettings, forKey: "appSettings")
 //        aCoder.encode(timeSettings, forKey: "timeSettings")
@@ -251,6 +270,12 @@ class AppData: NSObject, NSCoding {
         let usesCircularProgress = aDecoder.decodeBool(forKey: Key.usesCircularProgressKey)
         //let time = aDecoder.decodeBool(forKey: Key.timeKey)
 
+        let mainColor = aDecoder.decodeObject(forKey: Key.mainColorKey) as? UIColor ?? HexColor("247BA0")!
+        let bgColor = aDecoder.decodeObject(forKey: Key.bgColorKey) as? UIColor ?? FlatWhite()
+        let taskColor1 = aDecoder.decodeObject(forKey: Key.taskColor1Key) as? UIColor ?? HexColor("70C1B3")!
+        let taskColor2 = aDecoder.decodeObject(forKey: Key.taskColor2Key) as? UIColor ?? HexColor("B2DBBF")!
+        let progressColor = aDecoder.decodeObject(forKey: Key.progressColorKey) as? UIColor ?? HexColor("FF1654")!
+
 //        guard let appSettings = aDecoder.decodeObject(forKey: "appSettings") as? [String : Bool] else {
 //            return nil
 //        }
@@ -267,13 +292,13 @@ class AppData: NSObject, NSCoding {
         // Must call designated initializer.
 //        self.init(appSettings: appSettings,  timeSettings: timeSettings, colorSettings: colorSettings, misc: misc)
         
-        self.init(taskResetTime: taskResetTime, taskLastTime: taskLastTime, taskCurrentTime: taskCurrentTime, appColor: appColor, appColorName: appColorName, resetOffset: resetOffset, isFullVersion: isFullVersion, isNightMode: isNightMode, isGlass: isGlass, usesCircularProgress: usesCircularProgress)
+        self.init(taskResetTime: taskResetTime, taskLastTime: taskLastTime, taskCurrentTime: taskCurrentTime, appColor: appColor, appColorName: appColorName, resetOffset: resetOffset, isFullVersion: isFullVersion, isNightMode: isNightMode, isGlass: isGlass, usesCircularProgress: usesCircularProgress, mainColor: mainColor, bgColor: bgColor, taskColor1: taskColor1, taskColor2: taskColor2, progressColor: progressColor)
         
     }
     
     //MARK: - Init
     
-    init(taskResetTime: Date, taskLastTime: Date, taskCurrentTime: Date, appColor: UIColor, appColorName: String, resetOffset: String, isFullVersion: Bool, isNightMode: Bool, isGlass: Bool, usesCircularProgress: Bool) {
+    init(taskResetTime: Date, taskLastTime: Date, taskCurrentTime: Date, appColor: UIColor, appColorName: String, resetOffset: String, isFullVersion: Bool, isNightMode: Bool, isGlass: Bool, usesCircularProgress: Bool, mainColor: UIColor, bgColor: UIColor, taskColor1: UIColor, taskColor2: UIColor, progressColor: UIColor) {
         
         self.taskResetTime = taskResetTime
         self.taskLastTime = taskLastTime
@@ -285,6 +310,12 @@ class AppData: NSObject, NSCoding {
         self.isNightMode = isNightMode
         self.isGlass = isGlass
         self.usesCircularProgress = usesCircularProgress
+        
+        self.mainColor = mainColor
+        self.bgColor = bgColor
+        self.taskColor1 = taskColor1
+        self.taskColor2 = taskColor2
+        self.progressColor = progressColor
         
     }
     

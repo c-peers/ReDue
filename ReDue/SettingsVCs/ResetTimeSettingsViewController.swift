@@ -18,15 +18,19 @@ class ResetTimeSettingsViewController: UITableViewController {
     var resetTimes = ["12:00 AM", "1:00 AM", "2:00 AM", "3:00 AM", "4:00 AM"]
     var resetTimes24H = ["0:00", "1:00", "2:00", "3:00", "4:00"]
     
-    // MARK: - UIViewController
+    var colors = Colors(main: HexColor("247BA0")!, bg: FlatWhite(), task1: HexColor("70C1B3")!, task2: HexColor("B2DBBF")!, progress: HexColor("FF1654")!)
+    
+// MARK: - UIViewController
     
     override func viewDidLoad() {
         
         self.title = "Reset Time"
         
-        let darkerThemeColor = appData.appColor.darken(byPercentage: 0.25)
+        colors = Colors.init(main: appData.mainColor!, bg: appData.bgColor!, task1: appData.taskColor1!, task2: appData.taskColor2!, progress: appData.progressColor!)
+        
+        let darkerThemeColor = colors.bg //appData.appColor.darken(byPercentage: 0.25)
         tableView.backgroundColor = darkerThemeColor
-        tableView.separatorColor = appData.appColor.darken(byPercentage: 0.6)
+        tableView.separatorColor = colors.bg.darken(byPercentage: Colors.colorLevel4) //appData.appColor.darken(byPercentage: 0.6)
 
         //tableView.sectionIndexColor = UIColor.black
         
@@ -99,7 +103,7 @@ class ResetTimeSettingsViewController: UITableViewController {
             cell.accessoryType = .checkmark
             previousCellIndex = indexPath
         }
-        let darkerThemeColor = appData.appColor.darken(byPercentage: 0.25)
+        let darkerThemeColor = colors.bg //appData.appColor.darken(byPercentage: 0.25)
         cell.backgroundColor = darkerThemeColor
         if appData.darknessCheck(for: darkerThemeColor) {
             cell.textLabel?.textColor = .white
