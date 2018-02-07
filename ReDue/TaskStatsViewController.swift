@@ -12,11 +12,11 @@ import Chameleon
 
 class TaskStatsViewController: UIViewController, UIScrollViewDelegate {
 
-    @IBOutlet weak var missedTimeHistory: BarChartView!
+    //@IBOutlet weak var missedTimeHistory: BarChartView!
     @IBOutlet weak var completedTimeHistory: BarChartView!
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var bgView: UIView!
-    @IBOutlet weak var missedTimeHistoryLabel: UILabel!
+    //@IBOutlet weak var missedTimeHistoryLabel: UILabel!
     @IBOutlet weak var completedTimeHistoryLabel: UILabel!
     @IBOutlet weak var statisticsTitleLabel: UILabel!
     @IBOutlet var statsNameLabels: [UILabel]!
@@ -24,7 +24,7 @@ class TaskStatsViewController: UIViewController, UIScrollViewDelegate {
         
     //var taskHistory
     var statCharts: [UIView: String] {
-        return [missedTimeHistory: "Missed Time Bar Chart", completedTimeHistory: "Completed Time Bar Chart"]
+        return [/*missedTimeHistory: "Missed Time Bar Chart", */completedTimeHistory: "Completed Time Bar Chart"]
     }
     
     let nameLabels = ["Task Time", "   Completed", "   Missed", "   Forfeited", "Total Days", "    Complete", "    Partial Complete", "    Missed", "Current Streak", "Best Streak"]
@@ -44,7 +44,7 @@ class TaskStatsViewController: UIViewController, UIScrollViewDelegate {
     override func viewWillAppear(_ animated: Bool) {
         scrollView.delegate = self
         scrollView.contentSize.width = view.bounds.width
-        scrollView.contentSize.height = CGFloat(970)
+        scrollView.contentSize.height = CGFloat(700)
 
         //navigationController?.toolbar.isHidden = true
     }
@@ -59,7 +59,7 @@ class TaskStatsViewController: UIViewController, UIScrollViewDelegate {
         scrollView.backgroundColor = darkerThemeColor
         bgView.backgroundColor = darkerThemeColor
         
-        setLabelColor(for: missedTimeHistoryLabel)
+        //setLabelColor(for: missedTimeHistoryLabel)
         setLabelColor(for: completedTimeHistoryLabel)
         setLabelColor(for: statisticsTitleLabel)
  
@@ -214,51 +214,51 @@ class TaskStatsViewController: UIViewController, UIScrollViewDelegate {
     
     // MARK: - Chart Functions
 
-    func setMissedChart() {
-    
-        missedTimeHistory.scaleYEnabled = false
-        missedTimeHistory.scaleXEnabled = true
-        missedTimeHistory.dragEnabled = true
-        missedTimeHistory.setVisibleXRangeMaximum(5.0)
-        missedTimeHistory.moveViewToX(5.0)
-        missedTimeHistory.rightAxis.enabled = true
-        missedTimeHistory.leftAxis.enabled = false
-        
-        missedTimeHistory.chartDescription?.enabled = false
-        missedTimeHistory.legend.enabled = false
-        missedTimeHistory.xAxis.labelPosition = .bottom
-
-        let xAxis = missedTimeHistory.xAxis
-        xAxis.granularity = 1.0
-        xAxis.drawGridLinesEnabled = false
-        xAxis.centerAxisLabelsEnabled = false
-        
-        xAxis.valueFormatter = IndexAxisValueFormatter(values: accessDates)
-    
-        let leftAxis = missedTimeHistory.getAxis(.left)
-        let rightAxis = missedTimeHistory.getAxis(.right)
-        
-        leftAxis.drawLabelsEnabled = false
-        rightAxis.drawLabelsEnabled = true
-        
-        rightAxis.valueFormatter = self
-        rightAxis.granularity = 1.0
-        
-        leftAxis.axisMinimum = 0.0
-        rightAxis.axisMinimum = 0.0
-    
-        let darkerThemeColor = colors.darkMain //appData.appColor.darken(byPercentage: 0.25)
-        if appData.darknessCheck(for: colors.bg) {
-            xAxis.labelTextColor = UIColor.white
-            rightAxis.labelTextColor = UIColor.white
-            missedTimeHistory.noDataTextColor = .white
-        } else {
-            xAxis.labelTextColor = UIColor.black
-            rightAxis.labelTextColor = UIColor.black
-            missedTimeHistory.noDataTextColor = .black
-        }
-    
-    }
+//    func setMissedChart() {
+//
+//        missedTimeHistory.scaleYEnabled = false
+//        missedTimeHistory.scaleXEnabled = true
+//        missedTimeHistory.dragEnabled = true
+//        missedTimeHistory.setVisibleXRangeMaximum(5.0)
+//        missedTimeHistory.moveViewToX(5.0)
+//        missedTimeHistory.rightAxis.enabled = true
+//        missedTimeHistory.leftAxis.enabled = false
+//
+//        missedTimeHistory.chartDescription?.enabled = false
+//        missedTimeHistory.legend.enabled = false
+//        missedTimeHistory.xAxis.labelPosition = .bottom
+//
+//        let xAxis = missedTimeHistory.xAxis
+//        xAxis.granularity = 1.0
+//        xAxis.drawGridLinesEnabled = false
+//        xAxis.centerAxisLabelsEnabled = false
+//
+//        xAxis.valueFormatter = IndexAxisValueFormatter(values: accessDates)
+//
+//        let leftAxis = missedTimeHistory.getAxis(.left)
+//        let rightAxis = missedTimeHistory.getAxis(.right)
+//
+//        leftAxis.drawLabelsEnabled = false
+//        rightAxis.drawLabelsEnabled = true
+//
+//        rightAxis.valueFormatter = self
+//        rightAxis.granularity = 1.0
+//
+//        leftAxis.axisMinimum = 0.0
+//        rightAxis.axisMinimum = 0.0
+//
+//        let darkerThemeColor = colors.darkMain //appData.appColor.darken(byPercentage: 0.25)
+//        if appData.darknessCheck(for: colors.bg) {
+//            xAxis.labelTextColor = UIColor.white
+//            rightAxis.labelTextColor = UIColor.white
+//            missedTimeHistory.noDataTextColor = .white
+//        } else {
+//            xAxis.labelTextColor = UIColor.black
+//            rightAxis.labelTextColor = UIColor.black
+//            missedTimeHistory.noDataTextColor = .black
+//        }
+//
+//    }
     
     func setCompletedChart() {
         
@@ -382,7 +382,7 @@ class TaskStatsViewController: UIViewController, UIScrollViewDelegate {
     
     func chartInit() {
         
-        setMissedChart()
+        //setMissedChart()
         setCompletedChart()
 
         for (chart, type) in statCharts {
@@ -390,22 +390,14 @@ class TaskStatsViewController: UIViewController, UIScrollViewDelegate {
             //setXAxis(for: chart, as: type)
             //setYAxis(for: chart, as: type)
             //setChartView(for: chart, as: type)
-            
-            if type.contains("Line") {
+            loadBarChartData(chart: chart as! BarChartView, as: type)
+            //if type.contains("Line") {
                 //loadLineChartData(chart: chart as! LineChartView, as: type)
-            } else if type.contains("Bar") {
-                loadBarChartData(chart: chart as! BarChartView, as: type)
-            }
+            //} else if type.contains("Bar") {
+                
+            //}
             
         }
-        
-    }
-    
-    func loadLineChartData(chart: LineChartView, as type: String) {
-        
-        //var lineChartEntry = [LineChartDataSet]()
-        
-        
         
     }
     
