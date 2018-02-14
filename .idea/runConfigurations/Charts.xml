@@ -1,0 +1,11 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Charts" type="AppleRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Charts" TARGET_NAME="Charts" CONFIG_NAME="Debug" SCHEME_NAME="Charts" MAKE_ACTIVE="TRUE">
+    <envs>
+      <env name="FB_REFERENCE_IMAGE_DIR" value="$(SOURCE_ROOT)/Tests/ReferenceImages" />
+    </envs>
+    <EXTENSION ID="org.jetbrains.appcode.reveal.RevealRunConfigurationExtension">
+      <REVEAL_SETTINGS autoInject="false" autoInstall="true" askToEnableAutoInstall="true" />
+    </EXTENSION>
+    <method />
+  </configuration>
+</component>

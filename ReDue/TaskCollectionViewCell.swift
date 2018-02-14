@@ -68,7 +68,7 @@ class TaskCollectionViewCell: UICollectionViewCell {
             
             mainVC?.selectedCell = self
             
-            timer.setFinishedNotification(for: task.name, atTime: remainingTime)
+            timer.setFinishedNotification(for: task, atTime: remainingTime)
             timer.run = Timer.scheduledTimer(timeInterval: 1.0, target: self,
                                                   selector: #selector(timerRunning), userInfo: nil,
                                                   repeats: true)
@@ -157,6 +157,9 @@ class TaskCollectionViewCell: UICollectionViewCell {
         
         if remainingTime <= 0 {
             remainingTimeAsString = "Complete"
+            playStopButton.isEnabled = false
+        } else {
+            playStopButton.isEnabled = true
         }
         
         let currentProgress = 1 - Float(remainingTime)/Float(task.weightedTime)
@@ -164,7 +167,6 @@ class TaskCollectionViewCell: UICollectionViewCell {
         if type == .line {
             //TaskViewController.calculateProgress()
             //cell!.progressView.setProgress(currentProgress, animated: true)
-            
         } else if type == .circular {
             circleProgressView.progress = Double(currentProgress)
         }
@@ -243,6 +245,10 @@ class TaskCollectionViewCell: UICollectionViewCell {
                 timer.playAudio(for: task)
             }
             
+        } else {
+            let resetTime = mainVC!.check.timeToReset(at: mainVC!.nextResetTime)
+            let (remainingTimeString, _) = formatTimer(for: task)
+            timer.setMissedTimeNotification(for: task.name, at: resetTime, withRemaining: remainingTimeString)
         }
         
         if let date = task.getAccessDate(lengthFromEnd: 0) {
@@ -258,11 +264,6 @@ class TaskCollectionViewCell: UICollectionViewCell {
             }
             
         }
-
-        let resetTime = mainVC!.check.timeToReset(at: mainVC!.nextResetTime)
-        
-        let (remainingTimeString, _) = formatTimer(for: task)
-        timer.setMissedTimeNotification(for: task.name, at: resetTime, withRemaining: remainingTimeString)
         
         mainVC!.saveData()
 

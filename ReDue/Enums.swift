@@ -59,6 +59,10 @@ enum TableCellType {
     case header, audio, vibration
 }
 
+enum Visible {
+    case visible, hidden
+}
+
 /* */
 enum AudioAlert: String, EnumCollection {
     case a = "Corsica.wav"

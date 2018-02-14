@@ -89,16 +89,11 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
         
         setElapsedTime()
         
-        if task.rollover > 0 && !task.isRunning && task.isToday {
-            UIView.animate(withDuration: 0.5, animations: {
-                self.resetRolloverButton.isHidden = false
-                self.resetRolloverButton.alpha = 1
-            })
+        let (_, remainingTime) = timer.formatTimer(for: task)
+        if task.rollover > 0 && remainingTime > task.time && !task.isRunning && task.isToday {
+            rolloverButton(is: .visible)
         } else {
-            UIView.animate(withDuration: 0.5, animations: {
-                self.resetRolloverButton.isHidden = true
-                self.resetRolloverButton.alpha = 0
-            })
+            rolloverButton(is: .hidden)
         }
         
         if timer.isEnabled && task.isRunning {
@@ -328,6 +323,12 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
                 timer.playAudio(for: task)
             }
             
+        } else {
+            let mainVC = self.navigationController?.viewControllers.first as! TaskViewController
+            let resetTime = check.timeToReset(at: mainVC.nextResetTime)
+            let timeRemaining = getRemainingTime()
+            let remainingTimeString = timer.getRemainingTimeAsString(withRemaining: timeRemaining)
+            timer.setMissedTimeNotification(for: task.name, at: resetTime, withRemaining: remainingTimeString)
         }
         
         if let date = task.getAccessDate(lengthFromEnd: 0) {
@@ -353,7 +354,6 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
         task.isRunning = false
         timer.isEnabled = false
         timer.firedFromMainVC = false
-
     }
     
     // MARK: - Theme
@@ -425,15 +425,14 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
     @IBAction func taskButtonTapped(_ sender: UIButton) {
         
         let mainVC = self.navigationController?.viewControllers.first as! TaskViewController
-        
+
+        let (_, remainingTime) = timer.formatTimer(for: task)
+
         if timer.isEnabled != true {
             task.isRunning = true
             timer.isEnabled = true
             
-            UIView.animate(withDuration: 0.5, animations: {
-                self.resetRolloverButton.isHidden = true
-                self.resetRolloverButton.alpha = 0
-            })
+            rolloverButton(is: .hidden)
             
             setImage(as: #imageLiteral(resourceName: "Pause"))
             
@@ -442,8 +441,7 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
             timer.run = Timer.scheduledTimer(timeInterval: 1.0, target: self,
                                              selector: #selector(timerRunning), userInfo: nil, repeats: true)
             
-            let (_, remainingTime) = timer.formatTimer(for: task)
-            timer.setFinishedNotification(for: task.name, atTime: remainingTime)
+            timer.setFinishedNotification(for: task, atTime: remainingTime)
 
             /* Add the current VC to the array so that we can then load
                the correct intance of the VC when returning */
@@ -451,11 +449,8 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
             
         } else {
             
-            if task.rollover > 0 {
-                UIView.animate(withDuration: 0.5, animations: {
-                    self.resetRolloverButton.isHidden = false
-                    self.resetRolloverButton.alpha = 1
-                })
+            if task.rollover > 0 && remainingTime > task.time {
+                rolloverButton(is: .visible)
             }
             
             timerStopped()
@@ -506,6 +501,16 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
         popAlert(forType: .delete)
     }
     
+    func rolloverButton(is visible: Visible) {
+        let isHidden = !(visible == .visible)
+        UIView.animate(withDuration: 0.5, animations: {
+            self.resetRolloverButton.isHidden = isHidden
+            self.resetRolloverButton.alpha = isHidden ? 0:1
+        })
+
+        
+    }
+    
     func popAlert(forType type: AlertType) {
         
         let title: String
@@ -541,10 +546,7 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
             self.task.forfeitAccumulatedTime()
             self.formatTimer()
             self.saveData()
-            UIView.animate(withDuration: 0.5, animations: {
-                self.resetRolloverButton.isHidden = true
-                self.resetRolloverButton.alpha = 0
-            })
+            self.rolloverButton(is: .hidden)
         }
         
         if type == .delete {
