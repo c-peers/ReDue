@@ -8,7 +8,7 @@
 
 import Foundation
 import UserNotifications
-import AVFoundation
+import AudioToolbox
 
 class CountdownTimer: NSObject {
     
@@ -133,6 +133,8 @@ class CountdownTimer: NSObject {
     
     func vibrate(for task: Task) {
         AudioServicesPlaySystemSound(kSystemSoundID_Vibrate)
+        AudioServicesPlayAlertSoundWithCompletion(SystemSoundID(kSystemSoundID_Vibrate), nil)
+        AudioServicesPlaySystemSoundWithCompletion(SystemSoundID(kSystemSoundID_Vibrate), nil)
         _ = task.vibrateAlert.run
     }
     
@@ -143,24 +145,21 @@ class CountdownTimer: NSObject {
         let fileName = task.audioAlert.rawValue[..<periodIndex]
         let fileType = task.audioAlert.rawValue[indexAfterPeriod...]//.suffix(from: periodIndex)
         
-        //var player : AVAudioPlayer?
         print(String(fileName))
         print(String(fileType))
-        let path = Bundle.main.path(forResource: task.audioAlert.rawValue, ofType: nil)
-        //let path = Bundle.main.path(forResource: String(fileName), ofType: String(fileType))
-//            Bundle.main.path(forResource: "Corsica"/*String(fileName)*/, ofType: "wav"/*String(fileType)*/, inDirectory: "Sounds")
-        let url = URL(fileURLWithPath: path!)
-        
-        do {
-            let sound = try AVAudioPlayer(contentsOf: url)
-            //player = sound
-            sound.numberOfLoops = 1
-            sound.prepareToPlay()
-            sound.play()
-        } catch {
-            print("error loading file")
+
+        if let soundUrl = Bundle.main.url(forResource: String(fileName), withExtension: String(fileType)) {
+            var soundId: SystemSoundID = 0
+            
+            AudioServicesCreateSystemSoundID(soundUrl as CFURL, &soundId)
+            
+            AudioServicesAddSystemSoundCompletion(soundId, nil, nil, { (soundId, clientData) -> Void in
+                AudioServicesDisposeSystemSoundID(soundId)
+            }, nil)
+            
+            AudioServicesPlaySystemSound(soundId)
         }
-        
+
     }
     
     func setAlertText(for audio: AudioAlert, and vibrate: VibrateAlert) -> String {
@@ -187,14 +186,15 @@ class CountdownTimer: NSObject {
     
     // MARK: - Notification Functions
     
-    func setFinishedNotification(for task: String, atTime time: Double) {
+    func setFinishedNotification(for task: Task, atTime time: Double) {
         
         let randomSeed = Int(arc4random_uniform(14) % 7)
         let notification = UNMutableNotificationContent()
         notification.title = getAlertTitle(forType: .complete, withSeed: randomSeed)
-        notification.body = getAlertBody(forType: .complete, withSeed: randomSeed, for: task)
-
-        let id = task + "Complete"
+        notification.body = getAlertBody(forType: .complete, withSeed: randomSeed, for: task.name)
+        notification.sound = UNNotificationSound(named: task.audioAlert.rawValue)
+        
+        let id = task.name + "Complete"
         let notificationTrigger = UNTimeIntervalNotificationTrigger(timeInterval: time, repeats: false)
         let request = UNNotificationRequest(identifier: id, content: notification, trigger: notificationTrigger)
         
