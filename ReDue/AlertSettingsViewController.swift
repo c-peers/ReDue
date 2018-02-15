@@ -30,7 +30,10 @@ class AlertSettingsViewController: UIViewController, UITableViewDelegate, UITabl
     
     var colors = Colors(main: HexColor("247BA0")!, bg: FlatWhite(), task1: HexColor("70C1B3")!, task2: HexColor("B2DBBF")!, progress: HexColor("FF1654")!)
 
+    //MARK: - View Functions
+    
     override func viewDidLoad() {
+        
         cells = DynamicTableCells()
         tableSetup()
         setTheme()
@@ -50,6 +53,13 @@ class AlertSettingsViewController: UIViewController, UITableViewDelegate, UITabl
         completeButton.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
         
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        alertTable.reloadData()
+    }
+    
+    //MARK: - Button Functions
     
     @objc func buttonTapped() {
         
@@ -101,17 +111,14 @@ class AlertSettingsViewController: UIViewController, UITableViewDelegate, UITabl
         
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        alertTable.reloadData()
-    }
+    //MARK: - Setup Functions
     
     func tableSetup() {
         
         let audioArray = AudioAlert.allValues
         let vibrateArray = VibrateAlert.allValues
         
-        cells.append(DynamicTableCells.HeaderItem(value: "Play a sound"))
+        cells.append(DynamicTableCells.HeaderItem(value: "Play Sound"))
         for audio in audioArray {
             if let periodIndex = audio.rawValue.index(of: ".") {
                 let name = audio.rawValue.prefix(upTo: periodIndex).replacingOccurrences(of: "_", with: " ")
@@ -149,6 +156,24 @@ class AlertSettingsViewController: UIViewController, UITableViewDelegate, UITabl
         
         alertTable.reloadData()
     }
+    
+    /* Sets the section header to the text of the selected cell */
+    func setSectionHeader(to newHeaderText: String) {
+        cells.items[selectedHeaderIndex!].value = newHeaderText
+        alertTable.reloadRows(at: [IndexPath(row: selectedHeaderIndex!, section: 0)] , with: .fade)
+    }
+    
+    func setAlert(for item: DynamicTableCells.Item,at index: Int) {
+        
+        switch item.type {
+        case .audio:
+            selectedAudio = AudioAlert.allValues[index]
+        case .vibration:
+            selectedVibration = VibrateAlert.allValues[index]
+        default:
+            print("Header should never run code here!")
+        }
+    }
 
     //MARK: - Table View Functions
     
@@ -159,15 +184,38 @@ class AlertSettingsViewController: UIViewController, UITableViewDelegate, UITabl
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let item = cells.items[indexPath.row]
         let value = item.value
-
-        if let _ = task {
-            if item.type == .audio && task!.audioAlert.rawValue.contains(value.replacingOccurrences(of: " ", with: "_")) {
+        
+        /* If there is a task already and set values match the current cell then
+         set the cell to checked
+         Finally, set the section header to the checked value */
+        if let task = task {
+            if item.type == .audio && task.audioAlert.rawValue.contains(value.replacingOccurrences(of: " ", with: "_")) {
+                print(value.replacingOccurrences(of: " ", with: "_"))
                 item.isChecked = true
-            } else if item.type == .vibration && task!.vibrateAlert.rawValue.contains(value) {
+                
+                if value != "none" {
+                    setSectionHeader(to: value)
+                }
+                let index = AudioAlert.allValues.index(of: task.audioAlert) ?? 0
+                print("Index is \(index)")
+                if Int(index) > 0 {
+                    setAlert(for: item, at: index)
+                }
+                
+            } else if item.type == .vibration && task.vibrateAlert.rawValue.contains(value) {
                 item.isChecked = true
+                
+                if value != "none" {
+                    setSectionHeader(to: value)
+                }
+                let index = VibrateAlert.allValues.index(of: task.vibrateAlert) ?? 0
+                print("Index is \(index)")
+                if Int(index) > 0 {
+                    setAlert(for: item, at: index)
+                }
+                
             }
         }
-        let isChecked = item.isChecked
         
         if let cell = tableView.dequeueReusableCell(withIdentifier: "alertCell") as? AlertSettingsTableCell {
             
@@ -186,6 +234,9 @@ class AlertSettingsViewController: UIViewController, UITableViewDelegate, UITabl
                 cell.headerLabel.text = value
                 cell.settingLabel.text = ""
                 cell.accessoryType = .none
+                
+                selectedHeaderIndex = indexPath.row
+
             } else {
                 
 //                let (width, height) = (CGFloat(100), CGFloat(20))
@@ -202,10 +253,11 @@ class AlertSettingsViewController: UIViewController, UITableViewDelegate, UITabl
 
                 cell.headerLabel.text = ""
                 cell.settingLabel.text = value
-                
-                if isChecked {
+
+                if item.isChecked {
                     cell.accessoryType = .checkmark
-                } else {
+                    //selectedItemIndex = indexPath.row
+                 } else {
                     cell.accessoryType = .none
                 }
             }
@@ -254,6 +306,8 @@ class AlertSettingsViewController: UIViewController, UITableViewDelegate, UITabl
             alertTable.endUpdates()
             
         } else {
+            /* If a non-index cell is selected then check it and collapse the section
+               The section header value will be set to the selected value */
             if indexPath.row != selectedItemIndex {
                 let cell = alertTable.cellForRow(at: indexPath) as? AlertSettingsTableCell
                 cell?.accessoryType = .checkmark
@@ -274,18 +328,12 @@ class AlertSettingsViewController: UIViewController, UITableViewDelegate, UITabl
                 selectedItem.isChecked = true
 
                 let enumIndex = selectedItemIndex! - selectedHeaderIndex! - 1
-
-                switch selectedItem.type {
-                case .audio:
-                    selectedAudio = AudioAlert.allValues[enumIndex]
-                case .vibration:
-                    selectedVibration = VibrateAlert.allValues[enumIndex]
-                default:
-                    print("Header should never run code here!")
-                }
+                setAlert(for: selectedItem, at: enumIndex)
                 
-                cells.items[selectedHeaderIndex!].value = (cell?.settingLabel.text)!
-                alertTable.reloadRows(at: [IndexPath(row: selectedHeaderIndex!, section: 0)] , with: .fade)
+                // Header text changed here
+                setSectionHeader(to: (cell?.settingLabel.text)!)
+                //cells.items[selectedHeaderIndex!].value = (cell?.settingLabel.text)!
+                //alertTable.reloadRows(at: [IndexPath(row: selectedHeaderIndex!, section: 0)] , with: .fade)
                 cells.collapse(selectedHeaderIndex!)
                 alertTable.beginUpdates()
                 alertTable.endUpdates()
