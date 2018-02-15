@@ -65,18 +65,18 @@ enum Visible {
 
 /* */
 enum AudioAlert: String, EnumCollection {
-    case a = "Corsica.wav"
-    case b = "Nuclear.mp3"
-    case c = "School_Bell.wav"
-    case d = "Short_Buzzer.wav"
-    case e = "e.mp3"
-    case f = "f.mp3"
-    case g = "g.mp3"
-    case h = "h.mp3"
-    case i = "i.mp3"
-    case j = "j.mp3"
-    case k = "k.mp3"
-    case l = "l.mp3"
+    case aaa = "Corsica.wav"
+    case bbb = "Nuclear.mp3"
+    case ccc = "School_Bell.wav"
+    case ddd = "Short_Buzzer.wav"
+    case eee = "eee.wav"
+    case fff = "fff.wav"
+    case ggg = "ggg.wav"
+    case hhh = "hhh.wav"
+    case iii = "iii.wav"
+    case jjj = "jjj.wav"
+    case kkk = "kkk.wav"
+    case lll = "lll.wav"
     
     case none
 }
@@ -92,9 +92,9 @@ enum VibrateAlert: String, EnumCollection {
         get {
             switch self {
             case .short:
-                return {self.vibrate(forLength: 0.2, pause: 0.1)}
+                return {self.vibrate(forLength: 0.4, pause: 0.1)}
             case .long:
-                return {self.vibrate(forLength: 0.4, pause: 0.2)}
+                return {self.vibrate(forLength: 4, pause: 0.2)}
             default:
                 return { }
             }
@@ -108,6 +108,9 @@ enum VibrateAlert: String, EnumCollection {
 
             timer = Timer.scheduledTimer(withTimeInterval: TimeInterval(time), repeats: false, block: { _ in
             AudioServicesPlaySystemSound(kSystemSoundID_Vibrate)
+            AudioServicesPlayAlertSoundWithCompletion(SystemSoundID(kSystemSoundID_Vibrate), nil)
+            AudioServicesPlaySystemSoundWithCompletion(SystemSoundID(kSystemSoundID_Vibrate), nil)
+
         })
         timer.invalidate()
     
