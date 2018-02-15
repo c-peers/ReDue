@@ -29,7 +29,7 @@ class Task: NSObject, NSCoding {
     var isToday = false
     var isRunning = false
     
-    var audioAlert: AudioAlert = .h
+    var audioAlert: AudioAlert = .none
     var vibrateAlert: VibrateAlert = .short
     
     // Cumulative statistics
