@@ -7,10 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		C406B9231FD6269300CEA02C /* Corsica.wav in Resources */ = {isa = PBXBuildFile; fileRef = C406B91F1FD6269200CEA02C /* Corsica.wav */; };
-		C406B9241FD6269300CEA02C /* Nuclear.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = C406B9201FD6269200CEA02C /* Nuclear.mp3 */; };
-		C406B9251FD6269300CEA02C /* School_Bell.wav in Resources */ = {isa = PBXBuildFile; fileRef = C406B9211FD6269200CEA02C /* School_Bell.wav */; };
-		C406B9261FD6269300CEA02C /* Short_Buzzer.wav in Resources */ = {isa = PBXBuildFile; fileRef = C406B9221FD6269200CEA02C /* Short_Buzzer.wav */; };
+		C440186C203A96010019E828 /* alarm-clock-1.wav in Resources */ = {isa = PBXBuildFile; fileRef = C4401865203A96000019E828 /* alarm-clock-1.wav */; };
+		C440186D203A96010019E828 /* Corsica.wav in Resources */ = {isa = PBXBuildFile; fileRef = C4401866203A96000019E828 /* Corsica.wav */; };
+		C440186E203A96010019E828 /* doorbell-1.wav in Resources */ = {isa = PBXBuildFile; fileRef = C4401867203A96000019E828 /* doorbell-1.wav */; };
+		C440186F203A96010019E828 /* doorbell-3.wav in Resources */ = {isa = PBXBuildFile; fileRef = C4401868203A96000019E828 /* doorbell-3.wav */; };
+		C4401870203A96010019E828 /* Nuclear.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = C4401869203A96000019E828 /* Nuclear.mp3 */; };
+		C4401871203A96010019E828 /* School_Bell.wav in Resources */ = {isa = PBXBuildFile; fileRef = C440186A203A96000019E828 /* School_Bell.wav */; };
+		C4401872203A96010019E828 /* Short_Buzzer.wav in Resources */ = {isa = PBXBuildFile; fileRef = C440186B203A96000019E828 /* Short_Buzzer.wav */; };
+		C4401874203ABF0F0019E828 /* AudioAlertSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4401873203ABF0F0019E828 /* AudioAlertSettingsViewController.swift */; };
+		C4401876203ABF180019E828 /* VibrateAlertSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4401875203ABF180019E828 /* VibrateAlertSettingsViewController.swift */; };
+		C4401879203ABFA40019E828 /* MoreSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4401878203ABFA40019E828 /* MoreSettingsViewController.swift */; };
 		C458B9141FCD3E1F009CB2FD /* DynamicTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C458B9131FCD3E1F009CB2FD /* DynamicTable.swift */; };
 		C458B9161FCD3F47009CB2FD /* AlertSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C458B9151FCD3F47009CB2FD /* AlertSettingsViewController.swift */; };
 		C45E62CD1FCEE8C90074D90C /* Enums.swift in Sources */ = {isa = PBXBuildFile; fileRef = C45E62CC1FCEE8C90074D90C /* Enums.swift */; };
@@ -28,7 +34,6 @@
 		C475C3061FB1580D00ADA21D /* TaskCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C475C2EB1FB1580A00ADA21D /* TaskCollectionViewCell.swift */; };
 		C475C3071FB1580D00ADA21D /* TaskChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C475C2EC1FB1580A00ADA21D /* TaskChecker.swift */; };
 		C475C3081FB1580D00ADA21D /* DataHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = C475C2ED1FB1580A00ADA21D /* DataHandler.swift */; };
-		C475C3091FB1580D00ADA21D /* TimePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C475C2EE1FB1580B00ADA21D /* TimePicker.swift */; };
 		C475C30C1FB1580D00ADA21D /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = C475C2F41FB1580B00ADA21D /* Task.swift */; };
 		C475C30E1FB1580D00ADA21D /* AppData.swift in Sources */ = {isa = PBXBuildFile; fileRef = C475C2F61FB1580B00ADA21D /* AppData.swift */; };
 		C475C30F1FB1580D00ADA21D /* TaskCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C475C2F71FB1580B00ADA21D /* TaskCollectionViewCell.xib */; };
@@ -258,10 +263,16 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		C406B91F1FD6269200CEA02C /* Corsica.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Corsica.wav; sourceTree = "<group>"; };
-		C406B9201FD6269200CEA02C /* Nuclear.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Nuclear.mp3; sourceTree = "<group>"; };
-		C406B9211FD6269200CEA02C /* School_Bell.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = School_Bell.wav; sourceTree = "<group>"; };
-		C406B9221FD6269200CEA02C /* Short_Buzzer.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Short_Buzzer.wav; sourceTree = "<group>"; };
+		C4401865203A96000019E828 /* alarm-clock-1.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "alarm-clock-1.wav"; sourceTree = "<group>"; };
+		C4401866203A96000019E828 /* Corsica.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Corsica.wav; sourceTree = "<group>"; };
+		C4401867203A96000019E828 /* doorbell-1.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "doorbell-1.wav"; sourceTree = "<group>"; };
+		C4401868203A96000019E828 /* doorbell-3.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "doorbell-3.wav"; sourceTree = "<group>"; };
+		C4401869203A96000019E828 /* Nuclear.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Nuclear.mp3; sourceTree = "<group>"; };
+		C440186A203A96000019E828 /* School_Bell.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = School_Bell.wav; sourceTree = "<group>"; };
+		C440186B203A96000019E828 /* Short_Buzzer.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Short_Buzzer.wav; sourceTree = "<group>"; };
+		C4401873203ABF0F0019E828 /* AudioAlertSettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioAlertSettingsViewController.swift; sourceTree = "<group>"; };
+		C4401875203ABF180019E828 /* VibrateAlertSettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VibrateAlertSettingsViewController.swift; sourceTree = "<group>"; };
+		C4401878203ABFA40019E828 /* MoreSettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoreSettingsViewController.swift; sourceTree = "<group>"; };
 		C458B9131FCD3E1F009CB2FD /* DynamicTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DynamicTable.swift; sourceTree = "<group>"; };
 		C458B9151FCD3F47009CB2FD /* AlertSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertSettingsViewController.swift; sourceTree = "<group>"; };
 		C45E62CC1FCEE8C90074D90C /* Enums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enums.swift; sourceTree = "<group>"; };
@@ -286,7 +297,6 @@
 		C475C2EB1FB1580A00ADA21D /* TaskCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskCollectionViewCell.swift; sourceTree = "<group>"; };
 		C475C2EC1FB1580A00ADA21D /* TaskChecker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskChecker.swift; sourceTree = "<group>"; };
 		C475C2ED1FB1580A00ADA21D /* DataHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataHandler.swift; sourceTree = "<group>"; };
-		C475C2EE1FB1580B00ADA21D /* TimePicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimePicker.swift; sourceTree = "<group>"; };
 		C475C2F41FB1580B00ADA21D /* Task.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
 		C475C2F61FB1580B00ADA21D /* AppData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppData.swift; sourceTree = "<group>"; };
 		C475C2F71FB1580B00ADA21D /* TaskCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TaskCollectionViewCell.xib; sourceTree = "<group>"; };
@@ -345,15 +355,30 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		C406B91E1FD6269200CEA02C /* Sounds */ = {
+		C4401864203A96000019E828 /* Sounds */ = {
 			isa = PBXGroup;
 			children = (
-				C406B91F1FD6269200CEA02C /* Corsica.wav */,
-				C406B9201FD6269200CEA02C /* Nuclear.mp3 */,
-				C406B9211FD6269200CEA02C /* School_Bell.wav */,
-				C406B9221FD6269200CEA02C /* Short_Buzzer.wav */,
+				C4401865203A96000019E828 /* alarm-clock-1.wav */,
+				C4401866203A96000019E828 /* Corsica.wav */,
+				C4401867203A96000019E828 /* doorbell-1.wav */,
+				C4401868203A96000019E828 /* doorbell-3.wav */,
+				C4401869203A96000019E828 /* Nuclear.mp3 */,
+				C440186A203A96000019E828 /* School_Bell.wav */,
+				C440186B203A96000019E828 /* Short_Buzzer.wav */,
 			);
 			path = Sounds;
+			sourceTree = "<group>";
+		};
+		C4401877203ABF230019E828 /* TaskSettingsVCs */ = {
+			isa = PBXGroup;
+			children = (
+				C4401878203ABFA40019E828 /* MoreSettingsViewController.swift */,
+				C4401873203ABF0F0019E828 /* AudioAlertSettingsViewController.swift */,
+				C4401875203ABF180019E828 /* VibrateAlertSettingsViewController.swift */,
+				C458B9151FCD3F47009CB2FD /* AlertSettingsViewController.swift */,
+				C458B9131FCD3E1F009CB2FD /* DynamicTable.swift */,
+			);
+			path = TaskSettingsVCs;
 			sourceTree = "<group>";
 		};
 		C475C2A51FB1574C00ADA21D = {
@@ -389,7 +414,7 @@
 				C475C36C1FB193EE00ADA21D /* GoogleMobileAds.framework */,
 				C475C2BB1FB1574C00ADA21D /* Assets.xcassets */,
 				C475C2FA1FB1580C00ADA21D /* Images.xcassets */,
-				C406B91E1FD6269200CEA02C /* Sounds */,
+				C4401864203A96000019E828 /* Sounds */,
 				C475C2F81FB1580C00ADA21D /* AppDelegate.swift */,
 				C475C2F41FB1580B00ADA21D /* Task.swift */,
 				C475C2F61FB1580B00ADA21D /* AppData.swift */,
@@ -404,8 +429,7 @@
 				C475C2E41FB1580A00ADA21D /* SettingsVCs */,
 				C475C3161FB1587500ADA21D /* LaunchScreen.storyboard */,
 				C475C3181FB1587500ADA21D /* Main.storyboard */,
-				C458B9151FCD3F47009CB2FD /* AlertSettingsViewController.swift */,
-				C458B9131FCD3E1F009CB2FD /* DynamicTable.swift */,
+				C4401877203ABF230019E828 /* TaskSettingsVCs */,
 				C475C2EC1FB1580A00ADA21D /* TaskChecker.swift */,
 				C475C2E31FB1580A00ADA21D /* ViewController.swift */,
 				C475C2FB1FB1580C00ADA21D /* NewTasksViewController.swift */,
@@ -415,7 +439,6 @@
 				C475C2FD1FB1580C00ADA21D /* TaskDetailViewController.swift */,
 				C475C2FE1FB1580D00ADA21D /* TaskSettingsViewController.swift */,
 				C475C2EA1FB1580A00ADA21D /* TaskStatsViewController.swift */,
-				C475C2EE1FB1580B00ADA21D /* TimePicker.swift */,
 				C475C2B81FB1574C00ADA21D /* ReDue.xcdatamodeld */,
 				C475C2E21FB1580900ADA21D /* ReDue-Bridging-Header.h */,
 			);
@@ -786,16 +809,19 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C406B9241FD6269300CEA02C /* Nuclear.mp3 in Resources */,
 				C475C31B1FB1587500ADA21D /* Main.storyboard in Resources */,
+				C440186E203A96010019E828 /* doorbell-1.wav in Resources */,
+				C440186C203A96010019E828 /* alarm-clock-1.wav in Resources */,
+				C4401871203A96010019E828 /* School_Bell.wav in Resources */,
+				C4401870203A96010019E828 /* Nuclear.mp3 in Resources */,
 				C4A510221FBD77300012D3C1 /* ModalInfoView.xib in Resources */,
-				C406B9261FD6269300CEA02C /* Short_Buzzer.wav in Resources */,
-				C406B9251FD6269300CEA02C /* School_Bell.wav in Resources */,
+				C440186F203A96010019E828 /* doorbell-3.wav in Resources */,
+				C4401872203A96010019E828 /* Short_Buzzer.wav in Resources */,
 				C475C30F1FB1580D00ADA21D /* TaskCollectionViewCell.xib in Resources */,
-				C406B9231FD6269300CEA02C /* Corsica.wav in Resources */,
 				C475C3131FB1580D00ADA21D /* TaskCircleProgressCollectionViewCell.xib in Resources */,
 				C475C2BC1FB1574C00ADA21D /* Assets.xcassets in Resources */,
 				C475C31A1FB1587500ADA21D /* LaunchScreen.storyboard in Resources */,
+				C440186D203A96010019E828 /* Corsica.wav in Resources */,
 				C475C3111FB1580D00ADA21D /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -822,9 +848,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				C4A510241FBD7B0D0012D3C1 /* ModalInfoView.swift in Sources */,
-				C475C3091FB1580D00ADA21D /* TimePicker.swift in Sources */,
 				C475C2FF1FB1580D00ADA21D /* ViewController.swift in Sources */,
 				C458B9161FCD3F47009CB2FD /* AlertSettingsViewController.swift in Sources */,
+				C4401874203ABF0F0019E828 /* AudioAlertSettingsViewController.swift in Sources */,
 				C475C3081FB1580D00ADA21D /* DataHandler.swift in Sources */,
 				C475C3141FB1580D00ADA21D /* TaskDetailViewController.swift in Sources */,
 				C475C3101FB1580D00ADA21D /* AppDelegate.swift in Sources */,
@@ -839,7 +865,9 @@
 				C475C3001FB1580D00ADA21D /* AppSettingsViewController.swift in Sources */,
 				C475C30C1FB1580D00ADA21D /* Task.swift in Sources */,
 				C458B9141FCD3E1F009CB2FD /* DynamicTable.swift in Sources */,
+				C4401879203ABFA40019E828 /* MoreSettingsViewController.swift in Sources */,
 				C45E62CD1FCEE8C90074D90C /* Enums.swift in Sources */,
+				C4401876203ABF180019E828 /* VibrateAlertSettingsViewController.swift in Sources */,
 				C475C3071FB1580D00ADA21D /* TaskChecker.swift in Sources */,
 				C475C3061FB1580D00ADA21D /* TaskCollectionViewCell.swift in Sources */,
 				C475C3031FB1580D00ADA21D /* ResetTimeSettingsViewController.swift in Sources */,

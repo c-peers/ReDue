@@ -61,7 +61,6 @@ class NewTasksViewController: UIViewController, UIScrollViewDelegate {
 
         var timePickerView = UIPickerView()
         var frequencyPickerView = UIPickerView()
-        let pickerViewDatasource = TaskTimePicker()
     //}
     
     var tasks = [String]()
@@ -335,9 +334,10 @@ class NewTasksViewController: UIViewController, UIScrollViewDelegate {
     }
     
     func presentAlertSettingsVC() {
-        let alertSettingsViewController = self.storyboard?.instantiateViewController(withIdentifier: "AlertSettingsVC") as! AlertSettingsViewController
-        alertSettingsViewController.appData = appData
-        alertSettingsViewController.presentingVC = self
+        let moreSettingsNavViewController = self.storyboard?.instantiateViewController(withIdentifier: "MoreSettingsNavVC") as! UINavigationController
+        let moreSettingsViewController = moreSettingsNavViewController.topViewController as! MoreSettingsViewController
+        moreSettingsViewController.appData = appData
+        moreSettingsViewController.presentingVC = self
 
         switch appData.deviceType {
         case .legacy:
@@ -350,7 +350,7 @@ class NewTasksViewController: UIViewController, UIScrollViewDelegate {
             preparePresenter(ofHeight: 0.4, ofWidth: 0.8)
         }
 
-        customPresentViewController(addPresenter, viewController: alertSettingsViewController, animated: true, completion: nil)
+        customPresentViewController(addPresenter, viewController: moreSettingsViewController, animated: true, completion: nil)
     }
     
     //MARK: - Button Actions/Functions

@@ -87,7 +87,6 @@ class TaskSettingsViewController: UIViewController {
     
     var timePickerView = UIPickerView()
     var frequencyPickerView = UIPickerView()
-    let pickerViewDatasource = TaskTimePicker()
     
     let addPresenter: Presentr = {
         let width = ModalSize.fluid(percentage: 0.8)
@@ -574,10 +573,11 @@ class TaskSettingsViewController: UIViewController {
     }
     
     func presentAlertSettingsVC() {
-        let alertSettingsViewController = self.storyboard?.instantiateViewController(withIdentifier: "AlertSettingsVC") as! AlertSettingsViewController
-        alertSettingsViewController.appData = appData
-        alertSettingsViewController.task = task
-        alertSettingsViewController.presentingVC = self
+        let moreSettingsNavViewController = self.storyboard?.instantiateViewController(withIdentifier: "MoreSettingsNavVC") as! UINavigationController
+        let moreSettingsViewController = moreSettingsNavViewController.topViewController as! MoreSettingsViewController
+        moreSettingsViewController.appData = appData
+        moreSettingsViewController.task = task
+        moreSettingsViewController.presentingVC = self
 
         switch appData.deviceType {
         case .legacy:
@@ -590,7 +590,7 @@ class TaskSettingsViewController: UIViewController {
             preparePresenter(ofHeight: 0.4, ofWidth: 0.8)
         }
 
-        customPresentViewController(addPresenter, viewController: alertSettingsViewController, animated: true, completion: nil)
+        customPresentViewController(addPresenter, viewController: moreSettingsViewController, animated: true, completion: nil)
     }
     
     //MARK: - Button Actions/Functions
