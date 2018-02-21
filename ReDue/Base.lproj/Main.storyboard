@@ -1220,18 +1220,78 @@
             </objects>
             <point key="canvasLocation" x="1591.875" y="-535.56338028169012"/>
         </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="0Gf-6W-hrm">
+            <objects>
+                <navigationController storyboardIdentifier="MoreSettingsNavVC" id="2vA-bF-YtY" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="ahP-rU-dsc">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="b1V-LQ-pOM" kind="relationship" relationship="rootViewController" id="tXi-nC-QeW"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="kfo-zR-dtA" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2693" y="-813"/>
+        </scene>
+        <!--More Settings Parent View Controller-->
+        <scene sceneID="Xqi-kY-0M7">
+            <objects>
+                <viewController storyboardIdentifier="MoreSettingsVC" id="b7i-Cc-wd2" customClass="MoreSettingsParentViewController" customModule="ReDue" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="hvf-I1-Vb3">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7OQ-FG-6kr">
+                                <rect key="frame" x="0.0" y="25" width="320" height="473"/>
+                                <connections>
+                                    <segue destination="2vA-bF-YtY" kind="embed" id="oQv-LO-iZ1"/>
+                                </connections>
+                            </containerView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fZv-Jh-e1o">
+                                <rect key="frame" x="137" y="518" width="46" height="30"/>
+                                <state key="normal" title="Button"/>
+                                <connections>
+                                    <action selector="doneButtonTapped:" destination="b7i-Cc-wd2" eventType="touchUpInside" id="0Lw-xf-8Ch"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="0.41105143230000002" blue="0.42086724180000001" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="fZv-Jh-e1o" firstAttribute="centerX" secondItem="hvf-I1-Vb3" secondAttribute="centerX" id="WGg-nU-B9b"/>
+                            <constraint firstItem="SKF-n2-Ac7" firstAttribute="bottom" secondItem="fZv-Jh-e1o" secondAttribute="bottom" constant="20" id="hhY-mF-hxm"/>
+                            <constraint firstItem="7OQ-FG-6kr" firstAttribute="leading" secondItem="SKF-n2-Ac7" secondAttribute="leading" id="k9G-N1-d9f"/>
+                            <constraint firstItem="7OQ-FG-6kr" firstAttribute="trailing" secondItem="SKF-n2-Ac7" secondAttribute="trailing" id="prM-JO-wiU"/>
+                            <constraint firstItem="7OQ-FG-6kr" firstAttribute="top" secondItem="SKF-n2-Ac7" secondAttribute="top" constant="5" id="tbu-3x-AuZ"/>
+                            <constraint firstItem="SKF-n2-Ac7" firstAttribute="bottom" secondItem="7OQ-FG-6kr" secondAttribute="bottom" constant="70" id="txY-Ue-djP"/>
+                            <constraint firstItem="fZv-Jh-e1o" firstAttribute="top" secondItem="7OQ-FG-6kr" secondAttribute="bottom" constant="20" id="u5e-ZA-PBn"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="SKF-n2-Ac7"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="cQl-SH-N6K"/>
+                    <connections>
+                        <outlet property="bottomConstraint" destination="txY-Ue-djP" id="zfD-sv-zSm"/>
+                        <outlet property="doneButton" destination="fZv-Jh-e1o" id="RfG-fv-g2i"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="UTr-ut-o5l" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3531" y="-813"/>
+        </scene>
         <!--More Settings View Controller-->
         <scene sceneID="6QL-aW-DDf">
             <objects>
-                <tableViewController storyboardIdentifier="MoreSettingsVC" id="b1V-LQ-pOM" customClass="MoreSettingsViewController" customModule="ReDue" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="MoreSettingsTableVC" id="b1V-LQ-pOM" customClass="MoreSettingsViewController" customModule="ReDue" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="dxt-iV-E2g">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="473"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <sections>
                             <tableViewSection headerTitle="Alerts" id="sBH-Fk-6dA">
                                 <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="YU7-PJ-yvc" detailTextLabel="amB-C0-u2n" style="IBUITableViewCellStyleValue1" id="IF4-hD-OBG">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="audioCell" textLabel="YU7-PJ-yvc" detailTextLabel="amB-C0-u2n" style="IBUITableViewCellStyleValue1" id="IF4-hD-OBG">
                                         <rect key="frame" x="0.0" y="28" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="IF4-hD-OBG" id="tHo-T4-2sm">
@@ -1255,7 +1315,7 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="GZ3-SX-oa9" detailTextLabel="mFB-BD-iQi" style="IBUITableViewCellStyleValue1" id="zCp-i9-UbU">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="vibrateCell" textLabel="GZ3-SX-oa9" detailTextLabel="mFB-BD-iQi" style="IBUITableViewCellStyleValue1" id="zCp-i9-UbU">
                                         <rect key="frame" x="0.0" y="72" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="zCp-i9-UbU" id="U5G-Pp-8Qs">
@@ -1288,41 +1348,31 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" largeTitleDisplayMode="never" id="phj-xQ-BxK"/>
+                    <connections>
+                        <outlet property="selectedAudioLabel" destination="amB-C0-u2n" id="u2s-4L-65z"/>
+                        <outlet property="selectedVibrateLabel" destination="mFB-BD-iQi" id="0od-NH-0of"/>
+                        <segue destination="osr-y4-Twg" kind="show" identifier="audioAlertSettingsSegue" id="uAR-37-ogh"/>
+                        <segue destination="BpP-FQ-NWV" kind="show" identifier="vibrateAlertSettingsSegue" id="5I7-4b-PHC"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="YaE-0K-g5J" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3174" y="-536"/>
-        </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="BM4-ks-cNS">
-            <objects>
-                <navigationController storyboardIdentifier="MoreSettingsNavVC" id="vTQ-q9-Bqt" sceneMemberID="viewController">
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="J6K-ag-m6h">
-                        <rect key="frame" x="0.0" y="20" width="320" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <connections>
-                        <segue destination="b1V-LQ-pOM" kind="relationship" relationship="rootViewController" id="FP7-Tj-4tN"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="OoT-QB-WHD" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2334" y="-536"/>
+            <point key="canvasLocation" x="4331" y="-813"/>
         </scene>
         <!--Audio Alert Settings View Controller-->
         <scene sceneID="Qo9-u8-X9z">
             <objects>
                 <viewController storyboardIdentifier="AudioAlertSettingsVC" id="osr-y4-Twg" customClass="AudioAlertSettingsViewController" customModule="ReDue" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Yat-M5-shw">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="473"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Rpm-aw-BTd">
-                                <rect key="frame" x="0.0" y="30" width="320" height="468"/>
+                                <rect key="frame" x="0.0" y="44" width="320" height="429"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="sectionIndexBackgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="audioAlertCell" id="zzh-eL-SGe" customClass="AudioAlertSettingsTableCell">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="audioAlertCell" id="zzh-eL-SGe" customClass="AudioAlertSettingsTableCell" customModule="ReDue" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="zzh-eL-SGe" id="2h9-QL-kwB">
@@ -1352,39 +1402,29 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <outlet property="headerLabel" destination="P6y-N3-4Uk" id="1Pf-3x-QEm"/>
-                                            <outlet property="settingLabel" destination="din-pA-TxL" id="WwJ-ae-AY3"/>
+                                            <outlet property="headerLabel" destination="P6y-N3-4Uk" id="82l-6k-dTS"/>
+                                            <outlet property="settingLabel" destination="din-pA-TxL" id="MHA-Gs-kai"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rPS-Ir-G1Q">
-                                <rect key="frame" x="135" y="518" width="50" height="30"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="50" id="59I-7B-Be8"/>
-                                </constraints>
-                                <state key="normal" title="Done"/>
-                            </button>
                         </subviews>
                         <color key="backgroundColor" red="0.50196081400000003" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstItem="rPS-Ir-G1Q" firstAttribute="top" secondItem="Rpm-aw-BTd" secondAttribute="bottom" constant="20" id="8ov-zk-rmm"/>
+                            <constraint firstItem="Rpm-aw-BTd" firstAttribute="top" secondItem="fhl-Z3-saY" secondAttribute="top" id="8M5-Vy-MKk"/>
                             <constraint firstItem="Rpm-aw-BTd" firstAttribute="leading" secondItem="fhl-Z3-saY" secondAttribute="leading" id="K0h-Di-wc9"/>
-                            <constraint firstItem="Rpm-aw-BTd" firstAttribute="top" secondItem="fhl-Z3-saY" secondAttribute="top" constant="10" id="aLe-2h-XTZ"/>
-                            <constraint firstItem="rPS-Ir-G1Q" firstAttribute="centerX" secondItem="Yat-M5-shw" secondAttribute="centerX" id="jMC-eM-7gu"/>
                             <constraint firstItem="fhl-Z3-saY" firstAttribute="trailing" secondItem="Rpm-aw-BTd" secondAttribute="trailing" id="o99-7i-8Qp"/>
-                            <constraint firstItem="fhl-Z3-saY" firstAttribute="bottom" secondItem="rPS-Ir-G1Q" secondAttribute="bottom" constant="20" id="og7-kl-KLt"/>
+                            <constraint firstItem="fhl-Z3-saY" firstAttribute="bottom" secondItem="Rpm-aw-BTd" secondAttribute="bottom" id="y3H-Mh-nEy"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="fhl-Z3-saY"/>
                     </view>
                     <connections>
                         <outlet property="alertTable" destination="Rpm-aw-BTd" id="H3J-I3-Zf9"/>
-                        <outlet property="completeButton" destination="rPS-Ir-G1Q" id="ISc-lp-ovM"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="BRM-hS-NwH" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3941" y="-537"/>
+            <point key="canvasLocation" x="5141" y="-813"/>
         </scene>
         <!--App settings-->
         <scene sceneID="UwV-ci-eSR">
@@ -1651,20 +1691,20 @@
             </objects>
             <point key="canvasLocation" x="2336" y="136"/>
         </scene>
-        <!--View Controller-->
+        <!--Vibrate Alert Settings View Controller-->
         <scene sceneID="fkj-Rt-CmY">
             <objects>
-                <viewController storyboardIdentifier="VibrateAlertSettingsVC" id="BpP-FQ-NWV" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="VibrateAlertSettingsVC" id="BpP-FQ-NWV" customClass="VibrateAlertSettingsViewController" customModule="ReDue" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="pL6-27-N3P">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="473"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="1g2-r7-0Kq">
-                                <rect key="frame" x="0.0" y="30" width="320" height="468"/>
+                                <rect key="frame" x="0.0" y="44" width="320" height="429"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="sectionIndexBackgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="vibrateAlertCell" id="Hbg-sv-9au" customClass="VibrateAlertSettingsTableCell">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="vibrateAlertCell" id="Hbg-sv-9au" customClass="VibrateAlertSettingsTableCell" customModule="ReDue" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Hbg-sv-9au" id="hDF-he-ose">
@@ -1694,39 +1734,29 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <outlet property="headerLabel" destination="24m-Gi-HEr" id="4qp-Lh-LF7"/>
-                                            <outlet property="settingLabel" destination="Qkw-y1-ZXd" id="cSb-De-GTG"/>
+                                            <outlet property="headerLabel" destination="24m-Gi-HEr" id="z0r-bM-Jyp"/>
+                                            <outlet property="settingLabel" destination="Qkw-y1-ZXd" id="Xyf-7P-0s5"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hhC-4d-eSU">
-                                <rect key="frame" x="135" y="518" width="50" height="30"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="50" id="Cc8-QT-fnU"/>
-                                </constraints>
-                                <state key="normal" title="Done"/>
-                            </button>
                         </subviews>
                         <color key="backgroundColor" red="0.50196081400000003" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="1g2-r7-0Kq" firstAttribute="leading" secondItem="37l-yQ-aeu" secondAttribute="leading" id="0j6-wv-igY"/>
-                            <constraint firstItem="37l-yQ-aeu" firstAttribute="bottom" secondItem="hhC-4d-eSU" secondAttribute="bottom" constant="20" id="849-4R-0hm"/>
-                            <constraint firstItem="hhC-4d-eSU" firstAttribute="top" secondItem="1g2-r7-0Kq" secondAttribute="bottom" constant="20" id="FPY-2Y-dHG"/>
-                            <constraint firstItem="hhC-4d-eSU" firstAttribute="centerX" secondItem="pL6-27-N3P" secondAttribute="centerX" id="Mz1-QE-8Ur"/>
+                            <constraint firstItem="37l-yQ-aeu" firstAttribute="bottom" secondItem="1g2-r7-0Kq" secondAttribute="bottom" id="cnG-81-wXv"/>
                             <constraint firstItem="37l-yQ-aeu" firstAttribute="trailing" secondItem="1g2-r7-0Kq" secondAttribute="trailing" id="iEC-QZ-a3N"/>
-                            <constraint firstItem="1g2-r7-0Kq" firstAttribute="top" secondItem="37l-yQ-aeu" secondAttribute="top" constant="10" id="uAA-Qi-vgl"/>
+                            <constraint firstItem="1g2-r7-0Kq" firstAttribute="top" secondItem="37l-yQ-aeu" secondAttribute="top" id="lTB-eS-89S"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="37l-yQ-aeu"/>
                     </view>
                     <connections>
                         <outlet property="alertTable" destination="1g2-r7-0Kq" id="OK2-5m-uNA"/>
-                        <outlet property="completeButton" destination="hhC-4d-eSU" id="rRX-8n-nkq"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JMF-6j-Gue" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3939" y="136"/>
+            <point key="canvasLocation" x="5137.5" y="-139.43661971830986"/>
         </scene>
     </scenes>
 </document>

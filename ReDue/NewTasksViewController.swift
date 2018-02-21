@@ -334,10 +334,10 @@ class NewTasksViewController: UIViewController, UIScrollViewDelegate {
     }
     
     func presentAlertSettingsVC() {
-        let moreSettingsNavViewController = self.storyboard?.instantiateViewController(withIdentifier: "MoreSettingsNavVC") as! UINavigationController
-        let moreSettingsViewController = moreSettingsNavViewController.topViewController as! MoreSettingsViewController
-        moreSettingsViewController.appData = appData
-        moreSettingsViewController.presentingVC = self
+        let moreSettingsVC = self.storyboard?.instantiateViewController(withIdentifier: "MoreSettingsVC") as! MoreSettingsParentViewController
+        let moreSettingsTable = self.storyboard?.instantiateViewController(withIdentifier: "MoreSettingsTableVC") as! MoreSettingsViewController
+        moreSettingsTable.appData = appData
+        moreSettingsVC.presentingVC = self
 
         switch appData.deviceType {
         case .legacy:
@@ -350,7 +350,7 @@ class NewTasksViewController: UIViewController, UIScrollViewDelegate {
             preparePresenter(ofHeight: 0.4, ofWidth: 0.8)
         }
 
-        customPresentViewController(addPresenter, viewController: moreSettingsViewController, animated: true, completion: nil)
+        customPresentViewController(addPresenter, viewController: moreSettingsVC, animated: true, completion: nil)
     }
     
     //MARK: - Button Actions/Functions
@@ -816,12 +816,17 @@ extension NewTasksViewController: UITextFieldDelegate {
         return true
     }
     
-    func textFieldDidBeginEditing(_ textField: UITextField){
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         activeTextField = textField as? SkyFloatingLabelTextField
-        
         if activeTextField == alertTextField {
+            textField.resignFirstResponder()
             presentAlertSettingsVC()
+            return false
         }
+        return true
+    }
+
+    func textFieldDidBeginEditing(_ textField: UITextField){
     }
     
     func textFieldDidEndEditing(_ textField: UITextField){

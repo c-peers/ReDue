@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C419542B203C044600D85F9B /* MoreSettingsParentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C419542A203C044600D85F9B /* MoreSettingsParentViewController.swift */; };
 		C440186C203A96010019E828 /* alarm-clock-1.wav in Resources */ = {isa = PBXBuildFile; fileRef = C4401865203A96000019E828 /* alarm-clock-1.wav */; };
 		C440186D203A96010019E828 /* Corsica.wav in Resources */ = {isa = PBXBuildFile; fileRef = C4401866203A96000019E828 /* Corsica.wav */; };
 		C440186E203A96010019E828 /* doorbell-1.wav in Resources */ = {isa = PBXBuildFile; fileRef = C4401867203A96000019E828 /* doorbell-1.wav */; };
@@ -263,6 +264,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		C419542A203C044600D85F9B /* MoreSettingsParentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreSettingsParentViewController.swift; sourceTree = "<group>"; };
 		C4401865203A96000019E828 /* alarm-clock-1.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "alarm-clock-1.wav"; sourceTree = "<group>"; };
 		C4401866203A96000019E828 /* Corsica.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Corsica.wav; sourceTree = "<group>"; };
 		C4401867203A96000019E828 /* doorbell-1.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "doorbell-1.wav"; sourceTree = "<group>"; };
@@ -373,6 +375,7 @@
 			isa = PBXGroup;
 			children = (
 				C4401878203ABFA40019E828 /* MoreSettingsViewController.swift */,
+				C419542A203C044600D85F9B /* MoreSettingsParentViewController.swift */,
 				C4401873203ABF0F0019E828 /* AudioAlertSettingsViewController.swift */,
 				C4401875203ABF180019E828 /* VibrateAlertSettingsViewController.swift */,
 				C458B9151FCD3F47009CB2FD /* AlertSettingsViewController.swift */,
@@ -872,6 +875,7 @@
 				C475C3061FB1580D00ADA21D /* TaskCollectionViewCell.swift in Sources */,
 				C475C3031FB1580D00ADA21D /* ResetTimeSettingsViewController.swift in Sources */,
 				C475C2BA1FB1574C00ADA21D /* ReDue.xcdatamodeld in Sources */,
+				C419542B203C044600D85F9B /* MoreSettingsParentViewController.swift in Sources */,
 				C475C30E1FB1580D00ADA21D /* AppData.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

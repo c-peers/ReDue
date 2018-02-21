@@ -573,11 +573,14 @@ class TaskSettingsViewController: UIViewController {
     }
     
     func presentAlertSettingsVC() {
-        let moreSettingsNavViewController = self.storyboard?.instantiateViewController(withIdentifier: "MoreSettingsNavVC") as! UINavigationController
-        let moreSettingsViewController = moreSettingsNavViewController.topViewController as! MoreSettingsViewController
-        moreSettingsViewController.appData = appData
-        moreSettingsViewController.task = task
-        moreSettingsViewController.presentingVC = self
+        //let moreSettingsNavViewController = self.storyboard?.instantiateViewController(withIdentifier: "MoreSettingsNavVC") as! UINavigationController
+        //let moreSettingsViewController = moreSettingsNavViewController.topViewController as! MoreSettingsViewController
+        let moreSettingsVC = self.storyboard?.instantiateViewController(withIdentifier: "MoreSettingsVC") as! MoreSettingsParentViewController
+        let moreSettingsTable = self.storyboard?.instantiateViewController(withIdentifier: "MoreSettingsTableVC") as! MoreSettingsViewController
+        moreSettingsTable.appData = appData
+        moreSettingsTable.task = task
+        moreSettingsVC.task = task
+        moreSettingsVC.presentingVC = self
 
         switch appData.deviceType {
         case .legacy:
@@ -590,7 +593,7 @@ class TaskSettingsViewController: UIViewController {
             preparePresenter(ofHeight: 0.4, ofWidth: 0.8)
         }
 
-        customPresentViewController(addPresenter, viewController: moreSettingsViewController, animated: true, completion: nil)
+        customPresentViewController(addPresenter, viewController: moreSettingsVC, animated: true, completion: nil)
     }
     
     //MARK: - Button Actions/Functions
@@ -902,6 +905,16 @@ extension TaskSettingsViewController: UITextFieldDelegate {
         return textField.text == string
     }
     
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        activeTextField = textField
+        if activeTextField == alertTextField {
+            textField.resignFirstResponder()
+            presentAlertSettingsVC()
+            return false
+        }
+        return true
+    }
+    
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         
         didValuesChange(added: string, to: textField as? SkyFloatingLabelTextField)
@@ -944,11 +957,8 @@ extension TaskSettingsViewController: UITextFieldDelegate {
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField){
-        activeTextField = textField
-        
         if activeTextField == alertTextField {
-            presentAlertSettingsVC()
-    
+            
         }
     }
     
