@@ -30,6 +30,15 @@ class MoreSettingsParentViewController: UIViewController {
         doneButton.layer.borderColor = colors.main.cgColor //appData.appColor.cgColor
         doneButton.layer.borderWidth = 2
         doneButton.layer.cornerRadius = 10.0
+        
+        prepareChild()
+    }
+    
+    func prepareChild() {
+        let childNAV = childViewControllers[0] as! UINavigationController
+        let childVC = childNAV.viewControllers[0] as! MoreSettingsViewController
+        childVC.task = task
+        childVC.appData = appData        
     }
     
     private func setTheme() {
