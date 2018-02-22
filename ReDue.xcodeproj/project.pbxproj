@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		C419542B203C044600D85F9B /* MoreSettingsParentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C419542A203C044600D85F9B /* MoreSettingsParentViewController.swift */; };
+		C419543A203D642300D85F9B /* ModalInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4195439203D642300D85F9B /* ModalInfoView.swift */; };
+		C4195441203D644400D85F9B /* IAP.swift in Sources */ = {isa = PBXBuildFile; fileRef = C419543F203D644300D85F9B /* IAP.swift */; };
+		C4195442203D644400D85F9B /* IAPHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4195440203D644400D85F9B /* IAPHelper.swift */; };
 		C440186C203A96010019E828 /* alarm-clock-1.wav in Resources */ = {isa = PBXBuildFile; fileRef = C4401865203A96000019E828 /* alarm-clock-1.wav */; };
 		C440186D203A96010019E828 /* Corsica.wav in Resources */ = {isa = PBXBuildFile; fileRef = C4401866203A96000019E828 /* Corsica.wav */; };
 		C440186E203A96010019E828 /* doorbell-1.wav in Resources */ = {isa = PBXBuildFile; fileRef = C4401867203A96000019E828 /* doorbell-1.wav */; };
@@ -58,12 +61,9 @@
 		C475C3691FB164D000ADA21D /* SkyFloatingLabelTextField.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C475C3521FB1649500ADA21D /* SkyFloatingLabelTextField.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C475C36D1FB193EE00ADA21D /* GoogleMobileAds.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C475C36C1FB193EE00ADA21D /* GoogleMobileAds.framework */; };
 		C475C3C11FB3380E00ADA21D /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C475C3C01FB3380E00ADA21D /* StoreKit.framework */; };
-		C475C3C41FB34ACD00ADA21D /* IAPHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C475C3C21FB34ACD00ADA21D /* IAPHelper.swift */; };
-		C475C3C51FB34ACD00ADA21D /* IAP.swift in Sources */ = {isa = PBXBuildFile; fileRef = C475C3C31FB34ACD00ADA21D /* IAP.swift */; };
 		C48D83511FB694C600D0632A /* SwiftyBeaver.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C48D83481FB5DF0400D0632A /* SwiftyBeaver.framework */; };
 		C48D83521FB694C600D0632A /* SwiftyBeaver.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C48D83481FB5DF0400D0632A /* SwiftyBeaver.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C4A510221FBD77300012D3C1 /* ModalInfoView.xib in Resources */ = {isa = PBXBuildFile; fileRef = C4A510211FBD77300012D3C1 /* ModalInfoView.xib */; };
-		C4A510241FBD7B0D0012D3C1 /* ModalInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4A510231FBD7B0D0012D3C1 /* ModalInfoView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -265,6 +265,9 @@
 
 /* Begin PBXFileReference section */
 		C419542A203C044600D85F9B /* MoreSettingsParentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreSettingsParentViewController.swift; sourceTree = "<group>"; };
+		C4195439203D642300D85F9B /* ModalInfoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModalInfoView.swift; sourceTree = "<group>"; };
+		C419543F203D644300D85F9B /* IAP.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IAP.swift; sourceTree = "<group>"; };
+		C4195440203D644400D85F9B /* IAPHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IAPHelper.swift; sourceTree = "<group>"; };
 		C4401865203A96000019E828 /* alarm-clock-1.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "alarm-clock-1.wav"; sourceTree = "<group>"; };
 		C4401866203A96000019E828 /* Corsica.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Corsica.wav; sourceTree = "<group>"; };
 		C4401867203A96000019E828 /* doorbell-1.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "doorbell-1.wav"; sourceTree = "<group>"; };
@@ -317,11 +320,8 @@
 		C475C34B1FB1649500ADA21D /* SkyFloatingLabelTextField.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SkyFloatingLabelTextField.xcodeproj; path = SkyFloatingLabelTextField/SkyFloatingLabelTextField/SkyFloatingLabelTextField.xcodeproj; sourceTree = "<group>"; };
 		C475C36C1FB193EE00ADA21D /* GoogleMobileAds.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleMobileAds.framework; sourceTree = "<group>"; };
 		C475C3C01FB3380E00ADA21D /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
-		C475C3C21FB34ACD00ADA21D /* IAPHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IAPHelper.swift; sourceTree = "<group>"; };
-		C475C3C31FB34ACD00ADA21D /* IAP.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IAP.swift; sourceTree = "<group>"; };
 		C48D833F1FB5DF0400D0632A /* SwiftyBeaver.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SwiftyBeaver.xcodeproj; path = SwiftyBeaver/SwiftyBeaver.xcodeproj; sourceTree = "<group>"; };
 		C4A510211FBD77300012D3C1 /* ModalInfoView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ModalInfoView.xib; sourceTree = "<group>"; };
-		C4A510231FBD7B0D0012D3C1 /* ModalInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalInfoView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -425,9 +425,9 @@
 				C475C2E91FB1580A00ADA21D /* Singleton.swift */,
 				C45E62CC1FCEE8C90074D90C /* Enums.swift */,
 				C4A510211FBD77300012D3C1 /* ModalInfoView.xib */,
-				C4A510231FBD7B0D0012D3C1 /* ModalInfoView.swift */,
-				C475C3C21FB34ACD00ADA21D /* IAPHelper.swift */,
-				C475C3C31FB34ACD00ADA21D /* IAP.swift */,
+				C4195439203D642300D85F9B /* ModalInfoView.swift */,
+				C419543F203D644300D85F9B /* IAP.swift */,
+				C4195440203D644400D85F9B /* IAPHelper.swift */,
 				C475C2C01FB1574C00ADA21D /* Info.plist */,
 				C475C2E41FB1580A00ADA21D /* SettingsVCs */,
 				C475C3161FB1587500ADA21D /* LaunchScreen.storyboard */,
@@ -850,20 +850,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C4A510241FBD7B0D0012D3C1 /* ModalInfoView.swift in Sources */,
 				C475C2FF1FB1580D00ADA21D /* ViewController.swift in Sources */,
+				C419543A203D642300D85F9B /* ModalInfoView.swift in Sources */,
 				C458B9161FCD3F47009CB2FD /* AlertSettingsViewController.swift in Sources */,
 				C4401874203ABF0F0019E828 /* AudioAlertSettingsViewController.swift in Sources */,
 				C475C3081FB1580D00ADA21D /* DataHandler.swift in Sources */,
 				C475C3141FB1580D00ADA21D /* TaskDetailViewController.swift in Sources */,
 				C475C3101FB1580D00ADA21D /* AppDelegate.swift in Sources */,
 				C475C3051FB1580D00ADA21D /* TaskStatsViewController.swift in Sources */,
-				C475C3C51FB34ACD00ADA21D /* IAP.swift in Sources */,
 				C475C3151FB1580D00ADA21D /* TaskSettingsViewController.swift in Sources */,
-				C475C3C41FB34ACD00ADA21D /* IAPHelper.swift in Sources */,
 				C475C3041FB1580D00ADA21D /* Singleton.swift in Sources */,
 				C475C3121FB1580D00ADA21D /* NewTasksViewController.swift in Sources */,
 				C475C3021FB1580D00ADA21D /* ProgressViewSettingsViewController.swift in Sources */,
+				C4195441203D644400D85F9B /* IAP.swift in Sources */,
 				C475C3011FB1580D00ADA21D /* ColorSettingsViewController.swift in Sources */,
 				C475C3001FB1580D00ADA21D /* AppSettingsViewController.swift in Sources */,
 				C475C30C1FB1580D00ADA21D /* Task.swift in Sources */,
@@ -873,6 +872,7 @@
 				C4401876203ABF180019E828 /* VibrateAlertSettingsViewController.swift in Sources */,
 				C475C3071FB1580D00ADA21D /* TaskChecker.swift in Sources */,
 				C475C3061FB1580D00ADA21D /* TaskCollectionViewCell.swift in Sources */,
+				C4195442203D644400D85F9B /* IAPHelper.swift in Sources */,
 				C475C3031FB1580D00ADA21D /* ResetTimeSettingsViewController.swift in Sources */,
 				C475C2BA1FB1574C00ADA21D /* ReDue.xcdatamodeld in Sources */,
 				C419542B203C044600D85F9B /* MoreSettingsParentViewController.swift in Sources */,

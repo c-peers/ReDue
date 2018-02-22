@@ -30,6 +30,8 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
     var tasks = [Task]()
     var task = Task()
     
+    var isTaskDetailObserverSet = false
+    
     var elapsedTime = 0.0
     
     var timeString: String = ""
@@ -96,6 +98,13 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
             rolloverButton(is: .hidden)
         }
         
+        // The observer for the task detail VC tracks the elapsedTime variable
+        // so I can't touch that var at all in here
+        if !isTaskDetailObserverSet {
+            self.addObserver(self, forKeyPath: #keyPath(timer.elapsedTime), options: .new, context: nil)
+            isTaskDetailObserverSet = true
+        }
+
         if timer.isEnabled && task.isRunning {
             
             setImage(as: #imageLiteral(resourceName: "Pause"))
@@ -130,10 +139,6 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
 
         taskChartSetup()
         
-        // The observer for the task detail VC tracks the elapsedTime variable
-        // so I can't touch that var at all in here
-        self.addObserver(self, forKeyPath: #keyPath(timer.elapsedTime), options: .new, context: nil)
-        
         // Keep a list of all other task names. Only used when editing the name so
         // there isn't two tasks with the same name
         let taskIndex = taskNames.index(of: task.name)
@@ -141,6 +146,7 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
 
     }
     
+    /* */
     override func viewWillDisappear(_ animated: Bool) {
         
         let vc = self.navigationController?.viewControllers.first as! TaskViewController
@@ -148,25 +154,16 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
         if timer.isEnabled && task.isRunning {
             vc.runningCompletionTime = task.completed
         }
-        
-        if !(self.navigationController?.viewControllers.contains(self))! && !task.isRunning {
-            removeObserver(self, forKeyPath: #keyPath(timer.elapsedTime))
+    
+        if !(self.navigationController?.viewControllers.contains(self))! && !task.isRunning && !timer.firedFromMainVC {
+            if isTaskDetailObserverSet {
+                removeObserver(self, forKeyPath: #keyPath(timer.elapsedTime))
+                isTaskDetailObserverSet = false
+            }
         }
         
         if task.isToday {
-            guard let taskIndex = vc.tasks.index(of: task) else { return }
-            let indexPath = IndexPath(item: taskIndex, section: 0)
-            let cell = vc.taskList.cellForItem(at: indexPath) as! TaskCollectionViewCell
-            
-            cell.taskNameField.text = task.name
-            _ = cell.formatTimer(for: task)
-            
-            if task.isRunning {
-                cell.setImage(as: #imageLiteral(resourceName: "Pause"))
-            } else {
-                cell.setImage(as: #imageLiteral(resourceName: "Play"))
-            }
-            //vc.taskList.reloadItems(at: [indexPath])
+            updateTaskCell()
         }
         
     }
@@ -179,10 +176,6 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
         check.appData = appData
     }
 
-//    deinit {
-//        self.removeObserver(self, forKeyPath: #keyPath(timer.elapsedTime))
-//    }
-    
     func prepareNavBar() {
         
         let settings = UIBarButtonItem(image: #imageLiteral(resourceName: "Settings"), style: .plain, target: self, action: #selector(settingsTapped))
@@ -268,6 +261,13 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
             if self.isViewLoaded && self.view.isTopViewInWindow() {
                 loadChartData(willUpdate: true)
             }
+            
+            /* Progress isn't updated in CollectionVC
+               FOR SOME UNKNOWN FUCKING REASON
+               so I guess I'll update it here */
+            if timer.isEnabled && !timer.firedFromMainVC && !self.view.isTopViewInWindow() {
+                //updateTaskCell()
+            }
 
         } else {
             taskTimeLabel.text = "Complete"
@@ -307,11 +307,16 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
         
         var elapsedTime = (timer.endTime - timer.startTime).rounded()
         
-        if elapsedTime > task.weightedTime {
-            elapsedTime = task.weightedTime
+        task.completed += elapsedTime
+
+        if task.completed > task.weightedTime {
+            task.completed = task.weightedTime
         }
         
-        task.completed += elapsedTime
+        //if elapsedTime > task.weightedTime {
+        //    elapsedTime = task.weightedTime
+        //}
+        
         
         if task.completed >= task.weightedTime {
             
@@ -354,8 +359,33 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
         task.isRunning = false
         timer.isEnabled = false
         timer.firedFromMainVC = false
+        
     }
     
+    func updateTaskCell() {
+
+        let vc = self.navigationController?.viewControllers.first as! TaskViewController
+        guard let taskIndex = vc.tasks.index(of: task) else { return }
+        let indexPath = IndexPath(item: taskIndex, section: 0)
+        let cell = vc.taskList.cellForItem(at: indexPath) as! TaskCollectionViewCell
+        
+        //let cell = presentingCell
+        cell.taskNameField.text = task.name
+        _ = cell.formatTimer(for: task)
+        
+        let id = cell.reuseIdentifier
+        if id == "taskCollectionCell_Line" {
+            cell.calculateProgress(ofType: .line)
+        }
+        
+        if task.isRunning {
+            cell.setImage(as: #imageLiteral(resourceName: "Pause"))
+        } else {
+            cell.setImage(as: #imageLiteral(resourceName: "Play"))
+        }
+
+    }
+
     // MARK: - Theme
     
     func setTheme() {
@@ -453,18 +483,19 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
                 rolloverButton(is: .visible)
             }
             
+            taskHasStopped()
             timerStopped()
             
             setImage(as: #imageLiteral(resourceName: "Play"))
 
             NotificationCenter.default.post(name: Notification.Name("StopTimerNotification"), object: nil)
             timer.cancelFinishedNotification(for: task.name)
-            
+
             // Remove the instance from the VC array since the timer was stopped
             if let index = mainVC.runningTaskVCs.index(of: self) {
                 mainVC.runningTaskVCs.remove(at: index)
             }
-            
+
             if mainVC.willResetTasks {
                 mainVC.resetTaskTimers()
             }
@@ -849,7 +880,27 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
         timer.run.invalidate()
         setImage(as: #imageLiteral(resourceName: "Play"))
         
+        timerStopped()
         taskHasStopped()
+
+        let mainVC = self.navigationController?.viewControllers.first as! TaskViewController
+        let (_, remainingTime) = timer.formatTimer(for: task)
+        
+        if task.rollover > 0 && remainingTime > task.time {
+            rolloverButton(is: .visible)
+        }
+        
+        NotificationCenter.default.post(name: Notification.Name("StopTimerNotification"), object: nil)
+        timer.cancelFinishedNotification(for: task.name)
+        
+        // Remove the instance from the VC array since the timer was stopped
+        if let index = mainVC.runningTaskVCs.index(of: self) {
+            mainVC.runningTaskVCs.remove(at: index)
+        }
+        
+        if mainVC.willResetTasks {
+            mainVC.resetTaskTimers()
+        }
 
         customPresentViewController(addPresenter, viewController: taskSettingsVC, animated: true, completion: nil)
     }

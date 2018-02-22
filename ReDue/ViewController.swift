@@ -263,13 +263,13 @@ class TaskViewController: UIViewController, GADBannerViewDelegate {
         
         let toolbar = navigationController?.toolbar
         toolbar?.barTintColor = appData.appColor
-        toolbar?.barTintColor = appData.mainColor
+        toolbar?.barTintColor = colors.main
         
         //let darkerThemeColor = appData.appColor.darken(byPercentage: 0.25)
         
         //view.backgroundColor = darkerThemeColor
         view.backgroundColor = FlatWhite().darken(byPercentage: 0.1)
-        view.backgroundColor = appData.bgColor
+        view.backgroundColor = colors.bg
         taskList.backgroundColor = .clear
         taskList.backgroundView = UIView(frame: .zero)
         //taskList.backgroundView?.backgroundColor = darkerThemeColor //FlatWhite() //darkerThemeColor
@@ -1013,7 +1013,9 @@ extension TaskViewController: UICollectionViewDelegate, UICollectionViewDataSour
         cell.taskNameField.text = task.name
         cell.mainVC = self
         
-        cell.initializeObserver()
+        if !cell.isObserverSet {
+            cell.initializeObserver()
+        }
 
         cell.playStopButton.backgroundColor = UIColor.clear
         cell.playStopButton.addTarget(cell, action: #selector(taskStartStopButtonPressed(sender:)), for: .touchUpInside)

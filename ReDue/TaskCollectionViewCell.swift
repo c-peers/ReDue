@@ -27,6 +27,8 @@ class TaskCollectionViewCell: UICollectionViewCell {
     var task = Task()
     @objc var timer = CountdownTimer()
     
+    var isObserverSet = false
+    
     let log = SwiftyBeaver.self
     
     override func awakeFromNib() {
@@ -122,18 +124,29 @@ class TaskCollectionViewCell: UICollectionViewCell {
         //    currentTime = timer.currentTime
             currentTime = Date().timeIntervalSince1970
         
-        let remainingTime = getReminingTime(at: currentTime, for: task)
-        let remainingTimeAsString = timer.getRemainingTimeAsString(withRemaining: remainingTime)
+        var remainingTime = getReminingTime(at: currentTime, for: task)
+        var remainingTimeAsString = timer.getRemainingTimeAsString(withRemaining: remainingTime)
 
-        if remainingTime > 0 {
-            taskTimeRemaining.text = remainingTimeAsString
+        if remainingTime < 0 {
+            remainingTime = 0
+        }
+        
+        if remainingTime <= 0 {
+            remainingTimeAsString = "Complete"
+            playStopButton.isEnabled = false
         } else {
-            taskTimeRemaining.text = "Complete"
+            playStopButton.isEnabled = true
         }
 
+        taskTimeRemaining.text = remainingTimeAsString
+
+        let currentProgress = 1 - Float(remainingTime)/Float(task.weightedTime)
         if type == .circular {
-            let currentProgress = 1 - Float(remainingTime)/Float(task.weightedTime)
             circleProgressView.progress = Double(currentProgress)
+        } else {
+            progressView.setProgress(currentProgress, animated: true)
+
+//            calculateProgress(ofType: .line)
         }
         
     }
@@ -152,8 +165,12 @@ class TaskCollectionViewCell: UICollectionViewCell {
             timer.elapsedTime += (timer.currentTime - timer.startTime)
         }
         
-        let remainingTime = task.weightedTime - timer.elapsedTime.rounded()
+        var remainingTime = task.weightedTime - timer.elapsedTime.rounded()
         var remainingTimeAsString = timer.getRemainingTimeAsString(withRemaining: remainingTime)
+        
+        if remainingTime < 0 {
+            remainingTime = 0
+        }
         
         if remainingTime <= 0 {
             remainingTimeAsString = "Complete"
@@ -163,10 +180,10 @@ class TaskCollectionViewCell: UICollectionViewCell {
         }
         
         let currentProgress = 1 - Float(remainingTime)/Float(task.weightedTime)
-        
         if type == .line {
+            circleProgressView.progress = Double(currentProgress)
             //TaskViewController.calculateProgress()
-            //cell!.progressView.setProgress(currentProgress, animated: true)
+            //progressView.setProgress(currentProgress, animated: true)
         } else if type == .circular {
             circleProgressView.progress = Double(currentProgress)
         }
@@ -190,9 +207,9 @@ class TaskCollectionViewCell: UICollectionViewCell {
         print("Time remaining is \(timeRemaining)")
         log.debug("Time remaining is \(timeRemaining)")
         
-        if id == "taskCollectionCell_Line" {
-            calculateProgress(ofType: .line)
-        }
+        //if id == "taskCollectionCell_Line" {
+        //    calculateProgress(ofType: .line)
+        //}
         
         if timeRemaining <= 0 {
             
@@ -291,6 +308,7 @@ class TaskCollectionViewCell: UICollectionViewCell {
         if type == .line {
             let currentProgress = 1 - Float(remainingTime)/Float(weightedTime)
             progressView.setProgress(currentProgress, animated: true)
+            print("Current progress is \(currentProgress)")
         } else {
             let currentProgress = 1 - remainingTime/weightedTime
             circleProgressView.progress = currentProgress
@@ -300,8 +318,14 @@ class TaskCollectionViewCell: UICollectionViewCell {
     
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         
-        print("View is tope view? \(self.isTopViewInWindow())")
+        print("View is top view? \(self.isTopViewInWindow())")
+        print("Keypath is \(keyPath!)")
 
+        if let vc = mainVC {
+            let vcs = vc.navigationController?.viewControllers
+            print(vcs)
+        }
+        
         if !isTopViewInWindow() {
             return
         }
@@ -309,6 +333,9 @@ class TaskCollectionViewCell: UICollectionViewCell {
         guard let newValue = change?[.newKey] as? Double else { return }
         guard let oldValue = change?[.oldKey] as? Double else { return }
 
+        print("New Value \(newValue)")
+        print("Old Value \(oldValue)")
+        
         var type: CellType = .line
         
         if let id = reuseIdentifier {
@@ -327,10 +354,12 @@ class TaskCollectionViewCell: UICollectionViewCell {
 
     func initializeObserver() {
         self.addObserver(self, forKeyPath: #keyPath(timer.runningCompletedTime), options: [.new, .old], context: nil)
+        isObserverSet = true
     }
     
     func removeObserver() {
         self.removeObserver(self, forKeyPath: #keyPath(timer.runningCompletedTime))
+        isObserverSet = false
     }
     
 //    deinit {
