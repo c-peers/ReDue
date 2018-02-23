@@ -358,7 +358,7 @@ class NewTasksViewController: UIViewController, UIScrollViewDelegate {
     func buttonAction(for button: UIButton) {
         
         let themeColor = colors.main //appData.appColor
-        let darkerThemeColor = themeColor.darken(byPercentage: Colors.colorLevel1)
+        let darkerThemeColor = colors.darkMain
         
         if button.tag == 0 {
             UIView.animate(withDuration: 0.5, animations: { () -> Void in
@@ -368,7 +368,7 @@ class NewTasksViewController: UIViewController, UIScrollViewDelegate {
             button.tag = 1
         } else {
             UIView.animate(withDuration: 0.5, animations: { () -> Void in
-                button.layer.backgroundColor = darkerThemeColor?.cgColor
+                button.layer.backgroundColor = darkerThemeColor.cgColor
                 //button.setTitleColor(UIColor.black, for: .normal)
             })
             button.tag = 0
