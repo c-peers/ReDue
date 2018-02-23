@@ -100,6 +100,7 @@ class TaskViewController: UIViewController, GADBannerViewDelegate {
         log.info("loaded Tasks")
         log.info(tasks)
         
+        // Loads check functions
         initializeCheck()
         
         appData.taskCurrentTime = Date()
@@ -108,16 +109,13 @@ class TaskViewController: UIViewController, GADBannerViewDelegate {
         
         prepareNavBar()
         
+        // Hide ads if full version
         if !appData.isFullVersion {
             adView.alpha = 0
             let request = GADRequest()
             request.testDevices = [kGADSimulatorID]
             adBannerView.load(request)
         }
-        
-        // Check current time
-        // Determine the time interval between now and when the timers will reset
-        // Set a timer to go off at that time
         
         // Offset times so that reset always occurs at "midnight" for easy calculation
         now = currentTimeIs()
@@ -347,7 +345,7 @@ class TaskViewController: UIViewController, GADBannerViewDelegate {
         log.debug("Time remaining is \(timeRemaining)")
         
         if id == "taskCollectionCell_Line" {
-            calculateProgress(for: cell, ofType: .line)
+            cell.calculateProgress(ofType: .line)
         }
         
         if timeRemaining <= 0 {
@@ -422,35 +420,28 @@ class TaskViewController: UIViewController, GADBannerViewDelegate {
         return check.offsetDate(Date(), by: appData.resetOffset)
     }
     
+    /* Check current time
+       Determine the time interval between now and when the timers will reset
+       Set a timer to go off at that time */
     func timeCheck() {
         
-//        // Offset times so that reset always occurs at "midnight" for easy calculation
-//        now = currentTimeIs()
+        // Offset times so that reset always occurs at "midnight" for easy calculation
         let then = check.offsetDate(appData.taskLastTime, by: appData.resetOffset)
-//        lastUsed = then
         
         let calendar = Calendar.current
         let currentTimeZone = TimeZone.current
         
         var currentTime = getDateComponents(for: now, at: currentTimeZone)
-        //var lastAppTime = getDateComponents(for: then, at: currentTimeZone)
         
+        /* Set the reset time to 0 minutes and move to the next day
+           i.e. when the reset should happen next */
         var reset = currentTime
-//        reset.timeZone = currentTimeZone
-//        reset.year = currentTime.year
-//        reset.month = currentTime.month
         reset.hour = check.offsetAsInt(for: appData.resetOffset)
         reset.minute = 0
-        //reset.minute = calendar.component(.minute, from: appData.taskResetTime)
+        reset.day = currentTime.day! + 1
         
-//        if (lastAppTime.year != currentTime.year) || (lastAppTime.month != currentTime.month) {
-//            reset.day = currentTime.day
-//        } else if lastAppTime.day != currentTime.day {
-//            reset.day = currentTime.day! + 1
-//        } else {
-            reset.day = currentTime.day! + 1
-//        }
-        
+        /* Calculate the date from the reset date components
+           use this to find out the number of s until reset */
         nextResetTime = calendar.date(from: reset)!
         let lastResetTime = calendar.date(byAdding: .day, value: -1, to: nextResetTime)
         let timeToReset = check.timeToReset(at: nextResetTime)
@@ -462,6 +453,7 @@ class TaskViewController: UIViewController, GADBannerViewDelegate {
         guard let taskCells = getTaskCells() else { return }
         let resetOccurred = check.resetTimePassed(between: then, and: now, with: lastResetTime!)
         
+        /* If a reset happened between now and the last time the app was opened then reset all tasks */
         if resetOccurred {
         
             log.debug("The reset time period has passed")
@@ -475,7 +467,8 @@ class TaskViewController: UIViewController, GADBannerViewDelegate {
             if !willResetTasks {
                 resetTaskTimers()
             }
-            
+
+        /* Otherwise make a timer that fires at the reset time */
         } else {
             
             log.debug("No reset yet. Next reset at \(timeToReset)")
@@ -486,6 +479,8 @@ class TaskViewController: UIViewController, GADBannerViewDelegate {
             
         }
         
+        /* Set the missed time notification for all tasks.
+           This is cancelled if a task is completed */
         for task in tasks {
             
             if task.isToday {
@@ -504,6 +499,7 @@ class TaskViewController: UIViewController, GADBannerViewDelegate {
 
     }
     
+    /* Returns date components from date input */
     func getDateComponents(for date: Date, at timeZone: TimeZone) -> DateComponents {
         
         let calendar = Calendar.current
@@ -520,6 +516,9 @@ class TaskViewController: UIViewController, GADBannerViewDelegate {
 
     }
     
+    /* Returns date offset by the reset time
+       e.g. A reset time of */
+    //TODO: Is this used???
     func date(for day: Date, withOffset offset: Int) -> Date {
         
         let calendar = Calendar.current
@@ -529,14 +528,14 @@ class TaskViewController: UIViewController, GADBannerViewDelegate {
         
     }
     
+    /* Ran when the reset time happened or the next time the app is opened after said reset time
+        Iterate through all tasks and do the following
+        1. Reset completed time
+        2. Calculate rollover time
+        3. Refresh screen */
     @objc func resetTaskTimers() {
         print("RESET!!!!!!!!")
         log.info("Timers will be reset")
-        
-        // Iterate through all tasks and do the following
-        // 1. Reset completed time
-        // 2. Calculate rollover time
-        // 3. Refresh screen
         
         // No need to run if there aren't any tasks
         if tasks.count < 1 {
@@ -552,6 +551,13 @@ class TaskViewController: UIViewController, GADBannerViewDelegate {
 
             log.debug("\(daysBetween) days between last run")
             
+            /* Run for each day between the last used task date and today
+               If there were any times it should have been done between then
+               do the following
+               1. Rollover leftover time according to the multiplier
+               2. Add data to cumulative stats
+               3. Save other data in the task history
+               4. Reset the task to the usual time + rollover time */
             for i in 0..<daysBetween {
                 
                 let calendar = Calendar.current
@@ -586,6 +592,7 @@ class TaskViewController: UIViewController, GADBannerViewDelegate {
                                 
             }
 
+            /* Set the total rollover time and reset completed time */
             task.rollover = task.weightedTime - task.time
             task.completed = 0
             check.ifTaskWillRunToday(task)
@@ -615,69 +622,12 @@ class TaskViewController: UIViewController, GADBannerViewDelegate {
         performSegue(withIdentifier: "appSettingsSegue", sender: self)
     }
     
-    //@IBAction func taskStartStopButtonPressed(_ sender: UIButton) {
     @objc func taskStartStopButtonPressed(sender: UIButton) {
-//        guard let cell = sender.superview?.superview as? TaskCollectionViewCell else {
-//            return
-//        }
-//
-//        let id = cell.reuseIdentifier
-//
-//        let taskName = cell.taskNameField.text!
-//        let task = setTask(as: taskName)
-//
-//        if !cell.timer.isEnabled {
-//
-//            task.isRunning = true
-//            cell.timer.isEnabled = true
-//            cell.timer.firedFromMainVC = true
-//
-//            setImage(as: #imageLiteral(resourceName: "Pause"), forCell: cell)
-//
-//            let weightedTime = task.weightedTime
-//            let elapsedTime = task.completed
-//            let remainingTime = weightedTime - elapsedTime
-//
-//            if id == "taskCollectionCell_Circle" {
-//
-//                let currentProgress = 1 - remainingTime/weightedTime
-//                let currentAngle = currentProgress * 360
-//
-//                cell.circleProgressView.animate(fromAngle: currentAngle, toAngle: 359.9, duration: remainingTime as TimeInterval, relativeDuration: true, completion: nil)
-//            }
-//
-//            cell.timer.startTime = Date().timeIntervalSince1970
-//
-//            selectedCell = cell
-//
-//            cell.timer.setFinishedNotification(for: task.name, atTime: remainingTime)
-//            cell.timer.run = Timer.scheduledTimer(timeInterval: 1.0, target: cell,
-//                                                 selector: #selector(TaskCollectionViewCell.timerRunning), userInfo: nil,
-//                                                 repeats: true)
-//
-//
-//        } else {
-//
-//            setImage(as: #imageLiteral(resourceName: "Play"), forCell: cell)
-//
-//            if id == "taskCollectionCell_Circle" {
-//                timerStopped(for: task, ofType: .circular)
-//            } else {
-//                timerStopped(for: task, ofType: .line)
-//            }
-//
-//            cell.timer.cancelFinishedNotification(for: task.name)
-//
-//            if willResetTasks {
-//                resetTaskTimers()
-//            }
-//
-//        }
-//
     }
     
    //MARK: - Data Handling
     
+    /* Send app-level data (themes, etc) and any other data to the next VC */
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         let taskCells = getTaskCells()
@@ -705,6 +655,7 @@ class TaskViewController: UIViewController, GADBannerViewDelegate {
             
             guard let cells = taskCells else { return }
             
+            /* If going to the settings VC turn off all timers */
             for cell in cells {
                 if cell.timer.isEnabled {
                     cell.setImage(as: #imageLiteral(resourceName: "Play"))
@@ -716,6 +667,7 @@ class TaskViewController: UIViewController, GADBannerViewDelegate {
         
     }
     
+    /* Load appData and tasks */
     func loadData() {
         
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -732,17 +684,18 @@ class TaskViewController: UIViewController, GADBannerViewDelegate {
         
     }
     
+    /* Saves appData and tasks */
     func saveData() {
         
         let data = DataHandler()
         data.saveAppSettings(appData)
         data.saveTasks(tasks)
-        //appData.save()
 
         getTaskNames()
         
     }
     
+    /* Saves all task names in an array */
     func getTaskNames() {
         taskNames.removeAll()
         for task in tasks {
@@ -753,12 +706,9 @@ class TaskViewController: UIViewController, GADBannerViewDelegate {
     //MARK: - Ads
     
     func adViewDidReceiveAd(_ bannerView: GADBannerView) {
-
         print("Banner loaded successfully")
-        
         adView.alpha = 1
         adView.addSubview(adBannerView)
-        
     }
 
     func adView(_ bannerView: GADBannerView, didFailToReceiveAdWithError error: GADRequestError) {
@@ -767,6 +717,7 @@ class TaskViewController: UIViewController, GADBannerViewDelegate {
     
     //MARK: - Navigation
     
+    /* Save after creating a new task */
     @IBAction func newTaskCreatedUnwind(segue: UIStoryboardSegue) {
         
         saveData()
@@ -777,6 +728,7 @@ class TaskViewController: UIViewController, GADBannerViewDelegate {
         
     }
     
+    /* Save after deleting a task */
     @IBAction func taskDeletedUnwind(segue: UIStoryboardSegue) {
         
         // Popup that shows tasks will be reset
@@ -798,6 +750,8 @@ class TaskViewController: UIViewController, GADBannerViewDelegate {
         
     }
     
+    /* We're setting the dimensions of the presentr window based on device size so this
+       helps set the size of the window to be shown */
     func preparePresenter(ofHeight height: Float, ofWidth width: Float) {
         let width = ModalSize.fluid(percentage: width)
         let height = ModalSize.fluid(percentage: height)
@@ -808,6 +762,7 @@ class TaskViewController: UIViewController, GADBannerViewDelegate {
         
     }
     
+    /* Functions as func prepare for the presentr launched New task VC */
     func presentNewTaskVC() {
         let newTaskViewController = self.storyboard?.instantiateViewController(withIdentifier: "NewTaskVC") as! NewTasksViewController
         newTaskViewController.appData = appData
@@ -827,6 +782,8 @@ class TaskViewController: UIViewController, GADBannerViewDelegate {
         customPresentViewController(addPresenter, viewController: newTaskViewController, animated: true, completion: nil)
     }
     
+    /* Functions as func prepare for the task detail VC
+       running tasks have their detail VC saved. Those tasks don't pass any data */
     func presentTaskDetailVC() {
         
         let taskCells = getTaskCells()
@@ -838,7 +795,6 @@ class TaskViewController: UIViewController, GADBannerViewDelegate {
             taskVC = vc
         } else {
             taskVC = self.storyboard!.instantiateViewController(withIdentifier: "TaskDetailVC") as! TaskDetailViewController
-                //TaskDetailViewController()
             
             taskVC.appData = appData
             taskVC.task = selectedTask!
@@ -847,10 +803,8 @@ class TaskViewController: UIViewController, GADBannerViewDelegate {
             taskVC.timer = cell.timer
 
         }
-        
-        
+    
         self.navigationController?.pushViewController(taskVC, animated: true)
-        
 
     }
 }
@@ -880,6 +834,8 @@ extension TaskViewController: UICollectionViewDelegate, UICollectionViewDataSour
         return cellSize
     }
     
+    /* Loads either the regular cell or a cell with a circular progress bar
+       Most of the setup code is in a different function called setupCollectionCell() */
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         var reuseIdentifier: String?
@@ -923,6 +879,7 @@ extension TaskViewController: UICollectionViewDelegate, UICollectionViewDataSour
         return tasks.count
     }
     
+    /* Move to the detail VC after tapping cell. Segue through presentTaskDetailVC() */
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         getTaskNames()
@@ -938,6 +895,7 @@ extension TaskViewController: UICollectionViewDelegate, UICollectionViewDataSour
         
     }
     
+    //TODO: Delete???
     func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         
         //if let cell = cell as? TaskCollectionViewCell {
@@ -947,12 +905,14 @@ extension TaskViewController: UICollectionViewDelegate, UICollectionViewDataSour
     
     //MARK: CollectionView Helper Functions
     
+    /* Sets multiple border parameters with one function */
     func setBorder(for layer: CALayer, borderWidth: CGFloat, borderColor: CGColor, radius: CGFloat ) {
         layer.borderWidth = borderWidth
         layer.borderColor = borderColor
         layer.cornerRadius = radius
     }
     
+    //TODO: Delete???
     func setCellSize(forType type: CellType) {
         
         let cellSize: CGSize
@@ -978,30 +938,8 @@ extension TaskViewController: UICollectionViewDelegate, UICollectionViewDataSour
         
     }
     
-    func calculateProgress(for cell: TaskCollectionViewCell, ofType type: CellType) {
-        
-        let taskName = cell.taskNameField.text!
-        let task = setTask(as: taskName)
-        
-        // Why do I have to do this here???
-        // Doesn't work from other classes when using .xib
-        let weightedTime = task.weightedTime
-        var elapsedTime = task.completed
-        if cell.timer.isEnabled {
-            elapsedTime += (cell.timer.currentTime - cell.timer.startTime)
-        }
-        let remainingTime = weightedTime - elapsedTime
-        
-        if type == .line {
-            let currentProgress = 1 - Float(remainingTime)/Float(weightedTime)
-            cell.progressView.setProgress(currentProgress, animated: true)
-        } else {
-            let currentProgress = 1 - remainingTime/weightedTime
-            cell.circleProgressView.progress = currentProgress
-        }
-        
-    }
-    
+    /* Put most cell related code here to make cellForRowAt smaller
+       Loads and sets all items when cell becomes visible */
     func setupCollectionCell(for cell: TaskCollectionViewCell, ofType type: CellType, at indexPath: IndexPath) {
         
         getTaskNames()
@@ -1013,6 +951,7 @@ extension TaskViewController: UICollectionViewDelegate, UICollectionViewDataSour
         cell.taskNameField.text = task.name
         cell.mainVC = self
         
+        // Only set observer once per cell
         if !cell.isObserverSet {
             cell.initializeObserver()
         }
@@ -1032,11 +971,9 @@ extension TaskViewController: UICollectionViewDelegate, UICollectionViewDataSour
         }
         
         //let gradientBackground = GradientColor(.leftToRight, frame: cell.frame, colors: [UIColor.flatSkyBlue, UIColor.flatSkyBlueDark])
-        
         //cell.backgroundColor = gradientBackground
         
-        //let cellBGColor = RandomFlatColorWithShade(.light) //FlatWhite() //appData.colorScheme[indexPath.row % 4]
-        
+        /* For now there are ten colors for cells. But all are variations of one of two colors */
         var taskColors = [UIColor]()
         taskColors.append(colors.task1)
         taskColors.append(colors.task2)
@@ -1048,11 +985,6 @@ extension TaskViewController: UICollectionViewDelegate, UICollectionViewDataSour
         taskColors.append(colors.task8)
         taskColors.append(colors.task9)
         taskColors.append(colors.task10)
-
-//        taskColors.append(color1.darken(byPercentage: 0.1)!)
-//        taskColors.append(color2.darken(byPercentage: 0.1)!)
-//        taskColors.append(color1.lighten(byPercentage: 0.1)!)
-//        taskColors.append(color2.lighten(byPercentage: 0.1)!)
 
         let cellBGColor = taskColors[indexPath.row % 10]
         
@@ -1072,6 +1004,9 @@ extension TaskViewController: UICollectionViewDelegate, UICollectionViewDataSour
 //            cell.taskTimeRemaining.textColor = .black
 //        }
         
+        /* Still not sure if I will use this
+           Leaving in for now
+           Creates glass effect for cells */
         if appData.isGlass {
 
             let blurEffect = UIBlurEffect(style: .light)
@@ -1100,6 +1035,7 @@ extension TaskViewController: UICollectionViewDelegate, UICollectionViewDataSour
             
             setCellColor(forCell: cell)
             
+        /* Sets border, shadow and color for each cell */
         } else {
         
             //let borderColor = cellBGColor.darken(byPercentage: 0.3)?.cgColor
@@ -1130,7 +1066,7 @@ extension TaskViewController: UICollectionViewDelegate, UICollectionViewDataSour
                 setBorder(for: cell.progressView.layer, borderWidth: 0.0, borderColor: UIColor.clear.cgColor, radius: 0.0)
             }
             
-            calculateProgress(for: cell, ofType: .line)
+            cell.calculateProgress(ofType: .line)
             //cell.progressView.progressTintColor = UIColor.darkGray
             cell.progressView.clipsToBounds = true
             
@@ -1143,8 +1079,8 @@ extension TaskViewController: UICollectionViewDelegate, UICollectionViewDataSour
             cell.circleProgressView.trackColor = .darkGray
             cell.circleProgressView.progressColors = [iOSDefaultBlue]
             cell.circleProgressView.progress = 0.0
-            calculateProgress(for: cell, ofType: .circular)
-            
+            cell.calculateProgress(ofType: .circular)
+
             //cell.progressView.isHidden = true
             cell.circleProgressView.isHidden = false
             
@@ -1168,8 +1104,9 @@ extension TaskViewController: UICollectionViewDelegate, UICollectionViewDataSour
             //cell.progressView.isHidden = true
         }
         
+        /* If task will not happen show the next run day */
         if !task.isToday {
-            debug(cell, task)
+            showNextRunDate(in: cell, for: task)
         }
         
     }
@@ -1197,8 +1134,9 @@ extension TaskViewController: UICollectionViewDelegate, UICollectionViewDataSour
        next run day at [0]. It then checks to see how far away the next run day is.
        If the task doesn't run every week then the function will add
        the neccessary number of weeks to obtain the correct next run date.
+       That date is then shown in the cell.
      */
-    func debug(_ cell: TaskCollectionViewCell, _ task: Task) {
+    func showNextRunDate(in cell: TaskCollectionViewCell, for task: Task) {
         
         //let nextRunWeek = task.runWeek
         var nextRunDay = "EMPTY"
@@ -1220,7 +1158,6 @@ extension TaskViewController: UICollectionViewDelegate, UICollectionViewDataSour
         var daysFromNow = 1
         
         for i in 0..<reindexedDays.count {
-            
             daysFromNow = i
             if task.days[reindexedDays[i]]! {
                 nextRunDay = reindexedDays[i]
@@ -1266,6 +1203,7 @@ extension TaskViewController: UICollectionViewDelegate, UICollectionViewDataSour
 
 extension UIProgressView {
     
+    /* Found on stackoverflow. Changes height of progressView */
     @IBInspectable var barHeight : CGFloat {
         get {
             return transform.d * 2.0
@@ -1296,6 +1234,8 @@ extension UIProgressView {
 
 //MARK: - Testing Extension
 
+/* This is used in many VC so I just added it to UIViewController
+   This func pops an alert that only allows use of the Ok button*/
 extension UIViewController {
     func popAlert(with message: String) {
         
@@ -1317,6 +1257,7 @@ extension UIViewController {
 
 //MARK: - Color Scheme Extension
 
+/* This color struct is used in all VCs to theme the app */
 extension UIViewController {
     
     struct Colors {
