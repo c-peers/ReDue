@@ -200,6 +200,12 @@ class AppSettingsViewController: UITableViewController {
         if appData.isFullVersion && (indexPath == hideIndex) {
             return 0
         }
+        
+        if indexPath.section == 0 && indexPath.row == 1 {
+            return 0
+        } else if indexPath.section == 0 && indexPath.row == 2 {
+            return 0
+        }
 
         return 44
     }

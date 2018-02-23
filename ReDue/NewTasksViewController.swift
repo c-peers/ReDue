@@ -460,14 +460,13 @@ class NewTasksViewController: UIViewController, UIScrollViewDelegate {
         
     }
     
-    
     @IBAction func createTask(_ sender: Any) {
 
-        //if appData.isFullVersion || tasks.count < 2 {
+        if appData.isFullVersion || tasks.count < 2 {
             taskVerification()
-        //} else {
-        //    popAlert(alertType: .upgradeNeeded)
-        //}
+        } else {
+            popAlert(alertType: .upgradeNeeded)
+        }
         
     }
     

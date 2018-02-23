@@ -510,13 +510,14 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
 
     @objc func statsTapped() {
         
-//        if appData.isFullVersion {
-//            print("Go to Stats")
-        navigationController?.toolbar.isHidden = true
+        if appData.isFullVersion {
+            print("Go to Stats")
+            navigationController?.toolbar.isHidden = true
             performSegue(withIdentifier: "taskStatsSegue", sender: self)
-//        } else {
-//            popAlert(forType: .upgradeNeeded)
-//        }
+        } else {
+            popAlert(forType: .upgradeNeeded)
+        }
+        
     }
 
     @objc func trashTapped() {
