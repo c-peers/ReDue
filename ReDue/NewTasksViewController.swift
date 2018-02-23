@@ -550,7 +550,7 @@ class NewTasksViewController: UIViewController, UIScrollViewDelegate {
         //Need to calculate keyboard exact size due to Apple suggestions
         print("Keyboard was shown")
 
-        print(activeTextField!)
+        print(activeTextField)
 
         if let keyboardScreenFrame = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
             let keyboardLocalFrame = self.view.convert(keyboardScreenFrame, from: nil)
