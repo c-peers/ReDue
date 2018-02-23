@@ -66,17 +66,17 @@ enum Visible {
 /* */
 enum AudioAlert: String, EnumCollection {
     case aaa = "Corsica.wav"
-    case bbb = "Nuclear.mp3"
+    case bbb = "Nuclear.wav"
     case ccc = "School_Bell.wav"
     case ddd = "Short_Buzzer.wav"
-    case eee = "eee.wav"
-    case fff = "fff.wav"
-    case ggg = "ggg.wav"
-    case hhh = "hhh.wav"
-    case iii = "iii.wav"
-    case jjj = "jjj.wav"
-    case kkk = "kkk.wav"
-    case lll = "lll.wav"
+//    case eee = "eee.wav"
+//    case fff = "fff.wav"
+//    case ggg = "ggg.wav"
+//    case hhh = "hhh.wav"
+//    case iii = "iii.wav"
+//    case jjj = "jjj.wav"
+//    case kkk = "kkk.wav"
+//    case lll = "lll.wav"
     
     case none
 }
@@ -86,6 +86,8 @@ typealias Vibrate = () -> ()
 enum VibrateAlert: String, EnumCollection {
     case short = "Short"
     case long = "Long"
+    case on = "On"
+    case off = "Off"
     case none
     
     var run: Vibrate {
