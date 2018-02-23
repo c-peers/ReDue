@@ -181,7 +181,8 @@ class TaskCollectionViewCell: UICollectionViewCell {
         
         let currentProgress = 1 - Float(remainingTime)/Float(task.weightedTime)
         if type == .line {
-            circleProgressView.progress = Double(currentProgress)
+            progressView.setProgress(currentProgress, animated: true)
+            //progressView.progress = currentProgress
             //TaskViewController.calculateProgress()
             //progressView.setProgress(currentProgress, animated: true)
         } else if type == .circular {
