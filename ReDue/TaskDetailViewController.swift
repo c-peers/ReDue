@@ -262,13 +262,6 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
                 loadChartData(willUpdate: true)
             }
             
-            /* Progress isn't updated in CollectionVC
-               FOR SOME UNKNOWN FUCKING REASON
-               so I guess I'll update it here */
-            if timer.isEnabled && !timer.firedFromMainVC && !self.view.isTopViewInWindow() {
-                //updateTaskCell()
-            }
-
         } else {
             taskTimeLabel.text = "Complete"
             taskStartButton.isEnabled = false
