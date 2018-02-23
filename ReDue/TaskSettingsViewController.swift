@@ -579,6 +579,7 @@ class TaskSettingsViewController: UIViewController {
         let moreSettingsTable = self.storyboard?.instantiateViewController(withIdentifier: "MoreSettingsTableVC") as! MoreSettingsViewController
         moreSettingsTable.appData = appData
         moreSettingsTable.task = task
+        moreSettingsVC.appData = appData
         moreSettingsVC.task = task
         moreSettingsVC.presentingVC = self
 
