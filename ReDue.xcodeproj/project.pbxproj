@@ -384,6 +384,27 @@
 			path = TaskSettingsVCs;
 			sourceTree = "<group>";
 		};
+		C446E2412040628D00EDA8F5 /* TaskVCs */ = {
+			isa = PBXGroup;
+			children = (
+				C475C2FD1FB1580C00ADA21D /* TaskDetailViewController.swift */,
+				C475C2FE1FB1580D00ADA21D /* TaskSettingsViewController.swift */,
+				C475C2EA1FB1580A00ADA21D /* TaskStatsViewController.swift */,
+			);
+			path = TaskVCs;
+			sourceTree = "<group>";
+		};
+		C446E242204062C900EDA8F5 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				C475C2F41FB1580B00ADA21D /* Task.swift */,
+				C475C2F61FB1580B00ADA21D /* AppData.swift */,
+				C475C2ED1FB1580A00ADA21D /* DataHandler.swift */,
+				C475C2E91FB1580A00ADA21D /* Singleton.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		C475C2A51FB1574C00ADA21D = {
 			isa = PBXGroup;
 			children = (
@@ -419,10 +440,7 @@
 				C475C2FA1FB1580C00ADA21D /* Images.xcassets */,
 				C4401864203A96000019E828 /* Sounds */,
 				C475C2F81FB1580C00ADA21D /* AppDelegate.swift */,
-				C475C2F41FB1580B00ADA21D /* Task.swift */,
-				C475C2F61FB1580B00ADA21D /* AppData.swift */,
-				C475C2ED1FB1580A00ADA21D /* DataHandler.swift */,
-				C475C2E91FB1580A00ADA21D /* Singleton.swift */,
+				C446E242204062C900EDA8F5 /* Models */,
 				C45E62CC1FCEE8C90074D90C /* Enums.swift */,
 				C4A510211FBD77300012D3C1 /* ModalInfoView.xib */,
 				C4195439203D642300D85F9B /* ModalInfoView.swift */,
@@ -430,18 +448,16 @@
 				C4195440203D644400D85F9B /* IAPHelper.swift */,
 				C475C2C01FB1574C00ADA21D /* Info.plist */,
 				C475C2E41FB1580A00ADA21D /* SettingsVCs */,
+				C4401877203ABF230019E828 /* TaskSettingsVCs */,
 				C475C3161FB1587500ADA21D /* LaunchScreen.storyboard */,
 				C475C3181FB1587500ADA21D /* Main.storyboard */,
-				C4401877203ABF230019E828 /* TaskSettingsVCs */,
 				C475C2EC1FB1580A00ADA21D /* TaskChecker.swift */,
+				C446E2412040628D00EDA8F5 /* TaskVCs */,
 				C475C2E31FB1580A00ADA21D /* ViewController.swift */,
 				C475C2FB1FB1580C00ADA21D /* NewTasksViewController.swift */,
 				C475C2EB1FB1580A00ADA21D /* TaskCollectionViewCell.swift */,
 				C475C2F71FB1580B00ADA21D /* TaskCollectionViewCell.xib */,
 				C475C2FC1FB1580C00ADA21D /* TaskCircleProgressCollectionViewCell.xib */,
-				C475C2FD1FB1580C00ADA21D /* TaskDetailViewController.swift */,
-				C475C2FE1FB1580D00ADA21D /* TaskSettingsViewController.swift */,
-				C475C2EA1FB1580A00ADA21D /* TaskStatsViewController.swift */,
 				C475C2B81FB1574C00ADA21D /* ReDue.xcdatamodeld */,
 				C475C2E21FB1580900ADA21D /* ReDue-Bridging-Header.h */,
 			);
