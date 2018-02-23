@@ -870,29 +870,31 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
         }
         
         // Stop the task if it is currently running
-        timer.run.invalidate()
-        setImage(as: #imageLiteral(resourceName: "Play"))
-        
-        timerStopped()
-        taskHasStopped()
-
-        let mainVC = self.navigationController?.viewControllers.first as! TaskViewController
-        let (_, remainingTime) = timer.formatTimer(for: task)
-        
-        if task.rollover > 0 && remainingTime > task.time {
-            rolloverButton(is: .visible)
-        }
-        
-        NotificationCenter.default.post(name: Notification.Name("StopTimerNotification"), object: nil)
-        timer.cancelFinishedNotification(for: task.name)
-        
-        // Remove the instance from the VC array since the timer was stopped
-        if let index = mainVC.runningTaskVCs.index(of: self) {
-            mainVC.runningTaskVCs.remove(at: index)
-        }
-        
-        if mainVC.willResetTasks {
-            mainVC.resetTaskTimers()
+        if timer.isEnabled {
+            timer.run.invalidate()
+            setImage(as: #imageLiteral(resourceName: "Play"))
+            
+            timerStopped()
+            taskHasStopped()
+            
+            let mainVC = self.navigationController?.viewControllers.first as! TaskViewController
+            let (_, remainingTime) = timer.formatTimer(for: task)
+            
+            if task.rollover > 0 && remainingTime > task.time {
+                rolloverButton(is: .visible)
+            }
+            
+            NotificationCenter.default.post(name: Notification.Name("StopTimerNotification"), object: nil)
+            timer.cancelFinishedNotification(for: task.name)
+            
+            // Remove the instance from the VC array since the timer was stopped
+            if let index = mainVC.runningTaskVCs.index(of: self) {
+                mainVC.runningTaskVCs.remove(at: index)
+            }
+            
+            if mainVC.willResetTasks {
+                mainVC.resetTaskTimers()
+            }
         }
 
         customPresentViewController(addPresenter, viewController: taskSettingsVC, animated: true, completion: nil)
