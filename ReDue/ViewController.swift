@@ -479,14 +479,16 @@ class TaskViewController: UIViewController, GADBannerViewDelegate {
             
         }
         
-        /* Set the missed time notification for all tasks.
+        /* Set the missed time notification for all tasks with time left.
            This is cancelled if a task is completed */
         for task in tasks {
             
             if task.isToday {
                 if let cell = taskCells.first(where: { $0.taskNameField.text == task.name }) {
-                    let (remainingTimeString,_) = cell.formatTimer(for: task)
-                    cell.timer.setMissedTimeNotification(for: task.name, at: timeToReset, withRemaining: remainingTimeString)
+                    let (remainingTimeString, remainingTime) = cell.formatTimer(for: task)
+                    if remainingTime > 0 {
+                        cell.timer.setMissedTimeNotification(for: task.name, at: timeToReset, withRemaining: remainingTimeString)
+                    }
                     cell.nextRunLabel.isHidden = true
                 }
             }
