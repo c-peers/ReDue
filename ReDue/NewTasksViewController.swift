@@ -337,6 +337,7 @@ class NewTasksViewController: UIViewController, UIScrollViewDelegate {
         let moreSettingsVC = self.storyboard?.instantiateViewController(withIdentifier: "MoreSettingsVC") as! MoreSettingsParentViewController
         let moreSettingsTable = self.storyboard?.instantiateViewController(withIdentifier: "MoreSettingsTableVC") as! MoreSettingsViewController
         moreSettingsTable.appData = appData
+        moreSettingsVC.appData = appData
         moreSettingsVC.presentingVC = self
 
         switch appData.deviceType {
