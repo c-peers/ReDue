@@ -11,13 +11,6 @@
 		C419543A203D642300D85F9B /* ModalInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4195439203D642300D85F9B /* ModalInfoView.swift */; };
 		C4195441203D644400D85F9B /* IAP.swift in Sources */ = {isa = PBXBuildFile; fileRef = C419543F203D644300D85F9B /* IAP.swift */; };
 		C4195442203D644400D85F9B /* IAPHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4195440203D644400D85F9B /* IAPHelper.swift */; };
-		C440186C203A96010019E828 /* alarm-clock-1.wav in Resources */ = {isa = PBXBuildFile; fileRef = C4401865203A96000019E828 /* alarm-clock-1.wav */; };
-		C440186D203A96010019E828 /* Corsica.wav in Resources */ = {isa = PBXBuildFile; fileRef = C4401866203A96000019E828 /* Corsica.wav */; };
-		C440186E203A96010019E828 /* doorbell-1.wav in Resources */ = {isa = PBXBuildFile; fileRef = C4401867203A96000019E828 /* doorbell-1.wav */; };
-		C440186F203A96010019E828 /* doorbell-3.wav in Resources */ = {isa = PBXBuildFile; fileRef = C4401868203A96000019E828 /* doorbell-3.wav */; };
-		C4401870203A96010019E828 /* Nuclear.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = C4401869203A96000019E828 /* Nuclear.mp3 */; };
-		C4401871203A96010019E828 /* School_Bell.wav in Resources */ = {isa = PBXBuildFile; fileRef = C440186A203A96000019E828 /* School_Bell.wav */; };
-		C4401872203A96010019E828 /* Short_Buzzer.wav in Resources */ = {isa = PBXBuildFile; fileRef = C440186B203A96000019E828 /* Short_Buzzer.wav */; };
 		C4401874203ABF0F0019E828 /* AudioAlertSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4401873203ABF0F0019E828 /* AudioAlertSettingsViewController.swift */; };
 		C4401876203ABF180019E828 /* VibrateAlertSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4401875203ABF180019E828 /* VibrateAlertSettingsViewController.swift */; };
 		C4401879203ABFA40019E828 /* MoreSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4401878203ABFA40019E828 /* MoreSettingsViewController.swift */; };
@@ -64,6 +57,13 @@
 		C48D83511FB694C600D0632A /* SwiftyBeaver.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C48D83481FB5DF0400D0632A /* SwiftyBeaver.framework */; };
 		C48D83521FB694C600D0632A /* SwiftyBeaver.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C48D83481FB5DF0400D0632A /* SwiftyBeaver.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C4A510221FBD77300012D3C1 /* ModalInfoView.xib in Resources */ = {isa = PBXBuildFile; fileRef = C4A510211FBD77300012D3C1 /* ModalInfoView.xib */; };
+		C4A95ABA2042F95A007B0B9C /* Alarm_clock.wav in Resources */ = {isa = PBXBuildFile; fileRef = C4A95AB32042F959007B0B9C /* Alarm_clock.wav */; };
+		C4A95ABB2042F95A007B0B9C /* Front_desk.wav in Resources */ = {isa = PBXBuildFile; fileRef = C4A95AB42042F959007B0B9C /* Front_desk.wav */; };
+		C4A95ABC2042F95A007B0B9C /* Nuclear.wav in Resources */ = {isa = PBXBuildFile; fileRef = C4A95AB52042F959007B0B9C /* Nuclear.wav */; };
+		C4A95ABD2042F95A007B0B9C /* Doorbell.wav in Resources */ = {isa = PBXBuildFile; fileRef = C4A95AB62042F95A007B0B9C /* Doorbell.wav */; };
+		C4A95ABE2042F95A007B0B9C /* Short_buzzer.wav in Resources */ = {isa = PBXBuildFile; fileRef = C4A95AB72042F95A007B0B9C /* Short_buzzer.wav */; };
+		C4A95ABF2042F95A007B0B9C /* Corsica.wav in Resources */ = {isa = PBXBuildFile; fileRef = C4A95AB82042F95A007B0B9C /* Corsica.wav */; };
+		C4A95AC02042F95A007B0B9C /* School_bell.wav in Resources */ = {isa = PBXBuildFile; fileRef = C4A95AB92042F95A007B0B9C /* School_bell.wav */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -268,13 +268,6 @@
 		C4195439203D642300D85F9B /* ModalInfoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModalInfoView.swift; sourceTree = "<group>"; };
 		C419543F203D644300D85F9B /* IAP.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IAP.swift; sourceTree = "<group>"; };
 		C4195440203D644400D85F9B /* IAPHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IAPHelper.swift; sourceTree = "<group>"; };
-		C4401865203A96000019E828 /* alarm-clock-1.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "alarm-clock-1.wav"; sourceTree = "<group>"; };
-		C4401866203A96000019E828 /* Corsica.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Corsica.wav; sourceTree = "<group>"; };
-		C4401867203A96000019E828 /* doorbell-1.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "doorbell-1.wav"; sourceTree = "<group>"; };
-		C4401868203A96000019E828 /* doorbell-3.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "doorbell-3.wav"; sourceTree = "<group>"; };
-		C4401869203A96000019E828 /* Nuclear.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Nuclear.mp3; sourceTree = "<group>"; };
-		C440186A203A96000019E828 /* School_Bell.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = School_Bell.wav; sourceTree = "<group>"; };
-		C440186B203A96000019E828 /* Short_Buzzer.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Short_Buzzer.wav; sourceTree = "<group>"; };
 		C4401873203ABF0F0019E828 /* AudioAlertSettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioAlertSettingsViewController.swift; sourceTree = "<group>"; };
 		C4401875203ABF180019E828 /* VibrateAlertSettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VibrateAlertSettingsViewController.swift; sourceTree = "<group>"; };
 		C4401878203ABFA40019E828 /* MoreSettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoreSettingsViewController.swift; sourceTree = "<group>"; };
@@ -322,6 +315,13 @@
 		C475C3C01FB3380E00ADA21D /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		C48D833F1FB5DF0400D0632A /* SwiftyBeaver.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SwiftyBeaver.xcodeproj; path = SwiftyBeaver/SwiftyBeaver.xcodeproj; sourceTree = "<group>"; };
 		C4A510211FBD77300012D3C1 /* ModalInfoView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ModalInfoView.xib; sourceTree = "<group>"; };
+		C4A95AB32042F959007B0B9C /* Alarm_clock.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Alarm_clock.wav; sourceTree = "<group>"; };
+		C4A95AB42042F959007B0B9C /* Front_desk.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Front_desk.wav; sourceTree = "<group>"; };
+		C4A95AB52042F959007B0B9C /* Nuclear.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Nuclear.wav; sourceTree = "<group>"; };
+		C4A95AB62042F95A007B0B9C /* Doorbell.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Doorbell.wav; sourceTree = "<group>"; };
+		C4A95AB72042F95A007B0B9C /* Short_buzzer.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Short_buzzer.wav; sourceTree = "<group>"; };
+		C4A95AB82042F95A007B0B9C /* Corsica.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Corsica.wav; sourceTree = "<group>"; };
+		C4A95AB92042F95A007B0B9C /* School_bell.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = School_bell.wav; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -360,13 +360,13 @@
 		C4401864203A96000019E828 /* Sounds */ = {
 			isa = PBXGroup;
 			children = (
-				C4401865203A96000019E828 /* alarm-clock-1.wav */,
-				C4401866203A96000019E828 /* Corsica.wav */,
-				C4401867203A96000019E828 /* doorbell-1.wav */,
-				C4401868203A96000019E828 /* doorbell-3.wav */,
-				C4401869203A96000019E828 /* Nuclear.mp3 */,
-				C440186A203A96000019E828 /* School_Bell.wav */,
-				C440186B203A96000019E828 /* Short_Buzzer.wav */,
+				C4A95AB32042F959007B0B9C /* Alarm_clock.wav */,
+				C4A95AB82042F95A007B0B9C /* Corsica.wav */,
+				C4A95AB62042F95A007B0B9C /* Doorbell.wav */,
+				C4A95AB42042F959007B0B9C /* Front_desk.wav */,
+				C4A95AB52042F959007B0B9C /* Nuclear.wav */,
+				C4A95AB92042F95A007B0B9C /* School_bell.wav */,
+				C4A95AB72042F95A007B0B9C /* Short_buzzer.wav */,
 			);
 			path = Sounds;
 			sourceTree = "<group>";
@@ -828,20 +828,20 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C4A95ABF2042F95A007B0B9C /* Corsica.wav in Resources */,
 				C475C31B1FB1587500ADA21D /* Main.storyboard in Resources */,
-				C440186E203A96010019E828 /* doorbell-1.wav in Resources */,
-				C440186C203A96010019E828 /* alarm-clock-1.wav in Resources */,
-				C4401871203A96010019E828 /* School_Bell.wav in Resources */,
-				C4401870203A96010019E828 /* Nuclear.mp3 in Resources */,
 				C4A510221FBD77300012D3C1 /* ModalInfoView.xib in Resources */,
-				C440186F203A96010019E828 /* doorbell-3.wav in Resources */,
-				C4401872203A96010019E828 /* Short_Buzzer.wav in Resources */,
 				C475C30F1FB1580D00ADA21D /* TaskCollectionViewCell.xib in Resources */,
+				C4A95ABA2042F95A007B0B9C /* Alarm_clock.wav in Resources */,
 				C475C3131FB1580D00ADA21D /* TaskCircleProgressCollectionViewCell.xib in Resources */,
+				C4A95ABE2042F95A007B0B9C /* Short_buzzer.wav in Resources */,
+				C4A95ABB2042F95A007B0B9C /* Front_desk.wav in Resources */,
 				C475C2BC1FB1574C00ADA21D /* Assets.xcassets in Resources */,
 				C475C31A1FB1587500ADA21D /* LaunchScreen.storyboard in Resources */,
-				C440186D203A96010019E828 /* Corsica.wav in Resources */,
+				C4A95ABD2042F95A007B0B9C /* Doorbell.wav in Resources */,
+				C4A95AC02042F95A007B0B9C /* School_bell.wav in Resources */,
 				C475C3111FB1580D00ADA21D /* Images.xcassets in Resources */,
+				C4A95ABC2042F95A007B0B9C /* Nuclear.wav in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

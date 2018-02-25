@@ -65,13 +65,13 @@ enum Visible {
 
 /* */
 enum AudioAlert: String, EnumCollection {
-    case aaa = "Corsica.wav"
-    case bbb = "Nuclear.wav"
-    case ccc = "School_Bell.wav"
-    case ddd = "Short_Buzzer.wav"
-//    case eee = "eee.wav"
-//    case fff = "fff.wav"
-//    case ggg = "ggg.wav"
+    case aaa = "Alarm_clock.wav"
+    case bbb = "Corsica.wav"
+    case ccc = "Doorbell.wav"
+    case ddd = "Front_desk.wav"
+    case eee = "Nuclear.wav"
+    case fff = "School_bell.wav"
+    case ggg = "Short_buzzer.wav"
 //    case hhh = "hhh.wav"
 //    case iii = "iii.wav"
 //    case jjj = "jjj.wav"
