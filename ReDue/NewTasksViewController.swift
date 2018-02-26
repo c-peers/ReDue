@@ -749,6 +749,9 @@ extension NewTasksViewController: UIPickerViewDelegate, UIPickerViewDataSource {
             default:
                 break
             }
+        } else {
+            taskLengthTextField.resignFirstResponder()
+            occurrenceRateTextField.resignFirstResponder()
         }
         
     }

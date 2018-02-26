@@ -1120,6 +1120,9 @@ extension TaskSettingsViewController: UIPickerViewDataSource, UIPickerViewDelega
             default:
                 break
             }
+        } else {
+            taskLengthTextField.resignFirstResponder()
+            occurrenceRateTextField.resignFirstResponder()
         }
 
     }
