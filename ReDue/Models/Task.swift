@@ -30,7 +30,7 @@ class Task: NSObject, NSCoding {
     var isRunning = false
     
     var audioAlert: AudioAlert = .none
-    var vibrateAlert: VibrateAlert = .short
+    var vibrateAlert: VibrateAlert = .off /*.none*/ 
     
     // Cumulative statistics
     var totalTime = 0.0
