@@ -180,7 +180,7 @@ class TaskCollectionViewCell: UICollectionViewCell {
         }
         
         let currentProgress = 1 - Float(remainingTime)/Float(task.weightedTime)
-        if type == .line {
+        if type == .line || type == nil {
             progressView.setProgress(currentProgress, animated: true)
             //progressView.progress = currentProgress
             //TaskViewController.calculateProgress()
