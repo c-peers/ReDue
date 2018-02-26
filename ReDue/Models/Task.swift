@@ -336,7 +336,10 @@ class Task: NSObject, NSCoding {
         
         let audioAlert = AudioAlert(rawValue: aDecoder.decodeObject(forKey: Key.audioAlertKey) as! String) //else { audio = .none }
             
-        let vibrateAlert = VibrateAlert(rawValue: aDecoder.decodeObject(forKey: Key.vibrateAlertKey) as! String) //as? VibrateAlert ?? .none
+        var vibrateAlert = VibrateAlert(rawValue: aDecoder.decodeObject(forKey: Key.vibrateAlertKey) as! String) //as? VibrateAlert ?? .none
+        if vibrateAlert == nil {
+            vibrateAlert = .off
+        }
         
         // Must call designated initializer.
         self.init(name: name, time: time, days: days, multiplier: multiplier, rollover: rollover, frequency: frequency, completed: completed, runWeek: runWeek, totalTime: totalTime, missedTime: missedTime, completedTime: completedTime, forfeitedTime: forfeitedTime, totalDays: totalDays, fullDays: fullDays, partialDays: partialDays, missedDays: missedDays, currentStreak: currentStreak, bestStreak: bestStreak, taskTimeHistory: taskTimeHistory, missedTimeHistory: missedTimeHistory, completedTimeHistory: completedTimeHistory, audioAlert: audioAlert!, vibrateAlert: vibrateAlert!)
