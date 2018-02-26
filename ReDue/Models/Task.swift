@@ -347,7 +347,7 @@ class Task: NSObject, NSCoding {
     
     convenience override init() {
         let days = ["Sunday": false, "Monday": false, "Tuesday": false, "Wednesday": false, "Thursday": false, "Friday": false, "Saturday": false]
-        self.init(name: "", time: 0.0, days: days, multiplier: 0.0, rollover: 0.0, frequency: 0.0, completed: 0.0, runWeek: 0, totalTime: 0.0, missedTime: 0.0, completedTime: 0.0, forfeitedTime: 0, totalDays: 0, fullDays: 0, partialDays: 0, missedDays: 0, currentStreak: 0, bestStreak: 0, taskTimeHistory: [Date: Double](), missedTimeHistory: [Date: Double](), completedTimeHistory: [Date: Double](), audioAlert: .none, vibrateAlert: .none)
+        self.init(name: "", time: 0.0, days: days, multiplier: 0.0, rollover: 0.0, frequency: 0.0, completed: 0.0, runWeek: 0, totalTime: 0.0, missedTime: 0.0, completedTime: 0.0, forfeitedTime: 0, totalDays: 0, fullDays: 0, partialDays: 0, missedDays: 0, currentStreak: 0, bestStreak: 0, taskTimeHistory: [Date: Double](), missedTimeHistory: [Date: Double](), completedTimeHistory: [Date: Double](), audioAlert: .none, vibrateAlert: .off /*.none*/ )
     }
     
     convenience init(name: String, time: Double, days: [String: Bool], multiplier: Double, rollover: Double, frequency: Double, completed: Double, runWeek: Int, audioAlert: AudioAlert, vibrateAlert: VibrateAlert) {

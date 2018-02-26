@@ -21,7 +21,7 @@ class VibrateAlertSettingsViewController: UIViewController, UITableViewDelegate,
     var task: Task?
     var appData = AppData()
     
-    var selectedVibration: VibrateAlert = .none
+    var selectedVibration: VibrateAlert = .off /*.none*/ 
     
     var colors = Colors(main: HexColor("247BA0")!, bg: FlatWhite(), task1: HexColor("70C1B3")!, task2: HexColor("B2DBBF")!, progress: HexColor("FF1654")!)
 
@@ -101,7 +101,7 @@ class VibrateAlertSettingsViewController: UIViewController, UITableViewDelegate,
 
         var isChecked = false
         
-        if selectedVibration != .none && alertFullText == selectedVibration.rawValue {
+        if selectedVibration != .off /*.none*/ && alertFullText == selectedVibration.rawValue {
             isChecked = true
         }
 

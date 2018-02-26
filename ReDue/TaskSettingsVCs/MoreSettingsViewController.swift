@@ -21,7 +21,7 @@ class MoreSettingsViewController: UITableViewController {
     //MARK: - Properties
     
     var selectedAudioAlert: AudioAlert = .none
-    var selectedVibrateAlert: VibrateAlert = .none
+    var selectedVibrateAlert: VibrateAlert = .off /*.none*/
     
     let log = SwiftyBeaver.self
     
@@ -74,7 +74,7 @@ class MoreSettingsViewController: UITableViewController {
             selectedAudioLabel.text = value
         }
         
-        if selectedVibrateAlert != .none {
+        if selectedVibrateAlert != .off /*.none*/ {
             let value = getAlertText(from: selectedVibrateAlert.rawValue)
             selectedVibrateLabel.text = value
         }
@@ -215,7 +215,7 @@ class MoreSettingsViewController: UITableViewController {
         } else if segue.identifier == "vibrateAlertSettingsSegue" {
             let  vibrateAlertSettingsVC = segue.destination as! VibrateAlertSettingsViewController
             vibrateAlertSettingsVC.appData = appData
-            if selectedVibrateAlert != .none {
+            if selectedVibrateAlert != .off /*.none*/ {
                 vibrateAlertSettingsVC.selectedVibration = selectedVibrateAlert
             } else if let task = task {
                 vibrateAlertSettingsVC.selectedVibration = task.vibrateAlert

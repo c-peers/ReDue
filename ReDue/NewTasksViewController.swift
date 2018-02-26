@@ -43,7 +43,7 @@ class NewTasksViewController: UIViewController, UIScrollViewDelegate {
     var keyboardOffset:CGFloat = 0.0
     
     var audioAlert: AudioAlert = .none
-    var vibrateAlert: VibrateAlert = .none
+    var vibrateAlert: VibrateAlert = .off /*.none*/ 
     
     // For occurrence
     var taskDays = ["Sunday": false, "Monday": false, "Tuesday": false, "Wednesday": false, "Thursday": false, "Friday": false, "Saturday": false]

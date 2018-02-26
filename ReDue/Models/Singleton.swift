@@ -132,9 +132,9 @@ class CountdownTimer: NSObject {
     // MARK: - Audio and Vibration Functions
     
     func vibrate(for task: Task) {
-        //AudioServicesPlaySystemSound(kSystemSoundID_Vibrate)
-        //AudioServicesPlayAlertSoundWithCompletion(SystemSoundID(kSystemSoundID_Vibrate), nil)
-        //AudioServicesPlaySystemSoundWithCompletion(SystemSoundID(kSystemSoundID_Vibrate), nil)
+        AudioServicesPlaySystemSound(kSystemSoundID_Vibrate)
+        AudioServicesPlayAlertSoundWithCompletion(SystemSoundID(kSystemSoundID_Vibrate), nil)
+        AudioServicesPlaySystemSoundWithCompletion(SystemSoundID(kSystemSoundID_Vibrate), nil)
         _ = task.vibrateAlert.run
     }
     
@@ -171,9 +171,9 @@ class CountdownTimer: NSObject {
             alertText = "Play " + name
         }
         
-        if vibrate != .none {
+        if vibrate !=  .off /*.none*/ {
             alertText += (audio != .none) ? " and " : ""
-            alertText += String(describing: vibrate) + " vibration"
+            alertText += /*String(describing: vibrate) + */"Vibration"
         }
         
         if alertText.isEmpty {

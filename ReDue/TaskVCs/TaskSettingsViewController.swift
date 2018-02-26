@@ -50,14 +50,14 @@ class TaskSettingsViewController: UIViewController {
     var frequency = 0.0
     var multiplier = 1.0
     var audio: AudioAlert = .none
-    var vibrate: VibrateAlert = .none
+    var vibrate: VibrateAlert = .off /*.none*/
     
     var originalTime = 0.0
     var originalDays = ["Sunday": false, "Monday": false, "Tuesday": false, "Wednesday": false, "Thursday": false, "Friday": false, "Saturday": false]
     var originalFrequency = 0.0
     var originalMultiplier = 0.0
     var originalAudio: AudioAlert = .none
-    var originalVibrate: VibrateAlert = .none
+    var originalVibrate: VibrateAlert = .off /*.none*/ 
 
     var valuesChanged = false
     

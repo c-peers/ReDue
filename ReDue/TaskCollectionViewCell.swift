@@ -255,7 +255,7 @@ class TaskCollectionViewCell: UICollectionViewCell {
         
         if task.completed >= task.weightedTime {
             
-            if task.vibrateAlert != .none {
+            if task.vibrateAlert != .off /*.none*/  {
                 timer.vibrate(for: task)
             }
             

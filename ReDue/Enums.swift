@@ -84,19 +84,19 @@ enum AudioAlert: String, EnumCollection {
 typealias Vibrate = () -> ()
 
 enum VibrateAlert: String, EnumCollection {
-    case short = "Short"
-    case long = "Long"
+    //case short = "Short"
+    //case long = "Long"
     case on = "On"
     case off = "Off"
-    case none
+    //case none
     
     var run: Vibrate {
         get {
             switch self {
-            case .short:
-                return {self.vibrate(forLength: 0.4, pause: 0.1)}
-            case .long:
-                return {self.vibrate(forLength: 4, pause: 0.2)}
+            //case .short:
+            //    return {self.vibrate(forLength: 0.4, pause: 0.1)}
+            //case .long:
+            //    return {self.vibrate(forLength: 4, pause: 0.2)}
             default:
                 return { }
             }
