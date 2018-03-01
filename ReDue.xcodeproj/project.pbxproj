@@ -40,7 +40,6 @@
 		C475C3131FB1580D00ADA21D /* TaskCircleProgressCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C475C2FC1FB1580C00ADA21D /* TaskCircleProgressCollectionViewCell.xib */; };
 		C475C3141FB1580D00ADA21D /* TaskDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C475C2FD1FB1580C00ADA21D /* TaskDetailViewController.swift */; };
 		C475C3151FB1580D00ADA21D /* TaskSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C475C2FE1FB1580D00ADA21D /* TaskSettingsViewController.swift */; };
-		C475C31A1FB1587500ADA21D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C475C3161FB1587500ADA21D /* LaunchScreen.storyboard */; };
 		C475C31B1FB1587500ADA21D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C475C3181FB1587500ADA21D /* Main.storyboard */; };
 		C475C3571FB164C000ADA21D /* Chameleon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C475C3241FB1643600ADA21D /* Chameleon.framework */; };
 		C475C3581FB164C000ADA21D /* Chameleon.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C475C3241FB1643600ADA21D /* Chameleon.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -56,6 +55,7 @@
 		C475C3C11FB3380E00ADA21D /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C475C3C01FB3380E00ADA21D /* StoreKit.framework */; };
 		C48D83511FB694C600D0632A /* SwiftyBeaver.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C48D83481FB5DF0400D0632A /* SwiftyBeaver.framework */; };
 		C48D83521FB694C600D0632A /* SwiftyBeaver.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C48D83481FB5DF0400D0632A /* SwiftyBeaver.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		C49529C4204784D700CB1BCC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C49529C2204784D700CB1BCC /* LaunchScreen.storyboard */; };
 		C4A510221FBD77300012D3C1 /* ModalInfoView.xib in Resources */ = {isa = PBXBuildFile; fileRef = C4A510211FBD77300012D3C1 /* ModalInfoView.xib */; };
 		C4A95ABA2042F95A007B0B9C /* Alarm_clock.wav in Resources */ = {isa = PBXBuildFile; fileRef = C4A95AB32042F959007B0B9C /* Alarm_clock.wav */; };
 		C4A95ABB2042F95A007B0B9C /* Front_desk.wav in Resources */ = {isa = PBXBuildFile; fileRef = C4A95AB42042F959007B0B9C /* Front_desk.wav */; };
@@ -304,7 +304,6 @@
 		C475C2FC1FB1580C00ADA21D /* TaskCircleProgressCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TaskCircleProgressCollectionViewCell.xib; sourceTree = "<group>"; };
 		C475C2FD1FB1580C00ADA21D /* TaskDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskDetailViewController.swift; sourceTree = "<group>"; };
 		C475C2FE1FB1580D00ADA21D /* TaskSettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskSettingsViewController.swift; sourceTree = "<group>"; };
-		C475C3171FB1587500ADA21D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C475C3191FB1587500ADA21D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		C475C31C1FB1643600ADA21D /* Chameleon.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Chameleon.xcodeproj; path = Chameleon/Chameleon.xcodeproj; sourceTree = "<group>"; };
 		C475C32B1FB1644700ADA21D /* Charts.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Charts.xcodeproj; path = Charts/Charts.xcodeproj; sourceTree = "<group>"; };
@@ -314,6 +313,7 @@
 		C475C36C1FB193EE00ADA21D /* GoogleMobileAds.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleMobileAds.framework; sourceTree = "<group>"; };
 		C475C3C01FB3380E00ADA21D /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		C48D833F1FB5DF0400D0632A /* SwiftyBeaver.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SwiftyBeaver.xcodeproj; path = SwiftyBeaver/SwiftyBeaver.xcodeproj; sourceTree = "<group>"; };
+		C49529C3204784D700CB1BCC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C4A510211FBD77300012D3C1 /* ModalInfoView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ModalInfoView.xib; sourceTree = "<group>"; };
 		C4A95AB32042F959007B0B9C /* Alarm_clock.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Alarm_clock.wav; sourceTree = "<group>"; };
 		C4A95AB42042F959007B0B9C /* Front_desk.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Front_desk.wav; sourceTree = "<group>"; };
@@ -449,8 +449,8 @@
 				C475C2C01FB1574C00ADA21D /* Info.plist */,
 				C475C2E41FB1580A00ADA21D /* SettingsVCs */,
 				C4401877203ABF230019E828 /* TaskSettingsVCs */,
-				C475C3161FB1587500ADA21D /* LaunchScreen.storyboard */,
 				C475C3181FB1587500ADA21D /* Main.storyboard */,
+				C49529C2204784D700CB1BCC /* LaunchScreen.storyboard */,
 				C475C2EC1FB1580A00ADA21D /* TaskChecker.swift */,
 				C446E2412040628D00EDA8F5 /* TaskVCs */,
 				C475C2E31FB1580A00ADA21D /* ViewController.swift */,
@@ -837,9 +837,9 @@
 				C4A95ABE2042F95A007B0B9C /* Short_buzzer.wav in Resources */,
 				C4A95ABB2042F95A007B0B9C /* Front_desk.wav in Resources */,
 				C475C2BC1FB1574C00ADA21D /* Assets.xcassets in Resources */,
-				C475C31A1FB1587500ADA21D /* LaunchScreen.storyboard in Resources */,
 				C4A95ABD2042F95A007B0B9C /* Doorbell.wav in Resources */,
 				C4A95AC02042F95A007B0B9C /* School_bell.wav in Resources */,
+				C49529C4204784D700CB1BCC /* LaunchScreen.storyboard in Resources */,
 				C475C3111FB1580D00ADA21D /* Images.xcassets in Resources */,
 				C4A95ABC2042F95A007B0B9C /* Nuclear.wav in Resources */,
 			);
@@ -958,20 +958,20 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		C475C3161FB1587500ADA21D /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				C475C3171FB1587500ADA21D /* Base */,
-			);
-			name = LaunchScreen.storyboard;
-			sourceTree = "<group>";
-		};
 		C475C3181FB1587500ADA21D /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
 				C475C3191FB1587500ADA21D /* Base */,
 			);
 			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		C49529C2204784D700CB1BCC /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C49529C3204784D700CB1BCC /* Base */,
+			);
+			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
