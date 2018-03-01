@@ -1,0 +1,168 @@
+
+/* Class = "UILabel"; text = "Aa"; ObjectID = "33X-7b-xGc"; */
+"33X-7b-xGc.text" = "Aa";
+
+/* Class = "UILabel"; text = "Component Colors:"; ObjectID = "46d-wI-aMQ"; */
+"46d-wI-aMQ.text" = "Component Colors:";
+
+/* Class = "UILabel"; text = "= UIColor.randomFlat"; ObjectID = "4BE-fg-PdX"; */
+"4BE-fg-PdX.text" = "= UIColor.randomFlat";
+
+/* Class = "UILabel"; text = "1st"; ObjectID = "4tE-E4-Hvb"; */
+"4tE-E4-Hvb.text" = "1st";
+
+/* Class = "UILabel"; text = "Aa"; ObjectID = "5zV-dt-yNY"; */
+"5zV-dt-yNY.text" = "Aa";
+
+/* Class = "UILabel"; text = "Gradient Color:"; ObjectID = "9lT-P7-wg0"; */
+"9lT-P7-wg0.text" = "Gradient Color:";
+
+/* Class = "UILabel"; text = "FANCY COLOR"; ObjectID = "AXN-zm-Toy"; */
+"AXN-zm-Toy.text" = "FANCY COLOR";
+
+/* Class = "UINavigationItem"; title = "Colors From Image"; ObjectID = "AZp-9b-nNt"; */
+"AZp-9b-nNt.title" = "Colors From Image";
+
+/* Class = "UILabel"; text = "Complementary Flat Color:"; ObjectID = "Aho-F6-dOk"; */
+"Aho-F6-dOk.text" = "Complementary Flat Color:";
+
+/* Class = "UILabel"; text = "Aa"; ObjectID = "B21-3F-D5u"; */
+"B21-3F-D5u.text" = "Aa";
+
+/* Class = "UILabel"; text = "Aa"; ObjectID = "BDm-ZQ-cmZ"; */
+"BDm-ZQ-cmZ.text" = "Aa";
+
+/* Class = "UILabel"; text = "withFrame:CGRect, andColors:[UIColor])"; ObjectID = "BIF-v0-l3J"; */
+"BIF-v0-l3J.text" = "withFrame:CGRect, andColors:[UIColor])";
+
+/* Class = "UILabel"; text = "1st"; ObjectID = "BVK-b8-MHa"; */
+"BVK-b8-MHa.text" = "1st";
+
+/* Class = "UILabel"; text = "Colors From Image:"; ObjectID = "EQi-c1-LzF"; */
+"EQi-c1-LzF.text" = "Colors From Image:";
+
+/* Class = "UILabel"; text = "Aa"; ObjectID = "FCb-ak-sma"; */
+"FCb-ak-sma.text" = "Aa";
+
+/* Class = "UILabel"; text = "Aa"; ObjectID = "FI2-Eu-YRY"; */
+"FI2-Eu-YRY.text" = "Aa";
+
+/* Class = "UILabel"; text = "= AverageColorFromImage(sampleImageOne)"; ObjectID = "Fdt-4F-O20"; */
+"Fdt-4F-O20.text" = "= AverageColorFromImage(sampleImageOne)";
+
+/* Class = "UILabel"; text = "Aa"; ObjectID = "HRB-I2-wlq"; */
+"HRB-I2-wlq.text" = "Aa";
+
+/* Class = "UILabel"; text = "= ContrastColorOf(randomFlatColor, returnFlat: true)"; ObjectID = "KLU-sl-kJR"; */
+"KLU-sl-kJR.text" = "= ContrastColorOf(randomFlatColor, returnFlat: true)";
+
+/* Class = "UILabel"; text = "Lighter Color:"; ObjectID = "LKi-2z-F4H"; */
+"LKi-2z-F4H.text" = "Lighter Color:";
+
+/* Class = "UILabel"; text = "= ColorsFromImage(sampleImageOne, withFlatScheme: true)"; ObjectID = "LPc-QA-XeO"; */
+"LPc-QA-XeO.text" = "= ColorsFromImage(sampleImageOne, withFlatScheme: true)";
+
+/* Class = "UILabel"; text = "Contrast Flat Color:"; ObjectID = "Lzh-4J-h2z"; */
+"Lzh-4J-h2z.text" = "Contrast Flat Color:";
+
+/* Class = "UILabel"; text = "Colors From Image:"; ObjectID = "Mdv-fB-ehY"; */
+"Mdv-fB-ehY.text" = "Colors From Image:";
+
+/* Class = "UILabel"; text = "Sample Image #2:"; ObjectID = "MyV-zW-kAQ"; */
+"MyV-zW-kAQ.text" = "Sample Image #2:";
+
+/* Class = "UILabel"; text = "Aa"; ObjectID = "N5j-fW-ee7"; */
+"N5j-fW-ee7.text" = "Aa";
+
+/* Class = "UILabel"; text = "Darker Color:"; ObjectID = "N6n-P1-L87"; */
+"N6n-P1-L87.text" = "Darker Color:";
+
+/* Class = "UILabel"; text = "Aa"; ObjectID = "Nr5-Ir-aKt"; */
+"Nr5-Ir-aKt.text" = "Aa";
+
+/* Class = "UILabel"; text = "Gradient Backgorund with Contrast Text:"; ObjectID = "OR3-cC-S3a"; */
+"OR3-cC-S3a.text" = "Gradient Backgorund with Contrast Text:";
+
+/* Class = "UILabel"; text = "Aa"; ObjectID = "Oar-tX-F0i"; */
+"Oar-tX-F0i.text" = "Aa";
+
+/* Class = "UILabel"; text = "Average Color From Image:"; ObjectID = "PBO-KY-bDt"; */
+"PBO-KY-bDt.text" = "Average Color From Image:";
+
+/* Class = "UILabel"; text = "Aa"; ObjectID = "Po8-Ai-CW8"; */
+"Po8-Ai-CW8.text" = "Aa";
+
+/* Class = "UILabel"; text = "Aa"; ObjectID = "RYW-Is-bto"; */
+"RYW-Is-bto.text" = "Aa";
+
+/* Class = "UILabel"; text = "Flattening Non-Flat Color:"; ObjectID = "Rta-7Q-vBV"; */
+"Rta-7Q-vBV.text" = "Flattening Non-Flat Color:";
+
+/* Class = "UILabel"; text = "Aa"; ObjectID = "SaA-TE-lru"; */
+"SaA-TE-lru.text" = "Aa";
+
+/* Class = "UILabel"; text = "Aa"; ObjectID = "Slt-37-hgu"; */
+"Slt-37-hgu.text" = "Aa";
+
+/* Class = "UILabel"; text = "= UIColor(gradientStyle:UIGradientStyle,"; ObjectID = "TqJ-YO-TDe"; */
+"TqJ-YO-TDe.text" = "= UIColor(gradientStyle:UIGradientStyle,";
+
+/* Class = "UILabel"; text = "= ContrastColorOf(randomFlatColor, returnFlat: true)"; ObjectID = "YBU-wq-bAQ"; */
+"YBU-wq-bAQ.text" = "= ContrastColorOf(randomFlatColor, returnFlat: true)";
+
+/* Class = "UITabBarItem"; title = "Basics"; ObjectID = "acW-dT-cKf"; */
+"acW-dT-cKf.title" = "Basics";
+
+/* Class = "UILabel"; text = "Aa"; ObjectID = "c58-Oe-I3L"; */
+"c58-Oe-I3L.text" = "Aa";
+
+/* Class = "UITabBarItem"; title = "Colors From Image"; ObjectID = "cPa-gy-q4n"; */
+"cPa-gy-q4n.title" = "Colors From Image";
+
+/* Class = "UILabel"; text = "= ComplementaryFlatColorOf(randomFlatColor)"; ObjectID = "cm3-jI-NVD"; */
+"cm3-jI-NVD.text" = "= ComplementaryFlatColorOf(randomFlatColor)";
+
+/* Class = "UILabel"; text = "1st"; ObjectID = "e78-Gx-kWJ"; */
+"e78-Gx-kWJ.text" = "1st";
+
+/* Class = "UILabel"; text = "Random Flat Color:"; ObjectID = "evh-Zv-7g5"; */
+"evh-Zv-7g5.text" = "Random Flat Color:";
+
+/* Class = "UILabel"; text = "= ContrastColorOf(randomFlatColor, returnFlat: true)"; ObjectID = "gEy-ol-rDg"; */
+"gEy-ol-rDg.text" = "= ContrastColorOf(randomFlatColor, returnFlat: true)";
+
+/* Class = "UILabel"; text = "Aa"; ObjectID = "hU1-qB-ubE"; */
+"hU1-qB-ubE.text" = "Aa";
+
+/* Class = "UILabel"; text = "Sample Image #1:"; ObjectID = "ia8-4G-PxT"; */
+"ia8-4G-PxT.text" = "Sample Image #1:";
+
+/* Class = "UILabel"; text = "Aa"; ObjectID = "kG4-16-3b2"; */
+"kG4-16-3b2.text" = "Aa";
+
+/* Class = "UILabel"; text = "= ColorsFromImage(sampleImageTwo, withFlatScheme: true)"; ObjectID = "l5t-VX-ojB"; */
+"l5t-VX-ojB.text" = "= ColorsFromImage(sampleImageTwo, withFlatScheme: true)";
+
+/* Class = "UILabel"; text = "= AverageColorFromImage(sampleImageTwo)"; ObjectID = "lMz-XU-WTV"; */
+"lMz-XU-WTV.text" = "= AverageColorFromImage(sampleImageTwo)";
+
+/* Class = "UILabel"; text = "Aa"; ObjectID = "nFR-IO-rPj"; */
+"nFR-IO-rPj.text" = "Aa";
+
+/* Class = "UILabel"; text = "Aa"; ObjectID = "nwY-in-USC"; */
+"nwY-in-USC.text" = "Aa";
+
+/* Class = "UILabel"; text = "Aa"; ObjectID = "p9z-I4-Wgd"; */
+"p9z-I4-Wgd.text" = "Aa";
+
+/* Class = "UILabel"; text = "Average Color From Image:"; ObjectID = "ptF-6E-4t9"; */
+"ptF-6E-4t9.text" = "Average Color From Image:";
+
+/* Class = "UILabel"; text = "= randomNonFlatColor.flatten()"; ObjectID = "t8J-LA-xHL"; */
+"t8J-LA-xHL.text" = "= randomNonFlatColor.flatten()";
+
+/* Class = "UILabel"; text = "Before-Flattening Color:"; ObjectID = "vEq-3Q-Qim"; */
+"vEq-3Q-Qim.text" = "Before-Flattening Color:";
+
+/* Class = "UINavigationItem"; title = "Basics"; ObjectID = "xGB-mC-2wr"; */
+"xGB-mC-2wr.title" = "Basics";

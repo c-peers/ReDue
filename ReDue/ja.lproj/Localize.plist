@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Complete</key>
+	<dict>
+		<key>value</key>
+		<string>Complete</string>
+	</dict>
+	<key>None</key>
+	<dict>
+		<key>value</key>
+		<string>None</string>
+	</dict>
+	<key>Cancel</key>
+	<dict>
+		<key>value</key>
+		<string>キャンセル</string>
+	</dict>
+	<key>On</key>
+	<dict>
+		<key>value</key>
+		<string>有効</string>
+	</dict>
+	<key>Off</key>
+	<dict>
+		<key>value</key>
+		<string>無効</string>
+	</dict>
+	<key>Short</key>
+	<dict>
+		<key>value</key>
+		<string>短い</string>
+	</dict>
+	<key>Long</key>
+	<dict>
+		<key>value</key>
+		<string>長い</string>
+	</dict>
+	<key>Play</key>
+	<dict>
+		<key>value</key>
+		<string>Play</string>
+	</dict>
+	<key>Flat</key>
+	<dict>
+		<key>value</key>
+		<string>Flat</string>
+	</dict>
+	<key>Circular</key>
+	<dict>
+		<key>value</key>
+		<string>Circular</string>
+	</dict>
+	<key>Settings</key>
+	<dict>
+		<key>value</key>
+		<string>Settings</string>
+	</dict>
+	<key>Unlocked</key>
+	<dict>
+		<key>value</key>
+		<string>Unlocked</string>
+	</dict>
+	<key>Application Settings</key>
+	<dict>
+		<key>value</key>
+		<string>Application Settings</string>
+	</dict>
+	<key>Error</key>
+	<dict>
+		<key>value</key>
+		<string>Error</string>
+	</dict>
+	<key>Purchases disabled</key>
+	<dict>
+		<key>value</key>
+		<string>Purchases are disabled in your device.</string>
+	</dict>
+	<key>Unlocked message</key>
+	<dict>
+		<key>value</key>
+		<string>Ads have been removed and premium features are now unlocked.</string>
+	</dict>
+	<key>Theme Color</key>
+	<dict>
+		<key>value</key>
+		<string>Theme Color</string>
+	</dict>
+	<key>Progress View</key>
+	<dict>
+		<key>value</key>
+		<string>Progress View</string>
+	</dict>
+	<key>Reset Time</key>
+	<dict>
+		<key>value</key>
+		<string>Reset Time</string>
+	</dict>
+	<key>Audio Alert</key>
+	<dict>
+		<key>value</key>
+		<string>Audio Alert</string>
+	</dict>
+	<key>Vibrate Alert</key>
+	<dict>
+		<key>value</key>
+		<string>Vibrate Alert</string>
+	</dict>
+	<key>No task</key>
+	<dict>
+		<key>value</key>
+		<string>No task today</string>
+	</dict>
+	<key>Delete alert</key>
+	<dict>
+		<key>value</key>
+		<string>Delete Task</string>
+	</dict>
+	<key>Delete message</key>
+	<dict>
+		<key>value</key>
+		<string>Are you sure you want to delete the current task?</string>
+	</dict>
+	<key>Restricted alert</key>
+	<dict>
+		<key>value</key>
+		<string>Restricted</string>
+	</dict>
+	<key>Restricted message</key>
+	<dict>
+		<key>value</key>
+		<string>Task statistics must be unlocked first.</string>
+	</dict>
+	<key>Reset alert</key>
+	<dict>
+		<key>value</key>
+		<string>Reset Timer</string>
+	</dict>
+	<key>Reset message</key>
+	<dict>
+		<key>value</key>
+		<string>Are you sure you want to reset the timer to its default length?</string>
+	</dict>
+	<key>Run alert</key>
+	<dict>
+		<key>value</key>
+		<string>Run today?</string>
+	</dict>
+	<key>Run message</key>
+	<dict>
+		<key>value</key>
+		<string>This isn&apos;t scheduled for today. Do it anyways?</string>
+	</dict>
+	<key>minute suffix</key>
+	<dict>
+		<key>value</key>
+		<string> min</string>
+	</dict>
+	<key>Every</key>
+	<dict>
+		<key>value</key>
+		<string>Every</string>
+	</dict>
+	<key>Week</key>
+	<dict>
+		<key>value</key>
+		<string> week</string>
+	</dict>
+	<key>Weeks</key>
+	<dict>
+		<key>value</key>
+		<string> weeks</string>
+	</dict>
+	<key>Name Error</key>
+	<dict>
+		<key>value</key>
+		<string>This name already exists</string>
+	</dict>
+	<key>Missing name error</key>
+	<dict>
+		<key>value</key>
+		<string>Please enter a name</string>
+	</dict>
+	<key>Missing time error</key>
+	<dict>
+		<key>value</key>
+		<string>Please enter a time</string>
+	</dict>
+	<key>Missing frequency error</key>
+	<dict>
+		<key>value</key>
+		<string>Please enter the task frequency</string>
+	</dict>
+	<key>Missing fields alert</key>
+	<dict>
+		<key>value</key>
+		<string>Please fill out all fields before creating the task</string>
+	</dict>
+	<key>Name alert</key>
+	<dict>
+		<key>value</key>
+		<string>A task with this name already exists</string>
+	</dict>
+	<key>Remove today alert</key>
+	<dict>
+		<key>value</key>
+		<string>\(task.name) was set to run today. Removing \(currentDateString) will delete all data recorded today.</string>
+	</dict>
+</dict>
+</plist>

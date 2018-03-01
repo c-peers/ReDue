@@ -1,0 +1,12 @@
+
+/* Class = "UISegmentedControl"; OD8-BK-xRp.segmentTitles[0] = "First"; ObjectID = "OD8-BK-xRp"; */
+"OD8-BK-xRp.segmentTitles[0]" = "First";
+
+/* Class = "UISegmentedControl"; OD8-BK-xRp.segmentTitles[1] = "Second"; ObjectID = "OD8-BK-xRp"; */
+"OD8-BK-xRp.segmentTitles[1]" = "Second";
+
+/* Class = "UINavigationItem"; title = "Chameleon"; ObjectID = "qSC-Xc-gWl"; */
+"qSC-Xc-gWl.title" = "Chameleon";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "vd1-BC-0GS"; */
+"vd1-BC-0GS.normalTitle" = "Button";

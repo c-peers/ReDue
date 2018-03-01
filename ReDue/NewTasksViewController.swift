@@ -247,8 +247,7 @@ class NewTasksViewController: UIViewController, UIScrollViewDelegate {
         
         colors = Colors.init(main: appData.mainColor!, bg: appData.bgColor!, task1: appData.taskColor1!, task2: appData.taskColor2!, progress: appData.progressColor!)
 
-        let themeColor = colors.main
-        //let themeColor = appData.appColor
+        //let themeColor = colors.main
         
         let darkerThemeColor = colors.darkMain
         view.backgroundColor = darkerThemeColor
@@ -549,8 +548,6 @@ class NewTasksViewController: UIViewController, UIScrollViewDelegate {
     @objc func keyboardWasShown(notification: NSNotification){
         //Need to calculate keyboard exact size due to Apple suggestions
         print("Keyboard was shown")
-
-        print(activeTextField)
 
         if let keyboardScreenFrame = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
             let keyboardLocalFrame = self.view.convert(keyboardScreenFrame, from: nil)

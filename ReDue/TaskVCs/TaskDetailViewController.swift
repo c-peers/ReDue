@@ -19,6 +19,7 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
     @IBOutlet weak var taskTimeLabel: UILabel!
     @IBOutlet weak var taskStartButton: UIButton!
     @IBOutlet weak var resetRolloverButton: UIButton!
+    @IBOutlet weak var offDayTaskButton: UIButton!
     @IBOutlet weak var recentTaskHistory: BarChartView!
     @IBOutlet weak var bannerView: GADBannerView!
     @IBOutlet weak var bannerHeight: NSLayoutConstraint!
@@ -91,11 +92,22 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
         
         setElapsedTime()
         
+        /* Hide reset button when:
+           1. the timer is less than the maximum usual task time
+           2. the task isn't running
+           3. the task should happen on the current day */
         let (_, remainingTime) = timer.formatTimer(for: task)
         if task.rollover > 0 && remainingTime > task.time && !task.isRunning && task.isToday {
             rolloverButton(is: .visible)
         } else {
             rolloverButton(is: .hidden)
+        }
+        
+        /* Only show this button when the task will not run on that day */
+        if task.isToday || task.willRunOnOffDay {
+            offDayTaskButton.isHidden = true
+        } else {
+            offDayTaskButton.isHidden = false
         }
         
         // The observer for the task detail VC tracks the elapsedTime variable
@@ -201,6 +213,9 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
             } else {
                 taskStartButton.isEnabled = true
             }
+        } else if task.willRunOnOffDay {
+            formatTimer()
+            taskStartButton.isEnabled = true
         } else {
             taskTimeLabel.text = "No task today"
             taskStartButton.isEnabled = false
@@ -298,7 +313,7 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
         
         timer.endTime = Date().timeIntervalSince1970
         
-        var elapsedTime = (timer.endTime - timer.startTime).rounded()
+        let elapsedTime = (timer.endTime - timer.startTime).rounded()
         
         task.completed += elapsedTime
 
@@ -394,8 +409,8 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
         let navigationBar = navigationController?.navigationBar
         let bgColor = navigationBar?.barTintColor
         
-        let darkerThemeColor = colors.darkMain //appData.appColor.darken(byPercentage: 0.25)
-        view.backgroundColor = colors.bg //.darken(byPercentage: Colors.darkLevelOne )//darkerThemeColor
+        //let darkerThemeColor = colors.darkMain
+        view.backgroundColor = colors.bg
 
         if appData.darknessCheck(for: bgColor) {
             navigationBar?.tintColor = .white
@@ -411,10 +426,12 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
             taskTimeLabel.textColor = .white
             recentProgressLabel.textColor = .white
             resetRolloverButton.setTitleColor(.white, for: .normal)
+            offDayTaskButton.setTitleColor(.white, for: .normal)
         } else {
             taskTimeLabel.textColor = .black
             recentProgressLabel.textColor = .black
             resetRolloverButton.setTitleColor(.black, for: .normal)
+            offDayTaskButton.setTitleColor(.black, for: .normal)
         }
         
     }
@@ -536,7 +553,55 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
         
     }
     
-    func popAlert(forType type: AlertType) {
+    /* When tapped show popup to confirm.
+       Afterwards, runs function that will set task to be run today without repeat
+       and do all the necesssary things when a task will happen that day */
+    @IBAction func offDayTaskButtonTapped(_ sender: UIButton) {
+        
+        popAlert(forType: .offDay, completion: { print("Test") /*self.runOnOffDay()*/ } )
+        
+    }
+    
+    /* Since task will just run once, and not recur, the task days dict
+       will not be used. In place of that is a variable that will be turned off
+       at the app reset time.
+       */
+    func runOnOffDay(_ type: OffDay) {
+        
+        UIView.animate(withDuration: 0.5, animations: {
+            self.offDayTaskButton.isHidden = true
+            self.resetRolloverButton.alpha = 0
+        })
+        
+        task.willRunOnOffDay = true
+        
+        if type == .add {
+            task.weightedTime += task.time
+        } else {
+            
+        }
+        
+        // Add date to history
+        let date = task.set(accessDate: Date())
+        task.addHistory(date: date)
+
+        
+        
+        
+        
+        checkTask()
+        formatTimer()
+        
+        saveData()
+        
+        //task.setRollover()
+        //task.reset()
+        //TODO: rest of function
+        
+    }
+    
+    
+    func popAlert(forType type: AlertType, completion: (() -> Void)? = nil) {
         
         let title: String
         let message: String
@@ -550,6 +615,9 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
         } else if type == .reset {
             title = "Reset Timer"
             message = "Are you sure you want to reset the timer to its default length?"
+        } else if type == .offDay {
+            title = "Run Today?"
+            message = "This isn't scheduled for today. Do it anyways?"
         } else {
             title = ""
             message = ""
@@ -560,22 +628,32 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
                                                 preferredStyle: UIAlertControllerStyle.alert)
         
         let yesAction = UIAlertAction(title: "Yes", style: .default){ (action: UIAlertAction) in
-            print("Hello")
             self.performSegue(withIdentifier: "taskDeletedUnwindSegue", sender: self)
         }
         let noAction = UIAlertAction(title: "No", style: .cancel, handler: nil)
         let okAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
-        let resetAction = UIAlertAction(title: "Yes", style: .default){ (action:
-            UIAlertAction) in
+        let resetAction = UIAlertAction(title: "Yes", style: .default){ _ in
             print("Resetting rollover")
             self.task.forfeitAccumulatedTime()
             self.formatTimer()
             self.saveData()
             self.rolloverButton(is: .hidden)
         }
+        let additionalAction = UIAlertAction(title: "Yes", style: .default)
+        { _ in
+            self.runOnOffDay(.add)
+        }
+        let remainingAction = UIAlertAction(title: "Yes, but only do remaining time", style: .default)
+        { _ in
+            self.runOnOffDay(.remaining)
+        }
         
         if type == .delete {
             alertController.addAction(yesAction)
+            alertController.addAction(noAction)
+        } else if type == .offDay {
+            alertController.addAction(additionalAction)
+            alertController.addAction(remainingAction)
             alertController.addAction(noAction)
         } else if type == .reset {
             alertController.addAction(resetAction)
@@ -669,7 +747,7 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
         xAxis.drawGridLinesEnabled = false
         xAxis.centerAxisLabelsEnabled = false
         
-        let darkerThemeColor = colors.darkMain //appData.appColor.darken(byPercentage: 0.25)
+        //let darkerThemeColor = colors.darkMain
         if appData.darknessCheck(for: view.backgroundColor) {
             xAxis.labelTextColor = .white
             rightAxis.labelTextColor = .white
@@ -749,11 +827,11 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
                 taskTimeHistory.append(completedInMinutes)
             }
             
-            /* T*/
+            /* */
             for i in 0..<taskTimeHistory.count {
                 
                 var value: BarChartDataEntry
-                if i < taskTimeHistory.count - 1  || !task.isToday{
+                if i < taskTimeHistory.count - 1  || !task.isToday && !task.willRunOnOffDay {
                     // here we set the X and Y status in a data chart entry
                     value = BarChartDataEntry(x: Double(i), y: taskTimeHistory[i])
                 } else {
@@ -768,7 +846,7 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
             
             bar.colors = ChartColorTemplates.pastel()
             
-            let darkerThemeColor = colors.darkMain //appData.appColor.darken(byPercentage: 0.25)
+            //let darkerThemeColor = colors.darkMain
             if appData.darknessCheck(for: view.backgroundColor) {
                 bar.valueColors = [UIColor.white]
             } else {

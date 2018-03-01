@@ -45,6 +45,7 @@ enum AlertType {
     case empty, duplicate
     case missed, complete
     case delete, upgradeNeeded, reset
+    case offDay
 }
 
 /* Used to determine device type */
@@ -53,6 +54,10 @@ enum DeviceType {
     case normal
     case large
     case X
+}
+
+enum OffDay {
+    case remaining, add
 }
 
 enum TableCellType {

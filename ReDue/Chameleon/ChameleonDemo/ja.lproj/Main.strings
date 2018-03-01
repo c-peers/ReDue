@@ -1,0 +1,12 @@
+
+/* Class = "UINavigationItem"; title = "Title goes Here"; ObjectID = "4Do-bz-Jkp"; */
+"4Do-bz-Jkp.title" = "Title goes Here";
+
+/* Class = "UISegmentedControl"; 7Gc-EA-0wb.segmentTitles[0] = "First"; ObjectID = "7Gc-EA-0wb"; */
+"7Gc-EA-0wb.segmentTitles[0]" = "First";
+
+/* Class = "UISegmentedControl"; 7Gc-EA-0wb.segmentTitles[1] = "Second"; ObjectID = "7Gc-EA-0wb"; */
+"7Gc-EA-0wb.segmentTitles[1]" = "Second";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "wA2-Zr-ic0"; */
+"wA2-Zr-ic0.normalTitle" = "Button";

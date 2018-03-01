@@ -597,6 +597,7 @@ class TaskViewController: UIViewController, GADBannerViewDelegate {
             /* Set the total rollover time and reset completed time */
             task.rollover = task.weightedTime - task.time
             task.completed = 0
+            task.willRunOnOffDay = false
             check.ifTaskWillRunToday(task)
             if task.isToday {
                 _ = check.access(for: task, upTo: now)
@@ -1090,7 +1091,7 @@ extension TaskViewController: UICollectionViewDelegate, UICollectionViewDataSour
 
         /* Show play Button, timer, next task day, etc.
            depending on whether the task will occur today or not */
-        if task.isToday {
+        if task.isToday || task.willRunOnOffDay {
             _ = cell.formatTimer(for: task, ofType: type)
             //cell.progressView.isHidden = false
             cell.playStopButton.isHidden = false
@@ -1107,7 +1108,7 @@ extension TaskViewController: UICollectionViewDelegate, UICollectionViewDataSour
         }
         
         /* If task will not happen show the next run day */
-        if !task.isToday {
+        if !task.isToday && !task.willRunOnOffDay {
             showNextRunDate(in: cell, for: task)
         }
         

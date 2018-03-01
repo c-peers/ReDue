@@ -1,0 +1,234 @@
+
+/* Class = "UILabel"; text = "Title"; ObjectID = "1Gy-TS-P4I"; */
+"1Gy-TS-P4I.text" = "タイトル";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "24m-Gi-HEr"; */
+"24m-Gi-HEr.text" = "ラベル";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "25T-oR-X80"; */
+"25T-oR-X80.text" = "ラベル";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "43i-la-Oql"; */
+"43i-la-Oql.text" = "ラベル";
+
+/* Class = "UIButton"; normalTitle = "S"; ObjectID = "44Q-hE-RyL"; */
+"44Q-hE-RyL.normalTitle" = "S";
+
+/* Class = "UILabel"; text = "Night Mode"; ObjectID = "4B9-nr-ojZ"; */
+"4B9-nr-ojZ.text" = "ダークモード";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "4Bf-Z0-h8e"; */
+"4Bf-Z0-h8e.text" = "ラベル";
+
+/* Class = "UIButton"; normalTitle = "T"; ObjectID = "58p-54-GV3"; */
+"58p-54-GV3.normalTitle" = "火";
+
+/* Class = "UIButton"; normalTitle = "S"; ObjectID = "7nb-2q-wqE"; */
+"7nb-2q-wqE.normalTitle" = "S";
+
+/* Class = "UITableViewSection"; footerTitle = " "; ObjectID = "9QF-Vd-Zei"; */
+"9QF-Vd-Zei.footerTitle" = " ";
+
+/* Class = "UITableViewSection"; headerTitle = "Task View"; ObjectID = "9QF-Vd-Zei"; */
+"9QF-Vd-Zei.headerTitle" = "タスク一覧";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "A1c-As-b1e"; */
+"A1c-As-b1e.text" = "ラベル";
+
+/* Class = "UIButton"; normalTitle = "Cancel"; ObjectID = "ASc-d7-2Jk"; */
+"ASc-d7-2Jk.normalTitle" = "キャンセル";
+
+/* Class = "UIButton"; normalTitle = "Th"; ObjectID = "Bob-mg-oGj"; */
+"Bob-mg-oGj.normalTitle" = "木";
+
+/* Class = "UITableViewSection"; footerTitle = " "; ObjectID = "D7k-aQ-zaa"; */
+"D7k-aQ-zaa.footerTitle" = " ";
+
+/* Class = "UITableViewSection"; headerTitle = "Themes and color"; ObjectID = "D7k-aQ-zaa"; */
+"D7k-aQ-zaa.headerTitle" = "テーマと色";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "Eg3-Um-WxH"; */
+"Eg3-Um-WxH.text" = "ラベル";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "G10-Py-06D"; */
+"G10-Py-06D.text" = "ラベル";
+
+/* Class = "UILabel"; text = "Vibration"; ObjectID = "GZ3-SX-oa9"; */
+"GZ3-SX-oa9.text" = "Vibration";
+
+/* Class = "UIButton"; normalTitle = "M"; ObjectID = "Gan-5a-ERx"; */
+"Gan-5a-ERx.normalTitle" = "月";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "Goa-tT-yaA"; */
+"Goa-tT-yaA.text" = "ラベル";
+
+/* Class = "UIButton"; normalTitle = "M"; ObjectID = "HVP-Yj-P0d"; */
+"HVP-Yj-P0d.normalTitle" = "月";
+
+/* Class = "UILabel"; text = "Detail"; ObjectID = "J3P-k9-ntl"; */
+"J3P-k9-ntl.text" = "詳細";
+
+/* Class = "UILabel"; text = "Reset Time"; ObjectID = "JMU-Ls-7or"; */
+"JMU-Ls-7or.text" = "リセット時間";
+
+/* Class = "UILabel"; text = "Rollover Rate"; ObjectID = "JOa-nG-S0j"; */
+"JOa-nG-S0j.text" = "Rollover Rate";
+
+/* Class = "UIButton"; normalTitle = "T"; ObjectID = "KQf-HZ-kHm"; */
+"KQf-HZ-kHm.normalTitle" = "火";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "Ldh-aC-JZS"; */
+"Ldh-aC-JZS.text" = "ラベル";
+
+/* Class = "UITableViewSection"; headerTitle = "Unlock Full Version"; ObjectID = "M1W-Uz-H4R"; */
+"M1W-Uz-H4R.headerTitle" = "フル版を解除";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "OVE-EP-V2p"; */
+"OVE-EP-V2p.text" = "ラベル";
+
+/* Class = "UIButton"; normalTitle = "S"; ObjectID = "Oii-7k-6VH"; */
+"Oii-7k-6VH.normalTitle" = "S";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "P6y-N3-4Uk"; */
+"P6y-N3-4Uk.text" = "ラベル";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "PAO-4E-gd7"; */
+"PAO-4E-gd7.text" = "ラベル";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "QHR-ry-fiI"; */
+"QHR-ry-fiI.text" = "ラベル";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "Qkw-y1-ZXd"; */
+"Qkw-y1-ZXd.text" = "ラベル";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "Rvk-dV-HCc"; */
+"Rvk-dV-HCc.text" = "ラベル";
+
+/* Class = "UIButton"; normalTitle = "F"; ObjectID = "U7b-BW-7LU"; */
+"U7b-BW-7LU.normalTitle" = "金";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "Uem-nj-Xw7"; */
+"Uem-nj-Xw7.text" = "ラベル";
+
+/* Class = "UILabel"; text = "Detail"; ObjectID = "Uuj-uP-9xo"; */
+"Uuj-uP-9xo.text" = "詳細";
+
+/* Class = "UILabel"; text = "On"; ObjectID = "Xd9-wK-9Xq"; */
+"Xd9-wK-9Xq.text" = "有効";
+
+/* Class = "UILabel"; text = "Title"; ObjectID = "Y8k-uE-aWf"; */
+"Y8k-uE-aWf.text" = "タイトル";
+
+/* Class = "UIButton"; normalTitle = "Too much?"; ObjectID = "YGE-iJ-BTw"; */
+"YGE-iJ-BTw.normalTitle" = "多すぎ？";
+
+/* Class = "UILabel"; text = "Audio"; ObjectID = "YU7-PJ-yvc"; */
+"YU7-PJ-yvc.text" = "音声";
+
+/* Class = "UILabel"; text = "Detail"; ObjectID = "amB-C0-u2n"; */
+"amB-C0-u2n.text" = "詳細";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "arr-L0-TiQ"; */
+"arr-L0-TiQ.text" = "ラベル";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "atG-0z-HnR"; */
+"atG-0z-HnR.text" = "ラベル";
+
+/* Class = "UILabel"; text = "Detail"; ObjectID = "dKe-Hh-Zjr"; */
+"dKe-Hh-Zjr.text" = "詳細";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "din-pA-TxL"; */
+"din-pA-TxL.text" = "ラベル";
+
+/* Class = "UILabel"; text = "Cumulative Statistics"; ObjectID = "dtk-vh-9F9"; */
+"dtk-vh-9F9.text" = "統計情報";
+
+/* Class = "UILabel"; text = "Unlocking the full verions removes all ads, unlocks task statistics and removes the two task limit."; ObjectID = "eRC-3m-GIx"; */
+"eRC-3m-GIx.text" = "Unlocking the full verions removes all ads, unlocks task statistics and removes the two task limit.";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "f3k-5M-mrb"; */
+"f3k-5M-mrb.text" = "ラベル";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "f4n-HF-6yC"; */
+"f4n-HF-6yC.text" = "ラベル";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "fZv-Jh-e1o"; */
+"fZv-Jh-e1o.normalTitle" = "ボタン";
+
+/* Class = "UIButton"; normalTitle = "F"; ObjectID = "fbY-RK-r9G"; */
+"fbY-RK-r9G.normalTitle" = "金";
+
+/* Class = "UILabel"; text = "Glass"; ObjectID = "hNL-hR-owL"; */
+"hNL-hR-owL.text" = "ガラス";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "hi4-ID-NXk"; */
+"hi4-ID-NXk.text" = "ラベル";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "iMj-1B-nco"; */
+"iMj-1B-nco.text" = "ラベル";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "ihG-b7-Hjf"; */
+"ihG-b7-Hjf.text" = "ラベル";
+
+/* Class = "UILabel"; text = "Theme Color"; ObjectID = "iwE-M0-g5r"; */
+"iwE-M0-g5r.text" = "テーマ";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "jHb-zJ-5Jy"; */
+"jHb-zJ-5Jy.normalTitle" = "ボタン";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "jgW-X3-1qd"; */
+"jgW-X3-1qd.text" = "ラベル";
+
+/* Class = "UILabel"; text = "Completed Time History"; ObjectID = "krd-CU-L62"; */
+"krd-CU-L62.text" = "Completed Time History";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "lhz-Yp-OD6"; */
+"lhz-Yp-OD6.text" = "ラベル";
+
+/* Class = "UILabel"; text = "Detail"; ObjectID = "mFB-BD-iQi"; */
+"mFB-BD-iQi.text" = "詳細";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "mRP-LY-seb"; */
+"mRP-LY-seb.text" = "ラベル";
+
+/* Class = "UIButton"; normalTitle = "W"; ObjectID = "nYy-H6-8MB"; */
+"nYy-H6-8MB.normalTitle" = "水";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "o4V-1d-DoH"; */
+"o4V-1d-DoH.text" = "ラベル";
+
+/* Class = "UIButton"; normalTitle = "W"; ObjectID = "pQ6-zG-HgT"; */
+"pQ6-zG-HgT.normalTitle" = "水";
+
+/* Class = "UIButton"; normalTitle = "S"; ObjectID = "rIg-bV-o9m"; */
+"rIg-bV-o9m.normalTitle" = "S";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "rPl-rz-6hS"; */
+"rPl-rz-6hS.text" = "ラベル";
+
+/* Class = "UITableViewSection"; headerTitle = "Alerts"; ObjectID = "sBH-Fk-6dA"; */
+"sBH-Fk-6dA.headerTitle" = "アラート";
+
+/* Class = "UILabel"; text = "Recent Progress"; ObjectID = "tPw-eQ-5kE"; */
+"tPw-eQ-5kE.text" = "最近の出来事";
+
+/* Class = "UILabel"; text = "Progress Style"; ObjectID = "vXY-6b-aBr"; */
+"vXY-6b-aBr.text" = "Progress Style";
+
+/* Class = "UIButton"; normalTitle = "Th"; ObjectID = "w0a-wE-6Cq"; */
+"w0a-wE-6Cq.normalTitle" = "木";
+
+/* Class = "UITableViewSection"; footerTitle = " "; ObjectID = "xv9-Eh-sEE"; */
+"xv9-Eh-sEE.footerTitle" = " ";
+
+/* Class = "UITableViewSection"; headerTitle = "Task Reset"; ObjectID = "xv9-Eh-sEE"; */
+"xv9-Eh-sEE.headerTitle" = "リセット";
+
+/* Class = "UILabel"; text = "On"; ObjectID = "y6S-QJ-0jJ"; */
+"y6S-QJ-0jJ.text" = "有効";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "zAk-My-AUQ"; */
+"zAk-My-AUQ.text" = "ラベル";
+
+/* Class = "UIButton"; normalTitle = "Create"; ObjectID = "znW-aQ-OQ3"; */
+"znW-aQ-OQ3.normalTitle" = "作成";

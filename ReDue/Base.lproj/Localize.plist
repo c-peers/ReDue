@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Complete</key>
+	<dict>
+		<key>value</key>
+		<string>Complete</string>
+	</dict>
+	<key>None</key>
+	<dict>
+		<key>value</key>
+		<string>None</string>
+	</dict>
+	<key>Cancel</key>
+	<dict>
+		<key>value</key>
+		<string>Cancel</string>
+	</dict>
+	<key>On</key>
+	<dict>
+		<key>value</key>
+		<string>On</string>
+	</dict>
+	<key>Off</key>
+	<dict>
+		<key>value</key>
+		<string>Off</string>
+	</dict>
+	<key>Short</key>
+	<dict>
+		<key>value</key>
+		<string>Short</string>
+	</dict>
+	<key>Long</key>
+	<dict>
+		<key>value</key>
+		<string>Long</string>
+	</dict>
+	<key>Play</key>
+	<dict>
+		<key>value</key>
+		<string>Play</string>
+	</dict>
+	<key>Flat</key>
+	<dict>
+		<key>value</key>
+		<string>Flat</string>
+	</dict>
+	<key>Circular</key>
+	<dict>
+		<key>value</key>
+		<string>Circular</string>
+	</dict>
+	<key>Settings</key>
+	<dict>
+		<key>value</key>
+		<string>Settings</string>
+	</dict>
+	<key>Unlocked</key>
+	<dict>
+		<key>value</key>
+		<string>Unlocked</string>
+	</dict>
+	<key>Application Settings</key>
+	<dict>
+		<key>value</key>
+		<string>Application Settings</string>
+	</dict>
+	<key>Error</key>
+	<dict>
+		<key>value</key>
+		<string>Error</string>
+	</dict>
+	<key>Purchases disabled</key>
+	<dict>
+		<key>value</key>
+		<string>Purchases are disabled in your device.</string>
+	</dict>
+	<key>Unlocked message</key>
+	<dict>
+		<key>value</key>
+		<string>Ads have been removed and premium features are now unlocked.</string>
+	</dict>
+	<key>Theme Color</key>
+	<dict>
+		<key>value</key>
+		<string>Theme Color</string>
+	</dict>
+	<key>Progress View</key>
+	<dict>
+		<key>value</key>
+		<string>Progress View</string>
+	</dict>
+	<key>Reset Time</key>
+	<dict>
+		<key>value</key>
+		<string>Reset Time</string>
+	</dict>
+	<key>Audio Alert</key>
+	<dict>
+		<key>value</key>
+		<string>Audio Alert</string>
+	</dict>
+	<key>Vibrate Alert</key>
+	<dict>
+		<key>value</key>
+		<string>Vibrate Alert</string>
+	</dict>
+	<key>No task</key>
+	<dict>
+		<key>value</key>
+		<string>No task today</string>
+	</dict>
+	<key>Delete alert</key>
+	<dict>
+		<key>value</key>
+		<string>Delete Task</string>
+	</dict>
+	<key>Delete message</key>
+	<dict>
+		<key>value</key>
+		<string>Are you sure you want to delete the current task?</string>
+	</dict>
+	<key>Restricted alert</key>
+	<dict>
+		<key>value</key>
+		<string>Restricted</string>
+	</dict>
+	<key>Restricted message</key>
+	<dict>
+		<key>value</key>
+		<string>Task statistics must be unlocked first.</string>
+	</dict>
+	<key>Reset alert</key>
+	<dict>
+		<key>value</key>
+		<string>Reset Timer</string>
+	</dict>
+	<key>Reset message</key>
+	<dict>
+		<key>value</key>
+		<string>Are you sure you want to reset the timer to its default length?</string>
+	</dict>
+	<key>Run alert</key>
+	<dict>
+		<key>value</key>
+		<string>Run today?</string>
+	</dict>
+	<key>Run message</key>
+	<dict>
+		<key>value</key>
+		<string>This isn&apos;t scheduled for today. Do it anyways?</string>
+	</dict>
+	<key>minute suffix</key>
+	<dict>
+		<key>value</key>
+		<string> min</string>
+	</dict>
+	<key>Every</key>
+	<dict>
+		<key>value</key>
+		<string>Every</string>
+	</dict>
+	<key>Week</key>
+	<dict>
+		<key>value</key>
+		<string> week</string>
+	</dict>
+	<key>Weeks</key>
+	<dict>
+		<key>value</key>
+		<string> weeks</string>
+	</dict>
+	<key>Name Error</key>
+	<dict>
+		<key>value</key>
+		<string>This name already exists</string>
+	</dict>
+	<key>Missing name error</key>
+	<dict>
+		<key>value</key>
+		<string>Please enter a name</string>
+	</dict>
+	<key>Missing time error</key>
+	<dict>
+		<key>value</key>
+		<string>Please enter a time</string>
+	</dict>
+	<key>Missing frequency error</key>
+	<dict>
+		<key>value</key>
+		<string>Please enter the task frequency</string>
+	</dict>
+	<key>Missing fields alert</key>
+	<dict>
+		<key>value</key>
+		<string>Please fill out all fields before creating the task</string>
+	</dict>
+	<key>Name alert</key>
+	<dict>
+		<key>value</key>
+		<string>A task with this name already exists</string>
+	</dict>
+	<key>Remove today alert</key>
+	<dict>
+		<key>value</key>
+		<string>\(task.name) was set to run today. Removing \(currentDateString) will delete all data recorded today.</string>
+	</dict>
+	<key>Stats labels</key>
+	<dict>
+		<key>value</key>
+		<array>
+			<string>Task Time</string>
+			<string>   Completed</string>
+			<string>   Missed</string>
+			<string>   Forfeited</string>
+			<string>Total Days</string>
+			<string>    Complete</string>
+			<string>    Partial Complete</string>
+			<string>    Missed</string>
+			<string>Current Streak</string>
+			<string>Best Streak</string>
+		</array>
+	</dict>
+	<key>Stats bar chart</key>
+	<dict>
+		<key>value</key>
+		<string>Completed Time Bar Chart</string>
+	</dict>
+	<key>Completion Notification Title</key>
+	<dict>
+		<key>value</key>
+		<array>
+			<string>Task Complete</string>
+			<string>Good Show</string>
+			<string>Great Job</string>
+			<string>Awesome</string>
+			<string>Amazing</string>
+			<string>Oh yeah</string>
+			<string>Finished</string>
+		</array>
+	</dict>
+	<key>Completion Notification Body</key>
+	<dict>
+		<key>value</key>
+		<array>
+			<string>Great job! You&apos;ve completed \(task).</string>
+			<string>You finished \(task) old chap.</string>
+			<string>Take a break, you&apos;re done with \(task).</string>
+			<string>\(task) has been vanquished. Rock on.</string>
+			<string>Wow, you completed \(task).</string>
+			<string>\(task) is no more.</string>
+			<string>No more \(task) necessary for you today.</string>
+			<string>Who&apos;s a good little task finisher? You are! \(task) is done.</string>
+		</array>
+	</dict>
+	<key>Missed Notification Title</key>
+	<dict>
+		<key>value</key>
+		<array>
+			<string>Oh no</string>
+			<string>Oops</string>
+			<string>Uh oh</string>
+			<string>Drats</string>
+			<string>Too bad</string>
+			<string>Whoopise</string>
+			<string>Nooooooooooooo</string>
+		</array>
+	</dict>
+	<key>Missed Notification Body</key>
+	<dict>
+		<key>value</key>
+		<array>
+			<string>You didn&apos;t complete \(task) and had \(remainingTime) remaining.</string>
+			<string>\(task) - \(remainingTime) was left over but the day is over. Busy day today?</string>
+			<string>\(task) - Looks like we didn&apos;t make our goal for today. Don&apos;t fret, there&apos;s always next time.</string>
+			<string>\(task) - So close but so far. Try again next time.</string>
+			<string>\(task) - And it looks like we&apos;re out of time, folks. Unfortunately there was still \(remainingTime) on the clock.</string>
+			<string>\(task) - You ran out of time.</string>
+			<string>\(task) - You tried but it just wasn&apos;t meant to be. Let&apos;s regroup and try harder next time.</string>
+		</array>
+	</dict>
+	<key>Settings Headers</key>
+	<dict>
+		<key>value</key>
+		<array>
+			<string>Themes and Color</string>
+			<string>Task View</string>
+			<string>Task Reset</string>
+			<string>Unlock Full Version</string>
+		</array>
+	</dict>
+	<key>Reset times</key>
+	<dict>
+		<key>value</key>
+		<array>
+			<string>12:00 AM</string>
+			<string>1:00 AM</string>
+			<string>2:00 AM</string>
+			<string>3:00 AM</string>
+			<string>4:00 AM</string>
+		</array>
+	</dict>
+	<key>Reset times - 24H</key>
+	<dict>
+		<key>value</key>
+		<array>
+			<string>0:00</string>
+			<string>1:00</string>
+			<string>2:00</string>
+			<string>3:00</string>
+			<string>4:00</string>
+		</array>
+	</dict>
+	<key>Frequency labels</key>
+	<dict>
+		<key>value</key>
+		<array>
+			<string> week</string>
+			<string> other week</string>
+			<string> 3rd week</string>
+			<string> 4th week</string>
+			<string> 5th week</string>
+			<string> 6th week</string>
+			<string> 7th week</string>
+			<string> 8th week</string>
+		</array>
+	</dict>
+</dict>
+</plist>

@@ -913,7 +913,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hi4-ID-NXk">
-                                <rect key="frame" x="115.5" y="94" width="89.5" height="50"/>
+                                <rect key="frame" x="115" y="94" width="90" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="50" id="5vA-Ww-2tG"/>
                                 </constraints>
@@ -926,7 +926,7 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="j5Z-ne-lTq">
-                                <rect key="frame" x="101.5" y="179" width="117" height="75"/>
+                                <rect key="frame" x="102" y="179" width="117" height="75"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="117" id="4wZ-Zc-nHB"/>
                                     <constraint firstAttribute="height" constant="75" id="emN-bg-mnX"/>
@@ -949,17 +949,25 @@
                                 </constraints>
                             </view>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YGE-iJ-BTw">
-                                <rect key="frame" x="127" y="134" width="66" height="28"/>
+                                <rect key="frame" x="111.5" y="134" width="97" height="28"/>
                                 <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="13"/>
                                 <state key="normal" title="Too much?"/>
                                 <connections>
                                     <action selector="resetRolloverTapped:" destination="7eH-F0-hBU" eventType="touchUpInside" id="7J3-gT-8yp"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jHb-zJ-5Jy">
+                                <rect key="frame" x="111.5" y="134" width="97" height="28"/>
+                                <state key="normal" title="Run anyways?"/>
+                                <connections>
+                                    <action selector="offDayTaskButtonTapped:" destination="7eH-F0-hBU" eventType="touchUpInside" id="F9u-ee-OzN"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="H0s-Mk-Y02" firstAttribute="leading" secondItem="ySm-pY-put" secondAttribute="leadingMargin" constant="39" id="6bC-Ln-X0N"/>
+                            <constraint firstItem="j5Z-ne-lTq" firstAttribute="top" secondItem="jHb-zJ-5Jy" secondAttribute="bottom" constant="17" id="8xG-O0-4pu"/>
                             <constraint firstItem="YGE-iJ-BTw" firstAttribute="centerX" secondItem="ySm-pY-put" secondAttribute="centerX" id="AMx-Fv-uOX"/>
                             <constraint firstItem="tPw-eQ-5kE" firstAttribute="top" secondItem="j5Z-ne-lTq" secondAttribute="bottom" constant="40" id="BrG-7L-j4n"/>
                             <constraint firstItem="8A0-ij-Q4M" firstAttribute="leading" secondItem="iDp-XT-KAg" secondAttribute="leading" id="E1A-BE-67A"/>
@@ -970,18 +978,22 @@
                             <constraint firstItem="YGE-iJ-BTw" firstAttribute="top" secondItem="hi4-ID-NXk" secondAttribute="bottom" constant="-10" id="RuY-rp-deA"/>
                             <constraint firstItem="iDp-XT-KAg" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="tPw-eQ-5kE" secondAttribute="trailingMargin" id="TPO-ef-bBS"/>
                             <constraint firstItem="j5Z-ne-lTq" firstAttribute="centerX" secondItem="iDp-XT-KAg" secondAttribute="centerX" id="Vz3-5l-038"/>
+                            <constraint firstItem="jHb-zJ-5Jy" firstAttribute="top" secondItem="YGE-iJ-BTw" secondAttribute="top" id="cBU-7N-eQt"/>
                             <constraint firstItem="8A0-ij-Q4M" firstAttribute="top" secondItem="H0s-Mk-Y02" secondAttribute="bottom" constant="40" id="dtB-fW-emh"/>
                             <constraint firstItem="H0s-Mk-Y02" firstAttribute="top" secondItem="j5Z-ne-lTq" secondAttribute="bottom" constant="70" id="iuf-yj-8Go"/>
                             <constraint firstItem="j5Z-ne-lTq" firstAttribute="top" secondItem="hi4-ID-NXk" secondAttribute="bottom" constant="35" id="jqa-c9-1FK"/>
                             <constraint firstItem="iDp-XT-KAg" firstAttribute="trailing" secondItem="8A0-ij-Q4M" secondAttribute="trailing" id="n67-Yj-i0C"/>
                             <constraint firstItem="H0s-Mk-Y02" firstAttribute="top" secondItem="tPw-eQ-5kE" secondAttribute="bottom" constant="5" id="pwY-fe-14V"/>
                             <constraint firstItem="hi4-ID-NXk" firstAttribute="centerX" secondItem="iDp-XT-KAg" secondAttribute="centerX" id="rvj-E1-Rek"/>
+                            <constraint firstItem="jHb-zJ-5Jy" firstAttribute="trailing" secondItem="YGE-iJ-BTw" secondAttribute="trailing" id="uXF-qf-4h0"/>
+                            <constraint firstItem="jHb-zJ-5Jy" firstAttribute="leading" secondItem="YGE-iJ-BTw" secondAttribute="leading" id="vGY-9y-DK9"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="iDp-XT-KAg"/>
                     </view>
                     <connections>
                         <outlet property="bannerHeight" destination="Qf8-zT-m57" id="mvN-t2-hjP"/>
                         <outlet property="bannerView" destination="8A0-ij-Q4M" id="08y-CS-6SO"/>
+                        <outlet property="offDayTaskButton" destination="jHb-zJ-5Jy" id="BXa-KN-S1R"/>
                         <outlet property="recentProgressLabel" destination="tPw-eQ-5kE" id="sNL-K7-GvW"/>
                         <outlet property="recentTaskHistory" destination="H0s-Mk-Y02" id="fIc-B4-lsx"/>
                         <outlet property="resetRolloverButton" destination="YGE-iJ-BTw" id="deF-CA-zfr"/>
@@ -994,7 +1006,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5bg-UC-3Xy" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="c2h-l3-3Ra" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="1592.8" y="136.28185907046478"/>
+            <point key="canvasLocation" x="1591.875" y="136.26760563380282"/>
         </scene>
         <!--New Tasks View Controller-->
         <scene sceneID="2AQ-PE-OF3">
@@ -1005,7 +1017,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="oVF-Cx-Cgr" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
-                                <rect key="frame" x="16" y="121.5" width="288" height="41.5"/>
+                                <rect key="frame" x="16" y="110" width="288" height="30"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <textInputTraits key="textInputTraits"/>
@@ -1016,13 +1028,13 @@
                                 </userDefinedRuntimeAttributes>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="On" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="y6S-QJ-0jJ">
-                                <rect key="frame" x="16" y="183" width="23" height="21"/>
+                                <rect key="frame" x="16" y="160" width="23" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="QV6-2o-fzl" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
-                                <rect key="frame" x="16" y="272" width="288" height="42"/>
+                                <rect key="frame" x="16" y="249" width="288" height="30"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <textInputTraits key="textInputTraits"/>
@@ -1043,7 +1055,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KQf-HZ-kHm">
-                                <rect key="frame" x="96" y="212" width="40" height="40"/>
+                                <rect key="frame" x="96" y="189" width="40" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="KQf-HZ-kHm" secondAttribute="height" multiplier="1:1" id="tRn-H5-o03"/>
                                 </constraints>
@@ -1055,7 +1067,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Bob-mg-oGj">
-                                <rect key="frame" x="176" y="212" width="40" height="40"/>
+                                <rect key="frame" x="176" y="189" width="40" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="Bob-mg-oGj" secondAttribute="height" multiplier="1:1" id="KX4-xH-igF"/>
                                 </constraints>
@@ -1067,7 +1079,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="44Q-hE-RyL">
-                                <rect key="frame" x="16" y="212" width="40" height="40"/>
+                                <rect key="frame" x="16" y="189" width="40" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="height" priority="900" constant="40" id="72A-9O-cfX"/>
                                     <constraint firstAttribute="width" priority="900" constant="40" id="Nfp-Wc-anr"/>
@@ -1081,7 +1093,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fbY-RK-r9G">
-                                <rect key="frame" x="216" y="212" width="40" height="40"/>
+                                <rect key="frame" x="216" y="189" width="40" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="fbY-RK-r9G" secondAttribute="height" multiplier="1:1" id="cTn-KF-G25"/>
                                 </constraints>
@@ -1093,7 +1105,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pQ6-zG-HgT">
-                                <rect key="frame" x="136" y="212" width="40" height="40"/>
+                                <rect key="frame" x="136" y="189" width="40" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="pQ6-zG-HgT" secondAttribute="height" multiplier="1:1" id="ceF-f3-brJ"/>
                                 </constraints>
@@ -1105,7 +1117,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HVP-Yj-P0d">
-                                <rect key="frame" x="56" y="212" width="40" height="40"/>
+                                <rect key="frame" x="56" y="189" width="40" height="40"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="HVP-Yj-P0d" secondAttribute="height" multiplier="1:1" id="ZqH-pO-jxg"/>
@@ -1118,7 +1130,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rIg-bV-o9m">
-                                <rect key="frame" x="256" y="212" width="40" height="40"/>
+                                <rect key="frame" x="256" y="189" width="40" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="rIg-bV-o9m" secondAttribute="height" multiplier="1:1" id="8kB-er-IWd"/>
                                 </constraints>
@@ -1130,7 +1142,7 @@
                                 </connections>
                             </button>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="2U4-EF-g2p" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
-                                <rect key="frame" x="16" y="60" width="288" height="41.5"/>
+                                <rect key="frame" x="16" y="60" width="288" height="30"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <textInputTraits key="textInputTraits"/>
@@ -1141,7 +1153,7 @@
                                 </userDefinedRuntimeAttributes>
                             </textField>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ZJ1-Zg-9z8" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
-                                <rect key="frame" x="16" y="334" width="288" height="42"/>
+                                <rect key="frame" x="16" y="299" width="288" height="42"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="42" id="Td4-4r-yVQ"/>
                                 </constraints>
@@ -1453,7 +1465,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="hRb-FP-cW8" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
-                                <rect key="frame" x="16" y="104" width="288" height="43"/>
+                                <rect key="frame" x="16" y="90" width="288" height="30"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <textInputTraits key="textInputTraits"/>
@@ -1464,13 +1476,13 @@
                                 </userDefinedRuntimeAttributes>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="On" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xd9-wK-9Xq">
-                                <rect key="frame" x="16" y="167" width="23" height="21"/>
+                                <rect key="frame" x="16" y="140" width="23" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Mrc-eq-7rI" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
-                                <rect key="frame" x="16" y="256" width="288" height="42.5"/>
+                                <rect key="frame" x="16" y="229" width="288" height="30"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <textInputTraits key="textInputTraits"/>
@@ -1491,7 +1503,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="58p-54-GV3">
-                                <rect key="frame" x="96" y="196" width="40" height="40"/>
+                                <rect key="frame" x="96" y="169" width="40" height="40"/>
                                 <state key="normal" title="T">
                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -1500,7 +1512,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="w0a-wE-6Cq">
-                                <rect key="frame" x="176" y="196" width="40" height="40"/>
+                                <rect key="frame" x="176" y="169" width="40" height="40"/>
                                 <state key="normal" title="Th">
                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -1509,7 +1521,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Oii-7k-6VH">
-                                <rect key="frame" x="16" y="196" width="40" height="40"/>
+                                <rect key="frame" x="16" y="169" width="40" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="Oii-7k-6VH" secondAttribute="height" multiplier="1:1" id="Abu-jc-Mfk"/>
                                     <constraint firstAttribute="height" priority="900" constant="40" id="b0E-dG-ZFe"/>
@@ -1523,7 +1535,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="U7b-BW-7LU">
-                                <rect key="frame" x="216" y="196" width="40" height="40"/>
+                                <rect key="frame" x="216" y="169" width="40" height="40"/>
                                 <state key="normal" title="F">
                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -1532,7 +1544,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nYy-H6-8MB">
-                                <rect key="frame" x="136" y="196" width="40" height="40"/>
+                                <rect key="frame" x="136" y="169" width="40" height="40"/>
                                 <state key="normal" title="W">
                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -1541,7 +1553,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Gan-5a-ERx">
-                                <rect key="frame" x="56" y="196" width="40" height="40"/>
+                                <rect key="frame" x="56" y="169" width="40" height="40"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <state key="normal" title="M">
                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
@@ -1551,7 +1563,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7nb-2q-wqE">
-                                <rect key="frame" x="256" y="196" width="40" height="40"/>
+                                <rect key="frame" x="256" y="169" width="40" height="40"/>
                                 <state key="normal" title="S">
                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -1560,7 +1572,7 @@
                                 </connections>
                             </button>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ADg-6H-HrU" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
-                                <rect key="frame" x="16" y="40" width="288" height="44"/>
+                                <rect key="frame" x="16" y="40" width="288" height="30"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                 <textInputTraits key="textInputTraits"/>
@@ -1571,25 +1583,25 @@
                                 </userDefinedRuntimeAttributes>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Rollover Rate" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JOa-nG-S0j">
-                                <rect key="frame" x="16" y="318.5" width="101" height="21"/>
+                                <rect key="frame" x="16" y="279" width="101" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="us7-OD-rsz">
-                                <rect key="frame" x="14" y="349.5" width="292" height="31"/>
+                                <rect key="frame" x="14" y="310" width="292" height="31"/>
                                 <connections>
                                     <action selector="sliderChanged:" destination="5Pz-9f-VIx" eventType="valueChanged" id="xjc-TV-mn0"/>
                                 </connections>
                             </slider>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Goa-tT-yaA">
-                                <rect key="frame" x="142.5" y="387.5" width="35.5" height="17"/>
+                                <rect key="frame" x="142.5" y="348" width="35.5" height="17"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="NUe-xS-xq1" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
-                                <rect key="frame" x="16" y="414.5" width="288" height="42"/>
+                                <rect key="frame" x="16" y="375" width="288" height="42"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="42" id="qWh-iN-9Dg"/>
                                 </constraints>
