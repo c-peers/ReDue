@@ -95,9 +95,10 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
         /* Hide reset button when:
            1. the timer is less than the maximum usual task time
            2. the task isn't running
-           3. the task should happen on the current day */
+           3. the task will run on that day
+           4. the task was set to run on an off day*/
         let (_, remainingTime) = timer.formatTimer(for: task)
-        if task.rollover > 0 && remainingTime > task.time && !task.isRunning && task.isToday {
+        if task.rollover > 0 && remainingTime > task.time && !task.isRunning && (task.isToday || task.willRunOnOffDay) {
             rolloverButton(is: .visible)
         } else {
             rolloverButton(is: .hidden)
@@ -174,7 +175,7 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
             }
         }
         
-        if task.isToday {
+        if task.isToday || task.willRunOnOffDay {
             updateTaskCell()
         }
         
@@ -391,6 +392,12 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
         } else {
             cell.setImage(as: #imageLiteral(resourceName: "Play"))
         }
+        
+        if task.willRunOnOffDay {
+            cell.playStopButton.isHidden = false
+            cell.buttonBackground.alpha = 1
+            cell.nextRunLabel.isHidden = true
+        }
 
     }
 
@@ -594,6 +601,10 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
         
         saveData()
         
+        // Today's date will be added to the task history so we'll update the chart
+        taskChartSetup()
+        loadChartData()
+
         //task.setRollover()
         //task.reset()
         //TODO: rest of function

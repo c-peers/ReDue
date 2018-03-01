@@ -1110,6 +1110,8 @@ extension TaskViewController: UICollectionViewDelegate, UICollectionViewDataSour
         /* If task will not happen show the next run day */
         if !task.isToday && !task.willRunOnOffDay {
             showNextRunDate(in: cell, for: task)
+        } else {
+            cell.nextRunLabel.isHidden = true
         }
         
     }

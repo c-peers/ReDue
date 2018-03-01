@@ -303,11 +303,23 @@ class TaskSettingsViewController: UIViewController {
             let check = Check()
             let today = check.dayFor(Date())
             
-            if task.isToday && task.days[today] != originalDays[today] && originalDays[today] == true {
-                task.removeHistory(date: Date())
+            /* Get the date if it already exists */
+            let date = task.set(accessDate: Date())
+            
+            /* Remove history when
+               1. The task is happening today (forced or not)
+               2. The days dict doesn't match how it was on entering the settings VC
+               3. The original value is true (i.e. will run) */
+            if (task.isToday || task.willRunOnOffDay) && taskDays[today] != originalDays[today] && originalDays[today] == true {
+                task.removeHistory(date: date)
+                task.willRunOnOffDay = false
             }
             
-            if task.days[today] != originalDays[today] && originalDays[today] == false {
+            /* Add history when
+               1. The days dict doesn't match how it was on entering the settings VC
+               2. The original value is false (i.e. will not run)
+               3. It doesn't already exist (check in check.access func) */
+            if taskDays[today] != originalDays[today] && originalDays[today] == false {
                 _ = vc.check.access(for: task, upTo: Date())
             }
             
