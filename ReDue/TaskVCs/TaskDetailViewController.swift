@@ -592,10 +592,6 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
         let date = task.set(accessDate: Date())
         task.addHistory(date: date)
 
-        
-        
-        
-        
         checkTask()
         formatTimer()
         
@@ -605,10 +601,13 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
         taskChartSetup()
         loadChartData()
 
-        //task.setRollover()
-        //task.reset()
-        //TODO: rest of function
-        
+        let (_, remainingTime) = timer.formatTimer(for: task)
+        if task.rollover > 0 && remainingTime > task.time && !task.isRunning && (task.isToday || task.willRunOnOffDay) {
+            rolloverButton(is: .visible)
+        } else {
+            rolloverButton(is: .hidden)
+        }
+
     }
     
     

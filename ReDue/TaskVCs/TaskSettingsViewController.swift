@@ -326,6 +326,21 @@ class TaskSettingsViewController: UIViewController {
             task.days = taskDays
             log.info("Task days changed to \(task.days)")
         
+            /* Run check again since the task days have changed. */
+            check.ifTaskWillRunToday(task)
+            
+            /* Check if we should show rollover button and offDay button */
+            let (_, remainingTime) = timer.formatTimer(for: task)
+            if task.rollover > 0 && remainingTime > task.time {
+                if task.isToday || task.willRunOnOffDay {
+                    vc.rolloverButton(is: .visible)
+                    vc.offDayTaskButton.isHidden = true
+                } else {
+                    vc.rolloverButton(is: .hidden)
+                    vc.offDayTaskButton.isHidden = false
+                }
+            }
+            
         }
         
         if frequencyChanged {
@@ -360,7 +375,6 @@ class TaskSettingsViewController: UIViewController {
         vc.task = task
         vc.saveData()
         
-        vc.check.ifTaskWillRunToday(task)
         vc.checkTask()
         vc.taskChartSetup()
         vc.loadChartData()
