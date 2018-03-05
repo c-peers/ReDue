@@ -87,7 +87,7 @@ class TaskStatsViewController: UIViewController, UIScrollViewDelegate {
     
     func setLabelColor(for label: UILabel) {
         
-        let darkerThemeColor = colors.darkMain //appData.appColor.darken(byPercentage: 0.25)
+        //let darkerThemeColor = colors.darkMain
         if appData.darknessCheck(for: colors.bg) {
             label.textColor = UIColor.white
         } else {
@@ -293,7 +293,7 @@ class TaskStatsViewController: UIViewController, UIScrollViewDelegate {
         leftAxis.axisMinimum = 0.0
         rightAxis.axisMinimum = 0.0
 
-        let darkerThemeColor = colors.darkMain //appData.appColor.darken(byPercentage: 0.25)
+        //let darkerThemeColor = colors.darkMain //appData.appColor.darken(byPercentage: 0.25)
         if appData.darknessCheck(for: colors.bg) {
             xAxis.labelTextColor = UIColor.white
             rightAxis.labelTextColor = UIColor.white
@@ -438,7 +438,7 @@ class TaskStatsViewController: UIViewController, UIScrollViewDelegate {
         
         bar.colors = ChartColorTemplates.pastel()
         
-        let darkerThemeColor = colors.darkMain //appData.appColor.darken(byPercentage: 0.25)
+        //let darkerThemeColor = colors.darkMain //appData.appColor.darken(byPercentage: 0.25)
         if appData.darknessCheck(for: colors.bg) {
             bar.valueColors = [UIColor.white]
         } else {

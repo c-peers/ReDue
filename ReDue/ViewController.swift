@@ -103,6 +103,7 @@ class TaskViewController: UIViewController, GADBannerViewDelegate {
         // Loads check functions
         initializeCheck()
         
+        /* Save current time for comparisons and reset time check */
         appData.taskCurrentTime = Date()
         
         NotificationCenter.default.addObserver(forName: Notification.Name("StopTimerNotification"), object: nil, queue: nil, using: catchNotification)
@@ -237,6 +238,7 @@ class TaskViewController: UIViewController, GADBannerViewDelegate {
 
     }
     
+    /* Sets bar buttons and then runs the theme function */
     func prepareNavBar() {
         
         let addBarButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addTask))
@@ -250,6 +252,8 @@ class TaskViewController: UIViewController, GADBannerViewDelegate {
         
     }
     
+    /* Sets the color for all elements in the view.
+       Color is determined by themes which are chosen in app settings */
     func setTheme() {
         
         colors = Colors.init(main: appData.mainColor!, bg: appData.bgColor!, task1: appData.taskColor1!, task2: appData.taskColor2!, progress: appData.progressColor!)
@@ -280,14 +284,12 @@ class TaskViewController: UIViewController, GADBannerViewDelegate {
         
         let bgColor = navigationController?.navigationBar.barTintColor
         
+        /* Check the color behind this text and set the text color appropriately */
         if appData.darknessCheck(for: bgColor) {
-            
             navigationBar?.tintColor = .white
             toolbar?.tintColor = .white
             setStatusBarStyle(.lightContent)
-           
         } else {
-            
             navigationBar?.tintColor = .black
             toolbar?.tintColor = .black
             setStatusBarStyle(.default)
@@ -295,127 +297,22 @@ class TaskViewController: UIViewController, GADBannerViewDelegate {
         
     }
     
-//    func setImage(as image: UIImage, forCell cell: TaskCollectionViewCell) {
-//        let stencil = image.withRenderingMode(.alwaysTemplate)
-//        cell.playStopButton.setImage(stencil, for: .normal)
-//        cell.playStopButton.tintColor = FlatWhite() //appData.appColor
-    
-        //cell.buttonBackground.alpha = 0.0
-        
-//        var playBackground = image.resizeImageWith(ratio: 1.2)
-//
-//        let backgroundStencil = playBackground.withRenderingMode(.alwaysTemplate)
-//
-//        cell.buttonBackground.image = backgroundStencil
-//        cell.buttonBackground.tintColor = appData.appColor
-//        //cell.buttonBackground.alpha = 0.5
-//        cell.buttonBackground.addSubview(cell.playStopButton)
-//
-//        let cellBGColor = cell.backgroundColor
-//        if appData.darknessCheck(for: cellBGColor) {
-//            cell.playStopButton.tintColor = .white
-//        } else {
-//            cell.playStopButton.tintColor = .black
-//        }
-        
-//    }
-    
+    /* Since there can be many tasks, this returns the task
+       associated with the name sent to the function */
     func setTask(as task: String) -> Task {
         return tasks.first(where: { $0.name == task })!
     }
     
+    //TODO: Necessary???
+    /* */
     func catchNotification(notification:Notification) -> Void {
         print("Catch notification")
         log.debug("Catch notification")
-        //timer.run.invalidate()
-        
     }
     
-    //MARK: - Timer Related Functions
-    
-    @objc func timerRunningUnused() {
-        
-        let cell = selectedCell!
-        let taskName = cell.taskNameField.text!
-        let task = setTask(as: taskName)
-        let id = cell.reuseIdentifier
-        
-        let (_, timeRemaining) = cell.formatTimer(for: task)
-        print("Time remaining is \(timeRemaining)")
-        log.debug("Time remaining is \(timeRemaining)")
-        
-        if id == "taskCollectionCell_Line" {
-            cell.calculateProgress(ofType: .line)
-        }
-        
-        if timeRemaining <= 0 {
-            
-            if id == "taskCollectionCell_Line" {
-                timerStopped(for: task, ofType: .line)
-            } else {
-                timerStopped(for: task, ofType: .circular)
-            }
-            
-            cell.taskTimeRemaining.text = "Complete"
-            
-            //setImage(as: #imageLiteral(resourceName: "Play"), forCell: cell)
-            cell.playStopButton.isEnabled = false
-            
-            cell.timer.cancelMissedTimeNotification(for: taskName)
-            
-        }
-        
-    }
-    
-    func timerStopped(for task: Task, ofType type: CellType) {
-        
-        guard let taskCells = getTaskCells() else { return }
-        guard let cell = taskCells.first(where: { $0.taskNameField.text == task.name }) else { return }
-        cell.timer.run.invalidate()
-        
-        cell.timer.endTime = Date().timeIntervalSince1970
-        
-        var elapsedTime = cell.timer.endTime - cell.timer.startTime
-        
-        if elapsedTime > task.weightedTime {
-            elapsedTime = task.weightedTime
-        }
-        
-        if type == .circular {
-            selectedCell?.circleProgressView.pauseAnimation()
-        }
-        
-        task.completed += elapsedTime
-        
-        if let date = task.getAccessDate(lengthFromEnd: 0) {
-            
-            task.completedTimeHistory[date]! += elapsedTime
-            
-            let unfinishedTime = task.time - elapsedTime
-            
-            if unfinishedTime >= 0 {
-                task.missedTimeHistory[date]! = unfinishedTime
-            } else {
-                task.missedTimeHistory[date]! = 0
-            }
-            
-        }
-        
-        let resetTime = check.timeToReset(at: nextResetTime)
-        
-        let (remainingTimeString, _) = cell.formatTimer(for: task)
-        cell.timer.setMissedTimeNotification(for: task.name, at: resetTime, withRemaining: remainingTimeString)
-        
-        task.isRunning = false
-        cell.timer.isEnabled = false
-        cell.timer.firedFromMainVC = false
-        
-        saveData()
-        
-    }
-
     //MARK: - App Rollover Related Functions
     
+    /* Get the current time offset by what the task reset time */
     func currentTimeIs() -> Date {
         return check.offsetDate(Date(), by: appData.resetOffset)
     }

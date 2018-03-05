@@ -322,11 +322,6 @@ class TaskCollectionViewCell: UICollectionViewCell {
         print("View is top view? \(self.isTopViewInWindow())")
         print("Keypath is \(keyPath!)")
 
-        if let vc = mainVC {
-            let vcs = vc.navigationController?.viewControllers
-            print(vcs)
-        }
-        
         if !isTopViewInWindow() {
             return
         }
