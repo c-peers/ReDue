@@ -342,17 +342,28 @@ class Task: NSObject, NSCoding {
         let completedTimeHistory = aDecoder.decodeObject(forKey: Key.completedTimeHistoryKey) as? [Date: Double] ?? [Date: Double]()
         //let previousDates = aDecoder.decodeObject(forKey: Key.previousDatesKey) as? [Date] ?? [Date]()
         
-        let audioAlert = AudioAlert(rawValue: aDecoder.decodeObject(forKey: Key.audioAlertKey) as! String) //else { audio = .none }
+        let audioAlertString = aDecoder.decodeObject(forKey: Key.audioAlertKey) as? String
+        var audioAlert: AudioAlert = .none
+        if let string = audioAlertString {
+            let alert = AudioAlert(rawValue: string)
+            if let alert = alert {
+                audioAlert = alert
+            }
+        }
             
-        var vibrateAlert = VibrateAlert(rawValue: aDecoder.decodeObject(forKey: Key.vibrateAlertKey) as! String) //as? VibrateAlert ?? .none
-        if vibrateAlert == nil {
-            vibrateAlert = .off
+        let vibrateAlertString = aDecoder.decodeObject(forKey: Key.vibrateAlertKey) as? String
+        var vibrateAlert: VibrateAlert = .off
+        if let string = vibrateAlertString {
+            let alert = VibrateAlert(rawValue: string)
+            if let alert = alert {
+                vibrateAlert = alert
+            }
         }
         
         let willRunOnOffDay = aDecoder.decodeBool(forKey: Key.willRunOnOffDayKey)
         
         // Must call designated initializer.
-        self.init(name: name, time: time, days: days, multiplier: multiplier, rollover: rollover, frequency: frequency, completed: completed, runWeek: runWeek, totalTime: totalTime, missedTime: missedTime, completedTime: completedTime, forfeitedTime: forfeitedTime, totalDays: totalDays, fullDays: fullDays, partialDays: partialDays, missedDays: missedDays, currentStreak: currentStreak, bestStreak: bestStreak, taskTimeHistory: taskTimeHistory, missedTimeHistory: missedTimeHistory, completedTimeHistory: completedTimeHistory, audioAlert: audioAlert!, vibrateAlert: vibrateAlert!, willRunOnOffDay: willRunOnOffDay)
+        self.init(name: name, time: time, days: days, multiplier: multiplier, rollover: rollover, frequency: frequency, completed: completed, runWeek: runWeek, totalTime: totalTime, missedTime: missedTime, completedTime: completedTime, forfeitedTime: forfeitedTime, totalDays: totalDays, fullDays: fullDays, partialDays: partialDays, missedDays: missedDays, currentStreak: currentStreak, bestStreak: bestStreak, taskTimeHistory: taskTimeHistory, missedTimeHistory: missedTimeHistory, completedTimeHistory: completedTimeHistory, audioAlert: audioAlert, vibrateAlert: vibrateAlert, willRunOnOffDay: willRunOnOffDay)
 
     }
     

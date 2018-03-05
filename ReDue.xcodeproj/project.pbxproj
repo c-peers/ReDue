@@ -7,6 +7,19 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C40BB39220493B9200BAB960 /* Chameleon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C4A95AD720444FEA007B0B9C /* Chameleon.framework */; };
+		C40BB39320493B9200BAB960 /* Chameleon.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C4A95AD720444FEA007B0B9C /* Chameleon.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		C40BB3A320493B9C00BAB960 /* KDCircularProgress.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C4A95AEC20445009007B0B9C /* KDCircularProgress.framework */; };
+		C40BB3A420493B9D00BAB960 /* KDCircularProgress.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C4A95AEC20445009007B0B9C /* KDCircularProgress.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		C40BB3A720493BA500BAB960 /* Charts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C4A95AE420444FF8007B0B9C /* Charts.framework */; };
+		C40BB3A820493BA500BAB960 /* Charts.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C4A95AE420444FF8007B0B9C /* Charts.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		C40BB3AB20493BAB00BAB960 /* SkyFloatingLabelTextField.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C4A95AFD2044502E007B0B9C /* SkyFloatingLabelTextField.framework */; };
+		C40BB3AC20493BAB00BAB960 /* SkyFloatingLabelTextField.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C4A95AFD2044502E007B0B9C /* SkyFloatingLabelTextField.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		C40BB3AF20493BB200BAB960 /* SwiftyBeaver.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C4A95B0B2044503E007B0B9C /* SwiftyBeaver.framework */; };
+		C40BB3B020493BB200BAB960 /* SwiftyBeaver.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C4A95B0B2044503E007B0B9C /* SwiftyBeaver.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		C40BB3B320493BE000BAB960 /* Presentr.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C4A95AF320445018007B0B9C /* Presentr.framework */; };
+		C40BB3B420493BE000BAB960 /* Presentr.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C4A95AF320445018007B0B9C /* Presentr.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		C40BB3B820493CFB00BAB960 /* GoogleMobileAds.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C40BB3B720493CFB00BAB960 /* GoogleMobileAds.framework */; };
 		C419542B203C044600D85F9B /* MoreSettingsParentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C419542A203C044600D85F9B /* MoreSettingsParentViewController.swift */; };
 		C419543A203D642300D85F9B /* ModalInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4195439203D642300D85F9B /* ModalInfoView.swift */; };
 		C4195441203D644400D85F9B /* IAP.swift in Sources */ = {isa = PBXBuildFile; fileRef = C419543F203D644300D85F9B /* IAP.swift */; };
@@ -42,7 +55,6 @@
 		C475C3151FB1580D00ADA21D /* TaskSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C475C2FE1FB1580D00ADA21D /* TaskSettingsViewController.swift */; };
 		C475C31A1FB1587500ADA21D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C475C3161FB1587500ADA21D /* LaunchScreen.storyboard */; };
 		C475C31B1FB1587500ADA21D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C475C3181FB1587500ADA21D /* Main.storyboard */; };
-		C475C36D1FB193EE00ADA21D /* GoogleMobileAds.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C475C36C1FB193EE00ADA21D /* GoogleMobileAds.framework */; };
 		C475C3C11FB3380E00ADA21D /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C475C3C01FB3380E00ADA21D /* StoreKit.framework */; };
 		C4A510221FBD77300012D3C1 /* ModalInfoView.xib in Resources */ = {isa = PBXBuildFile; fileRef = C4A510211FBD77300012D3C1 /* ModalInfoView.xib */; };
 		C4A95ABA2042F95A007B0B9C /* Alarm_clock.wav in Resources */ = {isa = PBXBuildFile; fileRef = C4A95AB32042F959007B0B9C /* Alarm_clock.wav */; };
@@ -56,6 +68,48 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		C40BB39420493B9200BAB960 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C4A95ACF20444FE9007B0B9C /* Chameleon.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 240093F71BB4517400932727;
+			remoteInfo = Chameleon;
+		};
+		C40BB3A520493B9D00BAB960 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C4A95AE720445009007B0B9C /* KDCircularProgress.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = BC5B0BE71D92F4FA00B43506;
+			remoteInfo = "KDCircularProgress iOS";
+		};
+		C40BB3A920493BA500BAB960 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C4A95ADE20444FF8007B0B9C /* Charts.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 06165F231D8110E600722320;
+			remoteInfo = Charts;
+		};
+		C40BB3AD20493BAB00BAB960 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C4A95AF62044502E007B0B9C /* SkyFloatingLabelTextField.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = F56289171C3BE3A20082D9A6;
+			remoteInfo = SkyFloatingLabelTextField;
+		};
+		C40BB3B120493BB200BAB960 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C4A95B022044503E007B0B9C /* SwiftyBeaver.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 9EDCE3E31C09D211002FA4A7;
+			remoteInfo = "SwiftyBeaver (iOS)";
+		};
+		C40BB3B520493BE000BAB960 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C4A95AED20445018007B0B9C /* Presentr.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 0680CC2E1CE3EFA900CBAE4F;
+			remoteInfo = Presentr;
+		};
 		C475C2C61FB1574C00ADA21D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = C475C2A61FB1574C00ADA21D /* Project object */;
@@ -198,6 +252,12 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				C40BB3B020493BB200BAB960 /* SwiftyBeaver.framework in Embed Frameworks */,
+				C40BB3B420493BE000BAB960 /* Presentr.framework in Embed Frameworks */,
+				C40BB3A820493BA500BAB960 /* Charts.framework in Embed Frameworks */,
+				C40BB39320493B9200BAB960 /* Chameleon.framework in Embed Frameworks */,
+				C40BB3A420493B9D00BAB960 /* KDCircularProgress.framework in Embed Frameworks */,
+				C40BB3AC20493BAB00BAB960 /* SkyFloatingLabelTextField.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -205,6 +265,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		C40BB3B720493CFB00BAB960 /* GoogleMobileAds.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleMobileAds.framework; sourceTree = "<group>"; };
 		C419542A203C044600D85F9B /* MoreSettingsParentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreSettingsParentViewController.swift; sourceTree = "<group>"; };
 		C4195439203D642300D85F9B /* ModalInfoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModalInfoView.swift; sourceTree = "<group>"; };
 		C419543F203D644300D85F9B /* IAP.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IAP.swift; sourceTree = "<group>"; };
@@ -247,7 +308,6 @@
 		C475C2FE1FB1580D00ADA21D /* TaskSettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskSettingsViewController.swift; sourceTree = "<group>"; };
 		C475C3171FB1587500ADA21D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C475C3191FB1587500ADA21D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		C475C36C1FB193EE00ADA21D /* GoogleMobileAds.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleMobileAds.framework; sourceTree = "<group>"; };
 		C475C3C01FB3380E00ADA21D /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		C4A510211FBD77300012D3C1 /* ModalInfoView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ModalInfoView.xib; sourceTree = "<group>"; };
 		C4A95AB32042F959007B0B9C /* Alarm_clock.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Alarm_clock.wav; sourceTree = "<group>"; };
@@ -274,8 +334,14 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C475C36D1FB193EE00ADA21D /* GoogleMobileAds.framework in Frameworks */,
+				C40BB3B320493BE000BAB960 /* Presentr.framework in Frameworks */,
+				C40BB3A320493B9C00BAB960 /* KDCircularProgress.framework in Frameworks */,
+				C40BB3B820493CFB00BAB960 /* GoogleMobileAds.framework in Frameworks */,
+				C40BB3AF20493BB200BAB960 /* SwiftyBeaver.framework in Frameworks */,
+				C40BB3A720493BA500BAB960 /* Charts.framework in Frameworks */,
+				C40BB3AB20493BAB00BAB960 /* SkyFloatingLabelTextField.framework in Frameworks */,
 				C475C3C11FB3380E00ADA21D /* StoreKit.framework in Frameworks */,
+				C40BB39220493B9200BAB960 /* Chameleon.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -374,7 +440,7 @@
 				C4A95AED20445018007B0B9C /* Presentr.xcodeproj */,
 				C4A95AF62044502E007B0B9C /* SkyFloatingLabelTextField.xcodeproj */,
 				C4A95B022044503E007B0B9C /* SwiftyBeaver.xcodeproj */,
-				C475C36C1FB193EE00ADA21D /* GoogleMobileAds.framework */,
+				C40BB3B720493CFB00BAB960 /* GoogleMobileAds.framework */,
 				C475C2BB1FB1574C00ADA21D /* Assets.xcassets */,
 				C475C2FA1FB1580C00ADA21D /* Images.xcassets */,
 				C4401864203A96000019E828 /* Sounds */,
@@ -515,6 +581,12 @@
 			buildRules = (
 			);
 			dependencies = (
+				C40BB39520493B9200BAB960 /* PBXTargetDependency */,
+				C40BB3A620493B9D00BAB960 /* PBXTargetDependency */,
+				C40BB3AA20493BA500BAB960 /* PBXTargetDependency */,
+				C40BB3AE20493BAB00BAB960 /* PBXTargetDependency */,
+				C40BB3B220493BB200BAB960 /* PBXTargetDependency */,
+				C40BB3B620493BE000BAB960 /* PBXTargetDependency */,
 			);
 			name = ReDue;
 			productName = ReDue;
@@ -851,6 +923,36 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		C40BB39520493B9200BAB960 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Chameleon;
+			targetProxy = C40BB39420493B9200BAB960 /* PBXContainerItemProxy */;
+		};
+		C40BB3A620493B9D00BAB960 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "KDCircularProgress iOS";
+			targetProxy = C40BB3A520493B9D00BAB960 /* PBXContainerItemProxy */;
+		};
+		C40BB3AA20493BA500BAB960 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Charts;
+			targetProxy = C40BB3A920493BA500BAB960 /* PBXContainerItemProxy */;
+		};
+		C40BB3AE20493BAB00BAB960 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = SkyFloatingLabelTextField;
+			targetProxy = C40BB3AD20493BAB00BAB960 /* PBXContainerItemProxy */;
+		};
+		C40BB3B220493BB200BAB960 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "SwiftyBeaver (iOS)";
+			targetProxy = C40BB3B120493BB200BAB960 /* PBXContainerItemProxy */;
+		};
+		C40BB3B620493BE000BAB960 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Presentr;
+			targetProxy = C40BB3B520493BE000BAB960 /* PBXContainerItemProxy */;
+		};
 		C475C2C71FB1574C00ADA21D /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = C475C2AD1FB1574C00ADA21D /* ReDue */;
