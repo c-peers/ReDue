@@ -241,6 +241,8 @@ class TaskViewController: UIViewController, GADBannerViewDelegate {
     /* Sets bar buttons and then runs the theme function */
     func prepareNavBar() {
         
+        self.title = "My Tasks"
+        
         let addBarButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addTask))
         navigationItem.rightBarButtonItems = [addBarButton]
         
@@ -258,6 +260,8 @@ class TaskViewController: UIViewController, GADBannerViewDelegate {
         
         colors = Colors.init(main: appData.mainColor!, bg: appData.bgColor!, task1: appData.taskColor1!, task2: appData.taskColor2!, progress: appData.progressColor!)
         
+        darkness(check: colors.main)
+        
         let navigationBar = navigationController?.navigationBar
         navigationBar?.barTintColor = appData.appColor
         navigationBar?.barTintColor = appData.mainColor
@@ -269,8 +273,6 @@ class TaskViewController: UIViewController, GADBannerViewDelegate {
         
         //let darkerThemeColor = appData.appColor.darken(byPercentage: 0.25)
         
-        //view.backgroundColor = darkerThemeColor
-        view.backgroundColor = FlatWhite().darken(byPercentage: 0.1)
         view.backgroundColor = colors.bg
         taskList.backgroundColor = .clear
         taskList.backgroundView = UIView(frame: .zero)
@@ -282,18 +284,15 @@ class TaskViewController: UIViewController, GADBannerViewDelegate {
             //NightNight.theme = .normal
         }
         
-        let bgColor = navigationController?.navigationBar.barTintColor
-        
+//        let barColor = navigationController?.navigationBar.barTintColor
         /* Check the color behind this text and set the text color appropriately */
-        if appData.darknessCheck(for: bgColor) {
-            navigationBar?.tintColor = .white
-            toolbar?.tintColor = .white
-            setStatusBarStyle(.lightContent)
-        } else {
-            navigationBar?.tintColor = .black
-            toolbar?.tintColor = .black
-            setStatusBarStyle(.default)
-        }
+//        if appData.darknessCheck(for: barColor) {
+//            navigationBar?.tintColor = .white
+//            toolbar?.tintColor = .white
+//        } else {
+//            navigationBar?.tintColor = .black
+//            toolbar?.tintColor = .black
+//        }
         
     }
     
@@ -1160,6 +1159,34 @@ extension UIViewController {
     
 }
 
+//MARK: Darkness Check Extension
+
+extension UIViewController {
+    func darkness(check color: UIColor) {
+        
+        let appData = AppData()
+        
+        let navigationBar = navigationController?.navigationBar
+        let toolbar = navigationController?.toolbar
+
+        if appData.darknessCheck(for: color) {
+            navigationBar?.tintColor = .white
+            toolbar?.tintColor = .white
+            navigationBar?.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.white]
+            setStatusBarStyle(.lightContent)
+            setNeedsStatusBarAppearanceUpdate()
+        } else {
+            navigationBar?.tintColor = .black
+            toolbar?.tintColor = .black
+            navigationBar?.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.black]
+            setStatusBarStyle(.default)
+            setNeedsStatusBarAppearanceUpdate()
+        }
+        
+        
+    }
+}
+
 //MARK: - Color Scheme Extension
 
 /* This color struct is used in all VCs to theme the app */
@@ -1248,4 +1275,11 @@ extension UIColor {
         }
     }
     
+}
+
+extension UINavigationController {
+    
+    open override var preferredStatusBarStyle: UIStatusBarStyle {
+        return topViewController?.preferredStatusBarStyle ?? .default
+    }
 }

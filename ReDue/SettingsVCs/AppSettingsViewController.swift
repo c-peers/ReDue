@@ -298,9 +298,7 @@ class AppSettingsViewController: UITableViewController {
     }
     
     func setLabelColor(for label: UILabel, to color: UIColor) {
-        
         label.backgroundColor = color
-        
     }
     
     private func animateColorChange() {
@@ -325,21 +323,21 @@ class AppSettingsViewController: UITableViewController {
         tableView.backgroundColor = colors.bg //darkerThemeColor
         tableView.separatorColor =  colors.bg.darken(byPercentage: 0.5) //appData.appColor.darken(byPercentage: 0.6)
         
+        let barColor = navigationController?.navigationBar.barTintColor
+        darkness(check: colors.main)
+        
+        /* Check the color behind this text and set the text color appropriately */
         if appData.darknessCheck(for: darkerThemeColor) {
             footerText.textColor = .white
-            setStatusBarStyle(.lightContent)
             purchaseButton.tintColor = .white
             restoreButton.tintColor = .white
-
             setColorLabel.textColor = .white
             setResetTimeLabel.textColor = .white
             //setProgressStyleLabel.textColor = .white
         } else {
             footerText.textColor = .black
-            setStatusBarStyle(.default)
             purchaseButton.tintColor = .black
             restoreButton.tintColor = .black
-
             setColorLabel.textColor = .black
             setResetTimeLabel.textColor = .black
             //setProgressStyleLabel.textColor = .black

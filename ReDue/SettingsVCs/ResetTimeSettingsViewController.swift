@@ -28,6 +28,8 @@ class ResetTimeSettingsViewController: UITableViewController {
         
         colors = Colors.init(main: appData.mainColor!, bg: appData.bgColor!, task1: appData.taskColor1!, task2: appData.taskColor2!, progress: appData.progressColor!)
         
+        darkness(check: colors.main)
+        
         let darkerThemeColor = colors.bg //appData.appColor.darken(byPercentage: 0.25)
         tableView.backgroundColor = darkerThemeColor
         tableView.separatorColor = colors.bg.darken(byPercentage: Colors.colorLevel4) //appData.appColor.darken(byPercentage: 0.6)
