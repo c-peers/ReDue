@@ -19,7 +19,6 @@
 		C40BB3B020493BB200BAB960 /* SwiftyBeaver.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C4A95B0B2044503E007B0B9C /* SwiftyBeaver.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C40BB3B320493BE000BAB960 /* Presentr.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C4A95AF320445018007B0B9C /* Presentr.framework */; };
 		C40BB3B420493BE000BAB960 /* Presentr.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C4A95AF320445018007B0B9C /* Presentr.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		C40BB3B820493CFB00BAB960 /* GoogleMobileAds.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C40BB3B720493CFB00BAB960 /* GoogleMobileAds.framework */; };
 		C419542B203C044600D85F9B /* MoreSettingsParentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C419542A203C044600D85F9B /* MoreSettingsParentViewController.swift */; };
 		C419543A203D642300D85F9B /* ModalInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4195439203D642300D85F9B /* ModalInfoView.swift */; };
 		C4195441203D644400D85F9B /* IAP.swift in Sources */ = {isa = PBXBuildFile; fileRef = C419543F203D644300D85F9B /* IAP.swift */; };
@@ -27,6 +26,7 @@
 		C4401874203ABF0F0019E828 /* AudioAlertSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4401873203ABF0F0019E828 /* AudioAlertSettingsViewController.swift */; };
 		C4401876203ABF180019E828 /* VibrateAlertSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4401875203ABF180019E828 /* VibrateAlertSettingsViewController.swift */; };
 		C4401879203ABFA40019E828 /* MoreSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4401878203ABFA40019E828 /* MoreSettingsViewController.swift */; };
+		C4461258204D0CB2003C2CC3 /* GoogleMobileAds.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C4461257204D0CB2003C2CC3 /* GoogleMobileAds.framework */; };
 		C458B9141FCD3E1F009CB2FD /* DynamicTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C458B9131FCD3E1F009CB2FD /* DynamicTable.swift */; };
 		C458B9161FCD3F47009CB2FD /* AlertSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C458B9151FCD3F47009CB2FD /* AlertSettingsViewController.swift */; };
 		C45E62CD1FCEE8C90074D90C /* Enums.swift in Sources */ = {isa = PBXBuildFile; fileRef = C45E62CC1FCEE8C90074D90C /* Enums.swift */; };
@@ -265,7 +265,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		C40BB3B720493CFB00BAB960 /* GoogleMobileAds.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleMobileAds.framework; sourceTree = "<group>"; };
 		C419542A203C044600D85F9B /* MoreSettingsParentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreSettingsParentViewController.swift; sourceTree = "<group>"; };
 		C4195439203D642300D85F9B /* ModalInfoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModalInfoView.swift; sourceTree = "<group>"; };
 		C419543F203D644300D85F9B /* IAP.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IAP.swift; sourceTree = "<group>"; };
@@ -273,6 +272,7 @@
 		C4401873203ABF0F0019E828 /* AudioAlertSettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioAlertSettingsViewController.swift; sourceTree = "<group>"; };
 		C4401875203ABF180019E828 /* VibrateAlertSettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VibrateAlertSettingsViewController.swift; sourceTree = "<group>"; };
 		C4401878203ABFA40019E828 /* MoreSettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoreSettingsViewController.swift; sourceTree = "<group>"; };
+		C4461257204D0CB2003C2CC3 /* GoogleMobileAds.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleMobileAds.framework; sourceTree = "<group>"; };
 		C458B9131FCD3E1F009CB2FD /* DynamicTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DynamicTable.swift; sourceTree = "<group>"; };
 		C458B9151FCD3F47009CB2FD /* AlertSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertSettingsViewController.swift; sourceTree = "<group>"; };
 		C45E62CC1FCEE8C90074D90C /* Enums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enums.swift; sourceTree = "<group>"; };
@@ -336,7 +336,7 @@
 			files = (
 				C40BB3B320493BE000BAB960 /* Presentr.framework in Frameworks */,
 				C40BB3A320493B9C00BAB960 /* KDCircularProgress.framework in Frameworks */,
-				C40BB3B820493CFB00BAB960 /* GoogleMobileAds.framework in Frameworks */,
+				C4461258204D0CB2003C2CC3 /* GoogleMobileAds.framework in Frameworks */,
 				C40BB3AF20493BB200BAB960 /* SwiftyBeaver.framework in Frameworks */,
 				C40BB3A720493BA500BAB960 /* Charts.framework in Frameworks */,
 				C40BB3AB20493BAB00BAB960 /* SkyFloatingLabelTextField.framework in Frameworks */,
@@ -440,7 +440,7 @@
 				C4A95AED20445018007B0B9C /* Presentr.xcodeproj */,
 				C4A95AF62044502E007B0B9C /* SkyFloatingLabelTextField.xcodeproj */,
 				C4A95B022044503E007B0B9C /* SwiftyBeaver.xcodeproj */,
-				C40BB3B720493CFB00BAB960 /* GoogleMobileAds.framework */,
+				C4461257204D0CB2003C2CC3 /* GoogleMobileAds.framework */,
 				C475C2BB1FB1574C00ADA21D /* Assets.xcassets */,
 				C475C2FA1FB1580C00ADA21D /* Images.xcassets */,
 				C4401864203A96000019E828 /* Sounds */,
