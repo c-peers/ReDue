@@ -94,55 +94,9 @@ class AppData: NSObject, NSCoding {
     static let documentsDirectory = FileManager().urls(for: .documentDirectory, in: .userDomainMask).first!
     static let appURL = documentsDirectory.appendingPathComponent("appSettings")
     
-//    static let archiveAppSettings = documentsDirectory.appendingPathComponent("appSettings")
-//    static let archiveTimeSettings = documentsDirectory.appendingPathComponent("timeSettings")
-//    static let archiveColorSettings = documentsDirectory.appendingPathComponent("colorSettings")
-//    static let archiveMisc = documentsDirectory.appendingPathComponent("miscSettings")
-
-    //MARK: - Data Handling
-    
-//    func save() {
-//
-//        saveAppSettingsToDictionary()
-//        saveTimeSettingsToDictionary()
-//        saveColorSettingsToDictionary()
-//        saveMiscSettingsToDictionary()
-//
-//        let appSettingsSaveSuccessful = NSKeyedArchiver.archiveRootObject(appSettings, toFile: AppData.archiveAppSettings.path)
-//        let timeSettingsSaveSuccessful = NSKeyedArchiver.archiveRootObject(timeSettings, toFile: AppData.archiveTimeSettings.path)
-//        let colorSettingsSaveSuccessful = NSKeyedArchiver.archiveRootObject(colorSettings, toFile: AppData.archiveColorSettings.path)
-//        let miscSaveSuccessful = NSKeyedArchiver.archiveRootObject(misc, toFile: AppData.archiveMisc.path)
-//
-//        print("Saved app settings: \(appSettingsSaveSuccessful)")
-//        print("Saved time settings: \(timeSettingsSaveSuccessful)")
-//        print("Saved color settings: \(colorSettingsSaveSuccessful)")
-//        print("Saved misc: \(miscSaveSuccessful)")
-//
-//    }
-//
-//    func load() {
-//
-//        if let loadAppSettings = NSKeyedUnarchiver.unarchiveObject(withFile: AppData.archiveAppSettings.path) as? [String : Bool] {
-//            appSettings = loadAppSettings
-//        }
-//        if let loadTimeSettings = NSKeyedUnarchiver.unarchiveObject(withFile: AppData.archiveTimeSettings.path) as? [String : Date] {
-//            timeSettings = loadTimeSettings
-//        }
-//
-//        if let loadColorSettings = NSKeyedUnarchiver.unarchiveObject(withFile: AppData.archiveColorSettings.path) as? [String : UIColor] {
-//            colorSettings = loadColorSettings
-//        }
-//
-//        if let loadMisc = NSKeyedUnarchiver.unarchiveObject(withFile: AppData.archiveMisc.path) as? [String : String] {
-//            misc = loadMisc
-//        }
-//
-//        setAppValues()
-//
-//    }
-    
     //MARK: - Color Functions
 
+    //TODO: Chaff???
     func loadColors() {
         
         if let appColor = colorSettings["appColor"] {
@@ -153,6 +107,8 @@ class AppData: NSObject, NSCoding {
         
     }
     
+    /* Checks input color and uses a function (found on StackOverflow) to determine the darkness level.
+       If that is over 0.5 then we use this to determine whether or not to set the text to white. */
     func darknessCheck(for color: UIColor?) -> Bool {
         
         var r: CGFloat = 0.0, g: CGFloat = 0.0, b: CGFloat = 0.0, a: CGFloat = 0.0
@@ -166,14 +122,13 @@ class AppData: NSObject, NSCoding {
         
     }
     
+    //TODO: Chaff???
     func setColorScheme() {
-        
-        //colorScheme = ColorSchemeOf(.analogous, color: appColor, isFlatScheme: true)
         colorScheme = ColorSchemeOf(.complementary, color: appColor, isFlatScheme: true)
-        //colorScheme = ColorSchemeOf(.triadic, color: appColor, isFlatScheme: true)
         colorScheme.remove(at: 2)
     }
     
+    //TODO: Chaff???
     func setAppValues() {
         
         var defaultReset = DateComponents()
@@ -192,38 +147,9 @@ class AppData: NSObject, NSCoding {
         isFullVersion = appSettings["isFullVersion"] ?? false
         isNightMode = appSettings["isNightMode"] ?? false
         usesCircularProgress = appSettings["usesCircularProgress"] ?? false
-        appColorName = misc["ColorName"] ?? "Sky Blue Dark"
+        appColorName = misc["ColorName"] ?? "Lapis"
         resetOffset = misc["ResetOffset"] ?? "12:00"
         
-    }
-    
-    
-    func saveAppSettingsToDictionary(){
-        
-        appSettings["isNightMode"] = isNightMode
-        appSettings["usesCircularProgress"] = usesCircularProgress
-        appSettings["isFullVersion"] = isFullVersion
-        
-    }
-    
-    func saveTimeSettingsToDictionary(){
-        
-        timeSettings["taskResetTime"] = taskResetTime
-        timeSettings["taskLastTime"] = taskLastTime
-        timeSettings["taskCurrentTime"] = taskCurrentTime
-        
-    }
-    
-    func saveColorSettingsToDictionary() {
-        
-        colorSettings["appColor"] = appColor
-    }
-    
-    func saveMiscSettingsToDictionary() {
-        
-        misc["ColorName"] = appColorName
-        misc["ResetOffset"] = resetOffset
-
     }
     
     //MARK: - NSCoding
@@ -243,24 +169,17 @@ class AppData: NSObject, NSCoding {
         aCoder.encode(taskColor1, forKey: Key.taskColor1Key)
         aCoder.encode(taskColor2, forKey: Key.taskColor2Key)
         aCoder.encode(progressColor, forKey: Key.progressColorKey)
-
-//        aCoder.encode(appSettings, forKey: "appSettings")
-//        aCoder.encode(timeSettings, forKey: "timeSettings")
-//        aCoder.encode(colorSettings, forKey: "colorSettings")
-//        aCoder.encode(appColorName, forKey: "miscSettings")
     }
     
     required convenience init?(coder aDecoder: NSCoder) {
         
         let taskResetTime = aDecoder.decodeObject(forKey: Key.taskResetTimeKey) as? Date ?? Date()
-        
         let taskLastTime = aDecoder.decodeObject(forKey: Key.taskLastTimeKey) as? Date  ?? Date()
-
         let taskCurrentTime = aDecoder.decodeObject(forKey: Key.taskCurrentTimeKey) as? Date ?? Date()
 
         let appColor = aDecoder.decodeObject(forKey: Key.appColorKey) as? UIColor ?? FlatSkyBlue()
         
-        let appColorName = aDecoder.decodeObject(forKey: Key.appColorNameKey) as? String ?? "Sky Blue"
+        let appColorName = aDecoder.decodeObject(forKey: Key.appColorNameKey) as? String ?? "Lapis"
 
         let resetOffset = aDecoder.decodeObject(forKey: Key.resetOffsetKey) as? String  ?? "12:00"
 
@@ -268,29 +187,12 @@ class AppData: NSObject, NSCoding {
         let isNightMode = aDecoder.decodeBool(forKey: Key.isNightModeKey)
         let isGlass = aDecoder.decodeBool(forKey: Key.isGlassKey)
         let usesCircularProgress = aDecoder.decodeBool(forKey: Key.usesCircularProgressKey)
-        //let time = aDecoder.decodeBool(forKey: Key.timeKey)
 
         let mainColor = aDecoder.decodeObject(forKey: Key.mainColorKey) as? UIColor ?? HexColor("247BA0")!
         let bgColor = aDecoder.decodeObject(forKey: Key.bgColorKey) as? UIColor ?? FlatWhite()
         let taskColor1 = aDecoder.decodeObject(forKey: Key.taskColor1Key) as? UIColor ?? HexColor("70C1B3")!
         let taskColor2 = aDecoder.decodeObject(forKey: Key.taskColor2Key) as? UIColor ?? HexColor("B2DBBF")!
         let progressColor = aDecoder.decodeObject(forKey: Key.progressColorKey) as? UIColor ?? HexColor("FF1654")!
-
-//        guard let appSettings = aDecoder.decodeObject(forKey: "appSettings") as? [String : Bool] else {
-//            return nil
-//        }
-//        guard let timeSettings = aDecoder.decodeObject(forKey: "timeSettings") as? [String : Date] else {
-//            return nil
-//        }
-//        guard let colorSettings = aDecoder.decodeObject(forKey: "colorSettings") as? [String : UIColor] else {
-//            return nil
-//        }
-//        guard let misc = aDecoder.decodeObject(forKey: "miscSettings") as? [String : String] else {
-//            return nil
-//        }
-        
-        // Must call designated initializer.
-//        self.init(appSettings: appSettings,  timeSettings: timeSettings, colorSettings: colorSettings, misc: misc)
         
         self.init(taskResetTime: taskResetTime, taskLastTime: taskLastTime, taskCurrentTime: taskCurrentTime, appColor: appColor, appColorName: appColorName, resetOffset: resetOffset, isFullVersion: isFullVersion, isNightMode: isNightMode, isGlass: isGlass, usesCircularProgress: usesCircularProgress, mainColor: mainColor, bgColor: bgColor, taskColor1: taskColor1, taskColor2: taskColor2, progressColor: progressColor)
         
@@ -324,7 +226,7 @@ class AppData: NSObject, NSCoding {
         self.appSettings = appSettings
         self.timeSettings = timeSettings
         self.colorSettings = colorSettings
-        self.appColorName = misc["ColorName"] ?? "Sky Blue Dark"
+        self.appColorName = misc["ColorName"] ?? "Lapis"
         self.resetOffset = misc["ResetOffset"]!
         
     }

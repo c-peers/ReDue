@@ -19,11 +19,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     var appData = AppData()
-    //var appSettings: [String : Bool] = [:]
-    //var appTimeSettings: [String : Int] = [:]
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
         
         setupSwiftyBeaverLogging()
         
@@ -32,11 +29,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             appData = loadedData
         }
 
-        appData.loadColors()
-
-        //setTheme(as: appData.appColor)
-        
-        print("appData color in Appdelegate is \(appData.appColor)")
+        //appData.loadColors()
+        //print("appData color in Appdelegate is \(appData.appColor)")
         
         GADMobileAds.configure(withApplicationID: "ca-app-pub-3446210370651273~3666875676")
         
@@ -45,6 +39,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
     
+    /* For logging purposes. This initializes the logging. */
     func setupSwiftyBeaverLogging() {
         
         let log = SwiftyBeaver.self
@@ -57,6 +52,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     }
     
+    /* Enable local notifications */
     func setupNotifications(for application: UIApplication) {
         
         // iOS 10-> support
@@ -72,26 +68,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
     }
     
-    func setTheme(as color: UIColor) {
-        
-        //Chameleon.setGlobalThemeUsingPrimaryColor(appData.appColor, withSecondaryColor: UIColor.clear, andContentStyle: .contrast)
-        
-//        func setStatusBarBackgroundColor(color: UIColor) {
-//            
-//            guard let statusBar = UIApplication.shared.value(forKeyPath: "statusBarWindow.statusBar") as? UIView else { return }
-//            
-//            statusBar.backgroundColor = appData.appColor
-//        }
-        
-    }
-
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
         
         let data = DataHandler()
         data.saveAppSettings(appData)
-        //appData.save()
         
     }
 

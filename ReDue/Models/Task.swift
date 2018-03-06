@@ -93,7 +93,6 @@ class Task: NSObject, NSCoding {
         static let taskTimeHistoryKey = "taskTimeHistoryKey"
         static let missedTimeHistoryKey = "missedTimeHistoryKey"
         static let completedTimeHistoryKey = "completedTimeHistoryKey"
-        //static let previousDatesKey = "previousDatesKey"
 
         static let audioAlertKey = "audioAlertKey"
         static let vibrateAlertKey = "vibrateAlertKey"
@@ -108,12 +107,14 @@ class Task: NSObject, NSCoding {
 
     //MARK: - Helper Functions
     
+    /* Resets variables that need to be 0 when a new day starts. Ran on task reset. */
     func reset() {
         setWeightedTime()
         completed = 0
         rollover = 0
     }
     
+    /* Calculates the rollover time for a task. */
     func setRollover() {
         
         let remaining = weightedTime - completed
@@ -127,10 +128,13 @@ class Task: NSObject, NSCoding {
 
     }
     
+    /* Calculates the weighted time for a task. */
     func setWeightedTime() {
         weightedTime = time + (rollover * multiplier)
     }
     
+    /* Returns the date as a string for a given format.
+       Often used in comparisons. */
     func set(date: Date, as format: String) -> String {
         
         let dateFormatter = DateFormatter()
@@ -140,6 +144,7 @@ class Task: NSObject, NSCoding {
         
     }
     
+    /* Gets date at selected location. Uses most recent date as 0 */
     func getAccessDate(lengthFromEnd count: Int) -> Date? {
         
         let sortedDates = previousDates.sorted(){$0 < $1}
@@ -155,6 +160,9 @@ class Task: NSObject, NSCoding {
         
     }
        
+    /* Calculates stats for selected task.
+       Missed time includes rollover so Total - completed != missed
+       depending on the rollover multiplier*/
     func calculateStats() {
         
         totalDays += 1
@@ -191,6 +199,8 @@ class Task: NSObject, NSCoding {
                 
     }
     
+    /* Ran when you tap the button to reset to the default task time.
+       Saves forfeited time for stats and then resets the time. */
     func forfeitAccumulatedTime() {
         
         forfeitedTime += (weightedTime - time)
@@ -200,12 +210,15 @@ class Task: NSObject, NSCoding {
         setWeightedTime()
     }
     
+    /* Adds a key into each history dictionary with a value of 0 */
     func addHistory(date: Date) {
         taskTimeHistory[date] = 0.0
         missedTimeHistory[date] = 0.0
         completedTimeHistory[date] = 0.0
     }
     
+    /* Removes key at date
+       Date checked with set function so there should only be one key for each day. */
     func removeHistory(date: Date) {
         let accessDate = set(accessDate: date)
         taskTimeHistory.removeValue(forKey: accessDate)
@@ -213,6 +226,8 @@ class Task: NSObject, NSCoding {
         completedTimeHistory.removeValue(forKey: accessDate)
     }
     
+    /* Checks for existence of key in dictionary. If the key exists return that date.
+       Otherwise return the inputted Date back. */
     func set(accessDate: Date) -> Date {
         
         let previousDate = getHistory(at: accessDate)
@@ -225,6 +240,9 @@ class Task: NSObject, NSCoding {
         
     }
     
+    /* Usually ran with calculateStats().
+       Saves values to all history dicts for key at input value.
+       set function used so that there is only one key per day. */
     func saveHistory(for date: Date) {
         
         let accessDate = set(accessDate: date)
@@ -243,6 +261,8 @@ class Task: NSObject, NSCoding {
 
     }
     
+    /* Does the actual history key check for the set(accessDate) function.
+       Returns a value only if the key exists. */
     func getHistory(at dateCandidate: Date) -> Date? {
         
         let accessDateCandidate = set(date: dateCandidate, as: "yyyy-MM-dd")
@@ -260,6 +280,7 @@ class Task: NSObject, NSCoding {
         
     }
     
+    /* Checks all historys for set date. Returns true only if all exist. */
     func isHistoryPresent(for date: Date) -> Bool {
         
         let completedValue = completedTimeHistory[date]
@@ -320,9 +341,6 @@ class Task: NSObject, NSCoding {
         let frequency = aDecoder.decodeDouble(forKey: Key.frequencyKey)
         let completed = aDecoder.decodeDouble(forKey: Key.completedKey)
         let runWeek = aDecoder.decodeInteger(forKey: Key.runWeekKey)
-        //guard let currentWeek = aDecoder.decodeObject(forKey: Key.currentWeekKey) as? Int else {
-        //    return nil
-        //}
         
         // Cumulative statistics
         let totalTime = aDecoder.decodeDouble(forKey: Key.totalTimeKey)
@@ -340,8 +358,8 @@ class Task: NSObject, NSCoding {
         let taskTimeHistory = aDecoder.decodeObject(forKey: Key.taskTimeHistoryKey) as? [Date: Double] ?? [Date: Double]()
         let missedTimeHistory = aDecoder.decodeObject(forKey: Key.missedTimeHistoryKey) as? [Date: Double] ?? [Date: Double]()
         let completedTimeHistory = aDecoder.decodeObject(forKey: Key.completedTimeHistoryKey) as? [Date: Double] ?? [Date: Double]()
-        //let previousDates = aDecoder.decodeObject(forKey: Key.previousDatesKey) as? [Date] ?? [Date]()
         
+        /* Sets alert but any nonexistant alerts will stay none.*/
         let audioAlertString = aDecoder.decodeObject(forKey: Key.audioAlertKey) as? String
         var audioAlert: AudioAlert = .none
         if let string = audioAlertString {
@@ -351,6 +369,7 @@ class Task: NSObject, NSCoding {
             }
         }
             
+        /* Sets alert but any nonexistant alerts will stay none.*/
         let vibrateAlertString = aDecoder.decodeObject(forKey: Key.vibrateAlertKey) as? String
         var vibrateAlert: VibrateAlert = .off
         if let string = vibrateAlertString {
@@ -392,8 +411,6 @@ class Task: NSObject, NSCoding {
         self.runWeek = runWeek
         
         self.weightedTime = time + (rollover * multiplier)
-        
-        //var nextOccurringWeek: Int = 0
         
         self.totalTime = totalTime
         self.missedTime = missedTime
