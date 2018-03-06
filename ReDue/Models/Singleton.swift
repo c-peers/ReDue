@@ -27,8 +27,6 @@ class CountdownTimer: NSObject {
     @objc dynamic var elapsedTime = 0.0
     @objc dynamic var runningCompletedTime = 0.0
     
-    //var taskData = TaskData()
-    
     func startTimer(for view: Any?) {
         
         var test = [view]
