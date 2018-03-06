@@ -17,7 +17,7 @@ class AppSettingsViewController: UITableViewController {
     //MARK: - Outlets
     
     @IBOutlet weak var setColorLabel: UILabel!
-    @IBOutlet weak var setProgressStyleLabel: UILabel!
+    //@IBOutlet weak var setProgressStyleLabel: UILabel!
     @IBOutlet weak var setResetTimeLabel: UILabel!
     @IBOutlet var nightModeSwitch: UISwitch!
     @IBOutlet weak var footerText: UILabel!
@@ -116,11 +116,11 @@ class AppSettingsViewController: UITableViewController {
         setColorLabel.text = appData.appColorName
         setResetTimeLabel.text = appData.resetOffset
         
-        if appData.usesCircularProgress {
-            setProgressStyleLabel.text = "Circular"
-        } else {
-            setProgressStyleLabel.text = "Flat"
-        }
+//        if appData.usesCircularProgress {
+//            setProgressStyleLabel.text = "Circular"
+//        } else {
+//            setProgressStyleLabel.text = "Flat"
+//        }
 
     }
     
@@ -142,9 +142,9 @@ class AppSettingsViewController: UITableViewController {
             if indexPath.row == 0 {
             performSegue(withIdentifier: "colorSettingsSegue", sender: self)
             }
+        //} else if indexPath.section == 1 {
+        //    performSegue(withIdentifier: "progressViewSettingsSegue", sender: self)
         } else if indexPath.section == 1 {
-            performSegue(withIdentifier: "progressViewSettingsSegue", sender: self)
-        } else if indexPath.section == 2 {
             performSegue(withIdentifier: "resetTimeSettingsSegue", sender: self)
         }
         
@@ -205,7 +205,9 @@ class AppSettingsViewController: UITableViewController {
             return 0
         } else if indexPath.section == 0 && indexPath.row == 2 {
             return 0
-        }
+        } //else if indexPath.section == 1 {
+        //    return 0
+        //}
 
         return 44
     }
@@ -331,7 +333,7 @@ class AppSettingsViewController: UITableViewController {
 
             setColorLabel.textColor = .white
             setResetTimeLabel.textColor = .white
-            setProgressStyleLabel.textColor = .white
+            //setProgressStyleLabel.textColor = .white
         } else {
             footerText.textColor = .black
             setStatusBarStyle(.default)
@@ -340,7 +342,7 @@ class AppSettingsViewController: UITableViewController {
 
             setColorLabel.textColor = .black
             setResetTimeLabel.textColor = .black
-            setProgressStyleLabel.textColor = .black
+            //setProgressStyleLabel.textColor = .black
         }
 
         tableView.reloadData()

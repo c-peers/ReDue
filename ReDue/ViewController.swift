@@ -111,12 +111,12 @@ class TaskViewController: UIViewController, GADBannerViewDelegate {
         prepareNavBar()
         
         // Hide ads if full version
-        if !appData.isFullVersion {
+        //if !appData.isFullVersion {
             adView.alpha = 0
             let request = GADRequest()
-            request.testDevices = [kGADSimulatorID]
+            //request.testDevices = [kGADSimulatorID]
             adBannerView.load(request)
-        }
+        //}
         
         // Offset times so that reset always occurs at "midnight" for easy calculation
         now = currentTimeIs()
@@ -725,7 +725,7 @@ extension TaskViewController: UICollectionViewDelegate, UICollectionViewDataSour
         
         let cellSize: CGSize
         
-        if appData.usesCircularProgress {
+        if false { //appData.usesCircularProgress {
             cellSize = CGSize(width:170 , height:220) // w:170 h:220
         } else {
             cellSize = CGSize(width:screenWidth - 32 , height:106) // w:333 h:106
@@ -739,10 +739,13 @@ extension TaskViewController: UICollectionViewDelegate, UICollectionViewDataSour
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         var reuseIdentifier: String?
-        let usesCircularProgress = appData.usesCircularProgress
         
         print(indexPath)
-        
+
+        /* Circular progress off for now. Doesn't look good so I need to
+           make it look more presentable before releasing the feature */
+        //let usesCircularProgress = appData.usesCircularProgress
+        let usesCircularProgress = false
         if usesCircularProgress {
             reuseIdentifier = "taskCollectionCell_Circle"
 
