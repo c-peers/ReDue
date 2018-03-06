@@ -32,6 +32,7 @@ class ProgressViewSettingsViewController: UITableViewController {
         let darkerThemeColor = colors.bg //appData.appColor.darken(byPercentage: 0.25)
         tableView.backgroundColor = darkerThemeColor
         tableView.separatorColor = colors.bg.darken(byPercentage: Colors.colorLevel4) //appData.appColor.darken(byPercentage: 0.6)
+        tableView.tableFooterView = UIView()
         
     }
     

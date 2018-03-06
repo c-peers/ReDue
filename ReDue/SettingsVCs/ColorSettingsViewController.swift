@@ -63,6 +63,7 @@ class ColorSettingsViewController: UITableViewController {
         self.title = "Theme Color"
         
         tableView.sectionIndexColor = UIColor.black
+        tableView.tableFooterView = UIView()
         
         //tableView.register(UITableViewCell.self, forCellReuseIdentifier: "ColorCell")
         
@@ -117,10 +118,6 @@ class ColorSettingsViewController: UITableViewController {
         
         print(colorList[indexPath.row])
         
-    }
-    
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -254,9 +251,6 @@ class ColorSettingsViewController: UITableViewController {
             
         }
         
-        //appData.saveColorSettingsToDictionary()
-        //appData.save()
-        
     }
     
     func findTheme(for string: String) -> ThemeColors {
@@ -303,29 +297,8 @@ class ColorSettingsViewController: UITableViewController {
             data.saveAppSettings(appData)
             
         }
-        
-//        if let themeColor = selectedColor {
-//            appData.appColor = themeColor
-//            //let appDelegate = UIApplication.shared.delegate as! AppDelegate
-//            //        appDelegate.setTheme(as: selectedColor!)
-//
-//            let colorString = selectedEnum?.rawValue.camelCaseToWords()
-//            appData.appColorName = colorString!.capitalizingFirstLetter()
-//            
-//            let data = DataHandler()
-//            data.saveAppSettings(appData)
-//
-//            //appDelegate.appData.saveColorSettingsToDictionary()
-//            //appDelegate.appData.save()
-//        }
-        
+                
     }
-    
-//    override func viewWillAppear(_ animated: Bool) {
-//        
-//        self.setThemeUsingPrimaryColor(appData.appColor, withSecondaryColor: UIColor.clear, andContentStyle: .contrast)
-//        
-//    }
     
     override func willMove(toParentViewController parent: UIViewController?) { // tricky part in iOS 10
         //if selectedColor != nil {

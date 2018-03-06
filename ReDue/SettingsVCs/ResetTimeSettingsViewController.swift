@@ -31,7 +31,8 @@ class ResetTimeSettingsViewController: UITableViewController {
         let darkerThemeColor = colors.bg //appData.appColor.darken(byPercentage: 0.25)
         tableView.backgroundColor = darkerThemeColor
         tableView.separatorColor = colors.bg.darken(byPercentage: Colors.colorLevel4) //appData.appColor.darken(byPercentage: 0.6)
-
+        tableView.tableFooterView = UIView()
+        
         //tableView.sectionIndexColor = UIColor.black
         
     }
@@ -83,10 +84,6 @@ class ResetTimeSettingsViewController: UITableViewController {
 
     }
 
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
-    }
-    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return resetTimes.count
     }
