@@ -22,14 +22,11 @@ class TaskStatsViewController: UIViewController, UIScrollViewDelegate {
     @IBOutlet var statsNameLabels: [UILabel]!
     @IBOutlet var statsValueLabels: [UILabel]!
         
-    //var taskHistory
     var statCharts: [UIView: String] {
         return [/*missedTimeHistory: "Missed Time Bar Chart", */completedTimeHistory: "Completed Time Bar Chart"]
     }
     
     let nameLabels = ["Task Time", "   Completed", "   Missed", "   Forfeited", "Total Days", "    Complete", "    Partial Complete", "    Missed", "Current Streak", "Best Streak"]
-
-//    let nameLabels = ["Task Time", "Completed Task Time", "Missed Task Time", "Total Days", "Total Days (Complete)", "Total Days (Partial Complete", "Total Days (Missed)", "Current Streak", "Best Streak"]
 
     var valueLabels = ["0", "0", "0", "0", "0", "0", "0", "0", "0", "0"]
     
@@ -45,8 +42,6 @@ class TaskStatsViewController: UIViewController, UIScrollViewDelegate {
         scrollView.delegate = self
         scrollView.contentSize.width = view.bounds.width
         scrollView.contentSize.height = CGFloat(700)
-
-        //navigationController?.toolbar.isHidden = true
     }
     
     override func viewDidLoad() {
@@ -54,7 +49,7 @@ class TaskStatsViewController: UIViewController, UIScrollViewDelegate {
 
         colors = Colors.init(main: appData.mainColor!, bg: appData.bgColor!, task1: appData.taskColor1!, task2: appData.taskColor2!, progress: appData.progressColor!)
         
-        let darkerThemeColor = colors.bg //.darken(byPercentage: Colors.darkLevelOne) //appData.appColor.darken(byPercentage: 0.25)
+        let darkerThemeColor = colors.bg
         view.backgroundColor = darkerThemeColor
         scrollView.backgroundColor = darkerThemeColor
         bgView.backgroundColor = darkerThemeColor
@@ -87,7 +82,6 @@ class TaskStatsViewController: UIViewController, UIScrollViewDelegate {
     
     func setLabelColor(for label: UILabel) {
         
-        //let darkerThemeColor = colors.darkMain
         if appData.darknessCheck(for: colors.bg) {
             label.textColor = UIColor.white
         } else {
@@ -151,47 +145,6 @@ class TaskStatsViewController: UIViewController, UIScrollViewDelegate {
             }
         }
         
-//        var taskStats = [String: Double]()
-//
-//        if let statsCheck = taskData.taskStatsDictionary[task] {
-//            taskStats = statsCheck
-//        }
-//
-//        for label in statsValueLabels {
-//
-//            setLabelColor(for: label)
-//
-//            for (key, value) in taskStats {
-//
-//                switch key {
-//                case TaskData.totalTaskTimeKey:
-//                    valueLabels[0] = String(value) + " Seconds"
-//                case TaskData.completedTaskTimeKey:
-//                    valueLabels[1] = String(value) + " Seconds"
-//                case TaskData.missedTaskTimeKey:
-//                    valueLabels[2] = String(value) + " Seconds"
-//                case TaskData.totalTaskDaysKey:
-//                    valueLabels[3] = String(Int(value)) + " Days"
-//                case TaskData.fullTaskDaysKey:
-//                    valueLabels[4] = String(Int(value)) + " Days"
-//                case TaskData.partialTaskDaysKey:
-//                    valueLabels[5] = String(Int(value)) + " Days"
-//                case TaskData.missedTaskDaysKey:
-//                    valueLabels[6] = String(Int(value)) + " Days"
-//                case TaskData.currentStreakKey:
-//                    valueLabels[7] = String(value) + " Days"
-//                case TaskData.bestStreakKey:
-//                    valueLabels[8] = String(value) + " Days"
-//                default:
-//                    print("Error")
-//                }
-//
-//                let index = statsValueLabels.index(of: label)
-//                label.text = String(valueLabels[index!])
-//
-//            }
-//
-//        }
         
     }
     
@@ -293,7 +246,6 @@ class TaskStatsViewController: UIViewController, UIScrollViewDelegate {
         leftAxis.axisMinimum = 0.0
         rightAxis.axisMinimum = 0.0
 
-        //let darkerThemeColor = colors.darkMain //appData.appColor.darken(byPercentage: 0.25)
         if appData.darknessCheck(for: colors.bg) {
             xAxis.labelTextColor = UIColor.white
             rightAxis.labelTextColor = UIColor.white
@@ -307,79 +259,6 @@ class TaskStatsViewController: UIViewController, UIScrollViewDelegate {
 
     }
     
-//    func setXAxis(for chartView: Any, as type: String) {
-//        
-//        var chart: AnyObject
-//        
-//        switch type {
-//        case "Line":
-//            chart = chartView as! LineChartView
-//        case "Bar":
-//            chart = chartView as! BarChartView
-//        default:
-//            return
-//        }
-//        
-//        var xAxis = chart.xAxis
-//        xAxis!.granularity = 1.0
-//        xAxis!.drawGridLinesEnabled = false
-//        xAxis!.centerAxisLabelsEnabled = false
-//        
-//        xAxis!.valueFormatter = IndexAxisValueFormatter(values: accessDates)
-//        //xAxis?.valueFormatter = IndexAxisValueFormatter(values: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"])
-//        
-//    }
-//    
-//    func setYAxis(for chartView: Any, as type: String) {
-//     
-//        var chart: AnyObject
-//
-//        switch type {
-//        case "Line":
-//            chart = chartView as! LineChartView
-//        case "Bar":
-//            chart = chartView as! BarChartView
-//        default:
-//            return
-//        }
-//
-//        let leftAxis = chart.getAxis(.left)
-//        let rightAxis = chart.getAxis(.right)
-//        
-//        leftAxis.drawLabelsEnabled = false
-//        rightAxis.drawLabelsEnabled = false
-//        
-//        leftAxis.axisMinimum = 0.0
-//        rightAxis.axisMinimum = 0.0
-//        
-//    }
-
-//    func setChartView(for chartView: Any, as type: String) {
-//        
-//        var chart: AnyObject
-//        
-//        switch type {
-//        case "Line":
-//            chart = chartView as! LineChartView
-//        case "Bar":
-//            chart = chartView as! BarChartView
-//        default:
-//            return
-//        }
-//
-//        chart.chartDescription??.enabled = false
-//        chart.legend.enabled = false
-//        chart.xAxis.labelPosition = .bottom
-//        //recentTaskHistory.drawValueAboveBarEnabled = false
-//        //recentTaskHistory.borderLineWidth = 1.5
-//        //recentTaskHistory.borderColor = UIColor.flatBlackDark
-//        
-//        chart.rightAxis.enabled = false
-//        chart.leftAxis.enabled = false
-//        //chart.drawGridBackgroundEnabled = false
-//
-//    }
-    
     func chartInit() {
         
         //setMissedChart()
@@ -387,15 +266,7 @@ class TaskStatsViewController: UIViewController, UIScrollViewDelegate {
 
         for (chart, type) in statCharts {
             
-            //setXAxis(for: chart, as: type)
-            //setYAxis(for: chart, as: type)
-            //setChartView(for: chart, as: type)
             loadBarChartData(chart: chart as! BarChartView, as: type)
-            //if type.contains("Line") {
-                //loadLineChartData(chart: chart as! LineChartView, as: type)
-            //} else if type.contains("Bar") {
-                
-            //}
             
         }
         
@@ -424,11 +295,9 @@ class TaskStatsViewController: UIViewController, UIScrollViewDelegate {
         }
 
         for i in 0..<dataSet.count {
-        //for i in 0..<testData.count {
             var value: BarChartDataEntry
             
             value = BarChartDataEntry(x: Double(i), y: dataSet[i])
-            //value = BarChartDataEntry(x: Double(i), y: Double(testData[i]))
             
             barChartEntry.append(value) // here we add it to the data set
             
@@ -438,7 +307,6 @@ class TaskStatsViewController: UIViewController, UIScrollViewDelegate {
         
         bar.colors = ChartColorTemplates.pastel()
         
-        //let darkerThemeColor = colors.darkMain //appData.appColor.darken(byPercentage: 0.25)
         if appData.darknessCheck(for: colors.bg) {
             bar.valueColors = [UIColor.white]
         } else {
@@ -494,12 +362,7 @@ extension TaskStatsViewController: IValueFormatter {
 extension TaskStatsViewController: IAxisValueFormatter {
     
     func stringForValue(_ value: Double, axis: AxisBase?) -> String {
-
         return String(Int(value)) + "m"
-        
     }
     
-
-    
-
 }

@@ -29,7 +29,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             appData = loadedData
         }
 
-        //appData.loadColors()
         //print("appData color in Appdelegate is \(appData.appColor)")
         
         GADMobileAds.configure(withApplicationID: "ca-app-pub-3446210370651273~3666875676")
@@ -44,9 +43,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         let log = SwiftyBeaver.self
         let console = ConsoleDestination()
-        let platform = SBPlatformDestination(appID: "Rl1jPY",
-                                             appSecret: "c2vpnm4oi6ocqg1pwpCiKqqMdd0moxjy",
-                                             encryptionKey: "58cf75hkwGnEm8Qxs1FwbjzD4v7mBP5g")
+        let platform = SBPlatformDestination(appID: "89Ag1l",
+                                             appSecret: "bphin8jqv3iglkKYqP1sp9jp46ocdi1z",
+                                             encryptionKey: "bhJfhUgosH4dhcyk8zskguwkr4Um6irv")
         log.addDestination(console)
         log.addDestination(platform)
 

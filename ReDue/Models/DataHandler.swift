@@ -8,6 +8,7 @@
 
 import Foundation
 
+/* Handles saving and loading of taks and app-wide settings. */
 class DataHandler {
     
     func saveTasks(_ tasks: [Task]) {

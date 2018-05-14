@@ -143,8 +143,7 @@ class NewTasksViewController: UIViewController, UIScrollViewDelegate {
         let pickerToolBar = UIToolbar()
         pickerToolBar.barStyle = UIBarStyle.default
         pickerToolBar.isTranslucent = true
-        pickerToolBar.barTintColor = colors.main //appData.appColor
-        //pickerToolBar.tintColor = UIColor(red: 76/255, green: 217/255, blue: 100/255, alpha: 1)
+        pickerToolBar.barTintColor = colors.main
         pickerToolBar.sizeToFit()
         
         let doneButton = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.plain, target: self, action: #selector(donePicker))
@@ -154,7 +153,6 @@ class NewTasksViewController: UIViewController, UIScrollViewDelegate {
         pickerToolBar.setItems([cancelButton, spaceButton, doneButton], animated: false)
         
         pickerToolBar.isUserInteractionEnabled = true
-        
         
         timePickerView.dataSource = self
         timePickerView.delegate = self
@@ -182,7 +180,7 @@ class NewTasksViewController: UIViewController, UIScrollViewDelegate {
         // Occurrence rate initialization finished
         //******************************
 
-        let themeColor = colors.main //appData.appColor
+        let themeColor = colors.main
         
         if appData.darknessCheck(for: themeColor) {
             
@@ -208,17 +206,17 @@ class NewTasksViewController: UIViewController, UIScrollViewDelegate {
         prepareDayButtons(for: friday)
         prepareDayButtons(for: saturday)
         
-        createButton.layer.borderColor = colors.main.cgColor //appData.appColor.cgColor
+        createButton.layer.borderColor = colors.main.cgColor
         createButton.layer.borderWidth = 2
         createButton.layer.cornerRadius = 10.0
         
-        createButton.setTitleColor(colors.main /*appData.appColor*/, for: .normal)
+        createButton.setTitleColor(colors.main, for: .normal)
         
     }
     
     func prepareDayButtons(for button: UIButton) {
         
-        let darkerThemeColor = colors.darkMain //appData.appColor.darken(byPercentage: 0.25)
+        let darkerThemeColor = colors.darkMain
         if appData.darknessCheck(for: darkerThemeColor) {
             button.setTitleColor(.white, for: .normal)
         } else {
@@ -226,7 +224,7 @@ class NewTasksViewController: UIViewController, UIScrollViewDelegate {
         }
         
         button.layer.borderWidth = 1
-        button.layer.borderColor = colors.main.cgColor //appData.appColor.cgColor
+        button.layer.borderColor = colors.main.cgColor
         button.tag = 0
     }
     
@@ -247,8 +245,6 @@ class NewTasksViewController: UIViewController, UIScrollViewDelegate {
         
         colors = Colors.init(main: appData.mainColor!, bg: appData.bgColor!, task1: appData.taskColor1!, task2: appData.taskColor2!, progress: appData.progressColor!)
 
-        //let themeColor = colors.main
-        
         let darkerThemeColor = colors.darkMain
         view.backgroundColor = darkerThemeColor
         
@@ -264,7 +260,6 @@ class NewTasksViewController: UIViewController, UIScrollViewDelegate {
                 setTextFieldColor(for: textField, as: .white)
             }
             occurrenceLabel.textColor = .white
-            //            setStatusBarStyle(.lightContent)
 
         } else {
             
@@ -272,7 +267,6 @@ class NewTasksViewController: UIViewController, UIScrollViewDelegate {
                 setTextFieldColor(for: textField, as: .black)
             }
             occurrenceLabel.textColor = .black
-//            setStatusBarStyle(.default)
 
         }
 
@@ -357,19 +351,17 @@ class NewTasksViewController: UIViewController, UIScrollViewDelegate {
     
     func buttonAction(for button: UIButton) {
         
-        let themeColor = colors.main //appData.appColor
+        let themeColor = colors.main
         let darkerThemeColor = colors.darkMain
         
         if button.tag == 0 {
             UIView.animate(withDuration: 0.5, animations: { () -> Void in
                 button.layer.backgroundColor = themeColor.cgColor
-                //button.setTitleColor(UIColor.white, for: .normal)
             })
             button.tag = 1
         } else {
             UIView.animate(withDuration: 0.5, animations: { () -> Void in
                 button.layer.backgroundColor = darkerThemeColor.cgColor
-                //button.setTitleColor(UIColor.black, for: .normal)
             })
             button.tag = 0
         }
@@ -686,8 +678,6 @@ extension NewTasksViewController: UIPickerViewDelegate, UIPickerViewDataSource {
             if let lb = pickerView.view(forRow: row, forComponent: component) as? UILabel {
                 
                 selectedFromPicker = lb
-                //selectedFromPicker.backgroundColor = UIColor.orange
-                //selectedFromPicker.textColor = UIColor.white
                 if component == 0 {
                     selectedFromPicker.text = text + " hours"
                 } else if component == 1 {

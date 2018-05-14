@@ -18,8 +18,16 @@ class Check {
         let today = Date()
         var calendar = Calendar.current
         let timeZoneID = TimeZone.current.identifier
-        let timeZone = TimeZone.abbreviationDictionary.first { $0.value == timeZoneID }
-        calendar.timeZone = TimeZone(abbreviation: timeZone!.key)!
+        let timeFromGMT = TimeZone.current.secondsFromGMT()
+        let timeZoneAbbrev = TimeZone.current.abbreviation()
+        //let timeZoneDict = TimeZone.abbreviationDictionary.first { $0.value == timeZoneID }
+        //let tz = TimeZone(abbreviation: timeZoneDict!.key)!
+        let currentTimeZone = TimeZone(secondsFromGMT: timeFromGMT)
+        if let timeZone = currentTimeZone {
+            calendar.timeZone = timeZone
+        } else {
+            calendar.timeZone = TimeZone.current
+        }
         let currentWeekOfYear = calendar.component(.weekOfYear, from: today)
         
         print("Current week of year is #\(currentWeekOfYear)")
@@ -205,12 +213,11 @@ class Check {
      If it is the same day then do nothing.
      Otherwise create history dicionary with today's date.
      */
-    
     func access(for task: Task, upTo currentDay: Date) -> Bool {
         
         let offsetString = appData.resetOffset
         
-        if let previousAccess = task.previousDates.last { //taskData.taskAccess?.last {
+        if let previousAccess = task.previousDates.last {
             
             // Both give day of week as an int. Check if values match
             let previousAccessDay = getDay(for: previousAccess, with: offsetString)
@@ -265,12 +272,6 @@ class Check {
             offset = 0
         }
         return offset!
-        
-    }
-    
-    func secondsToHoursMinutesSeconds(from seconds: Int) -> (Int, Int, Int) {
-        
-        return (seconds / 3600, (seconds % 3600) / 60, (seconds % 3600) & 60)
         
     }
     

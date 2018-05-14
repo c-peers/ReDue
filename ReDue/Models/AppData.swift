@@ -20,12 +20,12 @@ class AppData: NSObject, NSCoding {
     var colorScheme: [UIColor] = []
     var appColor = FlatSkyBlue()
     
-    var appColorName = "Sky Blue"
+    var appColorName = "Lapis"
     var resetOffset = "12:00"
     
     // Colors
     var mainColor = HexColor("247BA0")
-    var bgColor = HexColor("EEF5DB") /*FlatWhite()*/
+    var bgColor = HexColor("EEF5DB")
     var taskColor1 = HexColor("70C1B3")
     var taskColor2 = HexColor("B2DBBF")
     var progressColor = HexColor("FF1654")
@@ -59,10 +59,10 @@ class AppData: NSObject, NSCoding {
     
     // Vars that holds all task data
     // Used for saving
-    var appSettings = [String : Bool]()
-    var timeSettings = [String : Date]()
-    var colorSettings = [String : UIColor]()
-    var misc = [String : String]()
+    //var appSettings = [String : Bool]()
+    //var timeSettings = [String : Date]()
+    //var colorSettings = [String : UIColor]()
+    //var misc = [String : String]()
     
     //MARK: - Keys
     struct Key {
@@ -85,9 +85,7 @@ class AppData: NSObject, NSCoding {
         static let taskColor2Key = "taskColor2Key"
         static let progressColorKey = "progressColorKey"
 
-        //static let Key = "Key"
     }
-
 
     //MARK: - Archiving Paths
 
@@ -96,17 +94,6 @@ class AppData: NSObject, NSCoding {
     
     //MARK: - Color Functions
 
-    //TODO: Chaff???
-    func loadColors() {
-        
-        if let appColor = colorSettings["appColor"] {
-            self.appColor = appColor
-        }
-        
-        setColorScheme()
-        
-    }
-    
     /* Checks input color and uses a function (found on StackOverflow) to determine the darkness level.
        If that is over 0.5 then we use this to determine whether or not to set the text to white. */
     func darknessCheck(for color: UIColor?) -> Bool {
@@ -119,36 +106,6 @@ class AppData: NSObject, NSCoding {
         let darkness = 1 - ( 0.299 * r + 0.587 * g + 0.114 * b)
         
         return darkness > 0.5
-        
-    }
-    
-    //TODO: Chaff???
-    func setColorScheme() {
-        colorScheme = ColorSchemeOf(.complementary, color: appColor, isFlatScheme: true)
-        colorScheme.remove(at: 2)
-    }
-    
-    //TODO: Chaff???
-    func setAppValues() {
-        
-        var defaultReset = DateComponents()
-        defaultReset.year = Calendar.current.component(.year, from: Date())
-        defaultReset.month = Calendar.current.component(.month, from: Date())
-        defaultReset.day = Calendar.current.component(.day, from: Date())
-        defaultReset.hour = 2
-        defaultReset.minute = 0
-        defaultReset.second = 0
-        
-        //taskResetTime = timeSettings["taskResetTime"]!
-        taskResetTime = Calendar.current.date(from: defaultReset)!
-        taskLastTime = timeSettings["taskLastTime"] ?? Date()
-        taskCurrentTime = timeSettings["taskCurrentTime"] ?? Date()
-        
-        isFullVersion = appSettings["isFullVersion"] ?? false
-        isNightMode = appSettings["isNightMode"] ?? false
-        usesCircularProgress = appSettings["usesCircularProgress"] ?? false
-        appColorName = misc["ColorName"] ?? "Lapis"
-        resetOffset = misc["ResetOffset"] ?? "12:00"
         
     }
     
@@ -178,7 +135,6 @@ class AppData: NSObject, NSCoding {
         let taskCurrentTime = aDecoder.decodeObject(forKey: Key.taskCurrentTimeKey) as? Date ?? Date()
 
         let appColor = aDecoder.decodeObject(forKey: Key.appColorKey) as? UIColor ?? FlatSkyBlue()
-        
         let appColorName = aDecoder.decodeObject(forKey: Key.appColorNameKey) as? String ?? "Lapis"
 
         let resetOffset = aDecoder.decodeObject(forKey: Key.resetOffsetKey) as? String  ?? "12:00"
@@ -221,7 +177,7 @@ class AppData: NSObject, NSCoding {
         
     }
     
-    init(appSettings: [String : Bool], timeSettings: [String : Date], colorSettings: [String : UIColor], misc: [String : String]) {
+    /*init(appSettings: [String : Bool], timeSettings: [String : Date], colorSettings: [String : UIColor], misc: [String : String]) {
         
         self.appSettings = appSettings
         self.timeSettings = timeSettings
@@ -230,16 +186,9 @@ class AppData: NSObject, NSCoding {
         self.resetOffset = misc["ResetOffset"]!
         
     }
-    
+    */
     override init() {
         super.init()
-        
-        if let appColor = colorSettings["appColor"] {
-            self.appColor = appColor
-        }
-        
-        setColorScheme()
-        
     }
     
 }

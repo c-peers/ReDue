@@ -116,16 +116,6 @@ class CountdownTimer: NSObject {
         
         return remainingTimeAsString
     }
-
-//    func getWeightedTime(for task: String) -> (Double, Double) {
-//
-//        let taskTime = taskData.taskTime
-//        let rolloverMultiplier = taskData.rolloverMultiplier
-//        let rolloverTime = taskData.rolloverTime
-//
-//        return (taskTime, taskTime + (rolloverTime * rolloverMultiplier))
-//
-//    }
     
     // MARK: - Audio and Vibration Functions
     

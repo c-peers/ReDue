@@ -21,40 +21,6 @@ class ColorSettingsViewController: UITableViewController {
     var colors = Colors(main: HexColor("247BA0")!, bg: FlatWhite(), task1: HexColor("70C1B3")!, task2: HexColor("B2DBBF")!, progress: HexColor("FF1654")!)
     
     var colorList = [String]()
-//                  "Blue",
-//                  "Brown",
-//                  "Coffee",
-//                  "Forest Green",
-//                  "Gray",
-//                  "Green",
-//                  "Magenta",
-//                  "Maroon",
-//                  "Mint",
-//                  "Navy Blue",
-//                  "Pink",
-//                  "Powder Blue",
-//                  "Purple",
-//                  "Red",
-//                  "Sand",
-//                  "Sky Blue",
-//                  "Teal",
-//                  "Watermelon",
-//                  "White",
-//                  "Dark Blue",
-//                  "Dark Coffee",
-//                  "Dark Gray",
-//                  "Dark Green",
-//                  "Dark Magenta",
-//                  "Dark Mint",
-//                  "Dark Orange",
-//                  "Dark Pink",
-//                  "Dark Powder Blue",
-//                  "Dark Purple",
-//                  "Dark Red",
-//                  "Dark Sand",
-//                  "Dark Sky Blue",
-//                  "Dark Teal",
-//                  "Dark Watermelon"]
     
     // MARK: - UIViewController
     
@@ -84,9 +50,9 @@ class ColorSettingsViewController: UITableViewController {
         
         darkness(check: colors.main)
         
-        let darkerThemeColor = colors.bg //appData.appColor.darken(byPercentage: 0.25)
+        let darkerThemeColor = colors.bg
         tableView.backgroundColor = darkerThemeColor
-        tableView.separatorColor = colors.bg.darken(byPercentage: Colors.colorLevel4) //appData.appColor.darken(byPercentage: 0.6)
+        tableView.separatorColor = colors.bg.darken(byPercentage: Colors.colorLevel4)
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -115,8 +81,6 @@ class ColorSettingsViewController: UITableViewController {
         
         tableView.deselectRow(at: indexPath, animated: true)
    
-        //setColor(as: colors[indexPath.row])
-        
         print(colorList[indexPath.row])
         
     }
@@ -135,12 +99,12 @@ class ColorSettingsViewController: UITableViewController {
         let enumValue = findTheme(for: camelCase)
         let theme = enumValue.getColors()
         
-        if theme.main == appData.mainColor { //appData.appColor {
+        if theme.main == appData.mainColor {
             cell.accessoryType = .checkmark
             previousCellIndex = indexPath
         }
         
-        let darkerThemeColor = colors.bg //appData.appColor.darken(byPercentage: 0.25)
+        let darkerThemeColor = colors.bg
         cell.backgroundColor = darkerThemeColor
         if appData.darknessCheck(for: darkerThemeColor) {
             cell.textLabel?.textColor = .white
@@ -151,109 +115,6 @@ class ColorSettingsViewController: UITableViewController {
         return cell
     }
         
-    func setColor(as color: String) {
-    
-        if color.range(of:"Dark") == nil {
-            switch color {
-            case "Black":
-                selectedColor = FlatBlack()
-            case "Blue":
-                selectedColor = FlatBlue()
-            case "Brown":
-                selectedColor = FlatBrown()
-            case "Coffee":
-                selectedColor = FlatCoffee()
-            case "Forest Green":
-                selectedColor = FlatForestGreen()
-            case "Gray":
-                selectedColor = FlatGray()
-            case "Green":
-                selectedColor = FlatGreen()
-            case "Magenta":
-                selectedColor = FlatMagenta()
-            case "Maroon":
-                selectedColor = FlatMaroon()
-            case "Mint":
-                selectedColor = FlatMint()
-            case "Navy Blue":
-                selectedColor = FlatNavyBlue()
-            case "Orange":
-                selectedColor = FlatOrange()
-            case "Pink":
-                selectedColor = FlatPink()
-            case "Plum":
-                selectedColor = FlatPlum()
-            case "Powder Blue":
-                selectedColor = FlatPowderBlue()
-            case "Purple":
-                selectedColor = FlatPurple()
-            case "Red":
-                selectedColor = FlatRed()
-            case "Sand":
-                selectedColor = FlatSand()
-            case "Sky Blue":
-                selectedColor = FlatSkyBlue()
-            case "Teal":
-                selectedColor = FlatTeal()
-            case "Watermelon":
-                selectedColor = FlatWatermelon()
-            case "White":
-                selectedColor = FlatWhite()
-            case "Yellow":
-                selectedColor = FlatYellow()
-            default:
-                selectedColor = FlatBlue()
-            }
-        } else {
-            switch color {
-            case "Dark Black":
-                selectedColor = FlatBlackDark()
-            case "Dark Blue":
-                selectedColor = FlatBlueDark()
-            case "Dark Brown":
-                selectedColor = FlatBrownDark()
-            case "Dark Coffee":
-                selectedColor = FlatCoffeeDark()
-            case "Dark Forest Green":
-                selectedColor = FlatForestGreenDark()
-            case "Dark Gray":
-                selectedColor = FlatGrayDark()
-            case "Dark Green":
-                selectedColor = FlatGreenDark()
-            case "Dark Magenta":
-                selectedColor = FlatMagentaDark()
-            case "Dark Maroon":
-                selectedColor = FlatMaroonDark()
-            case "Dark Mint":
-                selectedColor = FlatMintDark()
-            case "Dark Orange":
-                selectedColor = FlatOrangeDark()
-            case "Dark Pink":
-                selectedColor = FlatPinkDark()
-            case "Dark Plum":
-                selectedColor = FlatPlumDark()
-            case "Dark Powder Blue":
-                selectedColor = FlatPowderBlueDark()
-            case "Dark Purple":
-                selectedColor = FlatPurpleDark()
-            case "Dark Red":
-                selectedColor = FlatRedDark()
-            case "Dark Sand":
-                selectedColor = FlatSandDark()
-            case "Dark Sky Blue":
-                selectedColor = FlatSkyBlueDark()
-            case "Dark Teal":
-                selectedColor = FlatTealDark()
-            case "Dark Watermelon":
-                selectedColor = FlatWatermelonDark()
-            default:
-                selectedColor = FlatBlue()
-            }
-            
-        }
-        
-    }
-    
     func findTheme(for string: String) -> ThemeColors {
         
         let camelCase = string.wordsToCamelCase()

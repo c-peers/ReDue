@@ -157,35 +157,35 @@ extension ThemeColors {
     func getColors() -> Theme {
         switch self {
         case .lapis:
-            return Theme(name: "Lapis", main: HexColor("247BA0")!, bg: HexColor("EEF5DB")! /*FlatWhite()*/, task1:
+            return Theme(name: "Lapis", main: HexColor("247BA0")!, bg: HexColor("EEF5DB")!, task1:
                 HexColor("70C1B3")!, task2: HexColor("B2DBBF")!, progress:
                 HexColor("FF1654")!)
         case .desire:
-            return Theme(name: "Desire", main: HexColor("E63946")!, bg: HexColor("EEF5DB")! /*FlatWhite()*/, task1:
+            return Theme(name: "Desire", main: HexColor("E63946")!, bg: HexColor("EEF5DB")!, task1:
                 HexColor("A8DADC")!, task2: HexColor("457B9D")!, progress:
                 HexColor("1D3557")!)
         case .gunmetal:
-            return Theme(name: "Gunmetal", main: HexColor("2B2D42")!, bg: HexColor("EEF5DB")! /*FlatWhite()*/, task1:
+            return Theme(name: "Gunmetal", main: HexColor("2B2D42")!, bg: HexColor("EEF5DB")!, task1:
                 HexColor("EF233C")!, task2: HexColor("D90429")!, progress:
                 HexColor("8D99AE")!)
         case .malachite:
-            return Theme(name: "Malachite", main: HexColor("20BF55")!, bg: HexColor("EEF5DB")! /*FlatWhite()*/, task1:
+            return Theme(name: "Malachite", main: HexColor("20BF55")!, bg: HexColor("EEF5DB")!, task1:
                 HexColor("0B4F6C")!, task2: HexColor("01BAEF")!, progress:
                 HexColor("757575")!)
         case .cerulean:
-            return Theme(name: "Cerulean", main: HexColor("083D77")!, bg: HexColor("EEF5DB")! /*FlatWhite()*/, task1:
+            return Theme(name: "Cerulean", main: HexColor("083D77")!, bg: HexColor("EEF5DB")!, task1:
                 HexColor("F4D35E")!, task2: HexColor("EE964B")!, progress:
                 HexColor("F95738")!)
         case .maastricht:
-            return Theme(name: "Maastricht", main: HexColor("0E103D")!, bg: HexColor("EEF5DB")! /*FlatWhite()*/, task1:
+            return Theme(name: "Maastricht", main: HexColor("0E103D")!, bg: HexColor("EEF5DB")!, task1:
                 HexColor("A5668B")!, task2: HexColor("69306D")!, progress:
                 HexColor("D3BCC0")!)
         case .burgundy:
-            return Theme(name: "Burgundy", main: HexColor("472D30")!, bg: HexColor("EEF5DB")! /*FlatWhite()*/, task1:
+            return Theme(name: "Burgundy", main: HexColor("472D30")!, bg: HexColor("EEF5DB")!, task1:
                 HexColor("E26D5C")!, task2: HexColor("723D46")!, progress:
                 HexColor("C9CBA3")!)
         case .lightOchre:
-            return Theme(name: "Light Ochre", main: HexColor("EC7357")!, bg: HexColor("EEF5DB")! /*FlatWhite()*/, task1:
+            return Theme(name: "Light Ochre", main: HexColor("EC7357")!, bg: HexColor("EEF5DB")!, task1:
                 HexColor("E1CE7A")!, task2: HexColor("FDD692")!, progress:
                 HexColor("754F44")!)
         }
@@ -195,12 +195,12 @@ extension ThemeColors {
 struct Theme {
     var name = "lapis"
     var main = HexColor("247BA0")
-    var bg = HexColor("EEF5DB") /*FlatWhite()*/
+    var bg = HexColor("EEF5DB")
     var task1 = HexColor("70C1B3")
     var task2 = HexColor("B2DBBF")
     var progress = HexColor("FF1654")
 
-    init(name: String, main: UIColor, bg: UIColor, task1: UIColor, task2: UIColor, progress: UIColor) {
+    init(name: String, main: UIColor, bg: UIColor = HexColor("EEF5DB")!, task1: UIColor, task2: UIColor, progress: UIColor) {
         self.name = name
         self.main = main
         self.bg = bg
@@ -208,81 +208,8 @@ struct Theme {
         self.task2 = task2
         self.progress = progress
     }
+    
+    
+    
 }
 
-extension ThemeColor {
-    var value: UIColor {
-        get {
-            switch self {
-            case .blue:
-                return FlatBlue()
-            case .brown:
-                return FlatBrown()
-            case .coffee:
-                return FlatCoffee()
-            case .forestGreen:
-                return FlatForestGreen()
-            case .gray:
-                return FlatGray()
-            case .green:
-                return FlatGreen()
-            case .magenta:
-                return FlatMagenta()
-            case .maroon:
-                return FlatMaroon()
-            case .mint:
-                return FlatMint()
-            case .navyBlue:
-                return FlatNavyBlue()
-            case .pink:
-                return FlatPink()
-            case .powderBlue:
-                return FlatPowderBlue()
-            case .purple:
-                return FlatPurple()
-            case .red:
-                return FlatRed()
-            case .sand:
-                return FlatSand()
-            case .skyBlue:
-                return FlatSkyBlue()
-            case .teal:
-                return FlatTeal()
-            case .watermelon:
-                return FlatWatermelon()
-            case .white:
-                return FlatWhite()
-            case .darkBlue:
-                return FlatBlueDark()
-            case .darkCoffee:
-                return FlatCoffeeDark()
-            case .darkGray:
-                return FlatGrayDark()
-            case .darkGreen:
-                return FlatGreenDark()
-            case .darkMagenta:
-                return FlatMagentaDark()
-            case .darkMint:
-                return FlatMintDark()
-            case .darkOrange:
-                return FlatOrangeDark()
-            case .darkPink:
-                return FlatPinkDark()
-            case .darkPowderBlue:
-                return FlatPowderBlueDark()
-            case .darkPurple:
-                return FlatPurpleDark()
-            case .darkRed:
-                return FlatRedDark()
-            case .darkSand:
-                return FlatSandDark()
-            case .darkSkyBlue:
-                return FlatSkyBlueDark()
-            case .darkTeal:
-                return FlatTealDark()
-            case .darkWatermelon:
-                return FlatWatermelonDark()
-            }
-        }
-    }
-}

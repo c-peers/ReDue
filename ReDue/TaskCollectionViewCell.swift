@@ -33,7 +33,6 @@ class TaskCollectionViewCell: UICollectionViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
     }
     
     /* When the start button is pressed the following occurs
@@ -50,9 +49,6 @@ class TaskCollectionViewCell: UICollectionViewCell {
             timer.firedFromMainVC = true
             
             setImage(as: #imageLiteral(resourceName: "Pause"))
-            //let stencil = #imageLiteral(resourceName: "Pause").withRenderingMode(.alwaysTemplate)
-            //cell.playStopButton.setImage(#imageLiteral(resourceName: "Pause"), for: .normal)
-            //cell.playStopButton.tintColor = UIColor.white
             
             let weightedTime = task.weightedTime
             let elapsedTime = task.completed.rounded()
@@ -79,7 +75,6 @@ class TaskCollectionViewCell: UICollectionViewCell {
         } else {
             
             setImage(as: #imageLiteral(resourceName: "Play"))
-            //cell.playStopButton.setImage(#imageLiteral(resourceName: "Play"), for: .normal)
             
             if id == "taskCollectionCell_Circle" {
                 timerStopped(for: task, ofType: .circular)
@@ -183,8 +178,6 @@ class TaskCollectionViewCell: UICollectionViewCell {
         if type == .line || type == nil {
             progressView.setProgress(currentProgress, animated: true)
             //progressView.progress = currentProgress
-            //TaskViewController.calculateProgress()
-            //progressView.setProgress(currentProgress, animated: true)
         } else if type == .circular {
             circleProgressView.progress = Double(currentProgress)
         }
@@ -223,7 +216,6 @@ class TaskCollectionViewCell: UICollectionViewCell {
             taskTimeRemaining.text = "Complete"
             
             setImage(as: #imageLiteral(resourceName: "Play"))
-            //cell.playStopButton.setImage(#imageLiteral(resourceName: "Play"), for: .normal)
             playStopButton.isEnabled = false
             
             timer.cancelMissedTimeNotification(for: taskName)
@@ -358,8 +350,4 @@ class TaskCollectionViewCell: UICollectionViewCell {
         isObserverSet = false
     }
     
-//    deinit {
-//        self.removeObserver(self, forKeyPath: #keyPath(timer.runningCompletedTime))
-//    }
-
 }

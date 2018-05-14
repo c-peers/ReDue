@@ -140,7 +140,6 @@ class TaskSettingsViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillBeHidden), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
         
         //let iOSDefaultBlue = UIButton(type: UIButtonType.system).titleColor(for: .normal)!
-        //rolloverSlider.tintColor = FlatSkyBlueDark()
         rolloverSlider.minimumValue = 0.0
         rolloverSlider.maximumValue = 2.5
         
@@ -195,7 +194,7 @@ class TaskSettingsViewController: UIViewController {
         //******************************
 
         
-        let themeColor = colors.main //appData.appColor
+        let themeColor = colors.main
         
         if appData.darknessCheck(for: themeColor) {
             decimalPadToolBar.tintColor = UIColor.white
@@ -203,11 +202,11 @@ class TaskSettingsViewController: UIViewController {
             decimalPadToolBar.tintColor = UIColor.black
         }
         
-        completeButton.layer.borderColor = colors.main.cgColor //appData.appColor.cgColor
+        completeButton.layer.borderColor = colors.main.cgColor
         completeButton.layer.borderWidth = 2
         completeButton.layer.cornerRadius = 10.0
         
-        completeButton.setTitleColor(colors.main /*appData.appColor*/, for: .normal)
+        completeButton.setTitleColor(colors.main, for: .normal)
 
     }
     
@@ -365,11 +364,6 @@ class TaskSettingsViewController: UIViewController {
         if vibrateAlertChanged {
             task.vibrateAlert = vibrate
         }
-
-        //        if let frequency = occurrenceRateTextField.text {
-//            taskData.taskFrequency = Double(frequency)!
-//            occurranceRate = Double(frequency)!
-//        }
         
         vc.title = task.name
         vc.task = task
@@ -389,7 +383,6 @@ class TaskSettingsViewController: UIViewController {
         //let cell = vc.taskList.cellForItem(at: indexPath) as! TaskCollectionViewCell
         //cell.taskNameField.text = task.name
         
-
     }
     
     //MARK: - Setup Functions
@@ -399,7 +392,7 @@ class TaskSettingsViewController: UIViewController {
         let pickerToolBar = UIToolbar()
         pickerToolBar.barStyle = UIBarStyle.default
         pickerToolBar.isTranslucent = true
-        pickerToolBar.barTintColor = colors.main //appData.appColor
+        pickerToolBar.barTintColor = colors.main
         pickerToolBar.sizeToFit()
         
         let doneButton = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.plain, target: self, action: #selector(donePicker))
@@ -410,7 +403,7 @@ class TaskSettingsViewController: UIViewController {
         
         pickerToolBar.isUserInteractionEnabled = true
         
-        let themeColor = colors.main //appData.appColor
+        let themeColor = colors.main
         
         if appData.darknessCheck(for: themeColor) {
             pickerToolBar.tintColor = UIColor.white
@@ -444,7 +437,6 @@ class TaskSettingsViewController: UIViewController {
         
         colors = Colors.init(main: appData.mainColor!, bg: appData.bgColor!, task1: appData.taskColor1!, task2: appData.taskColor2!, progress: appData.progressColor!)
         
-        //let themeColor = colors.main
         let darkerThemeColor = colors.darkMain
         
         view.backgroundColor = darkerThemeColor
@@ -465,7 +457,6 @@ class TaskSettingsViewController: UIViewController {
             occurrenceLabel.textColor = .white
             rolloverRateLabel.textColor = .white
             rolloverSliderValueLabel.textColor = .white
-            //            setStatusBarStyle(.lightContent)
             
         } else {
             
@@ -475,7 +466,6 @@ class TaskSettingsViewController: UIViewController {
             occurrenceLabel.textColor = .black
             rolloverRateLabel.textColor = .black
             rolloverSliderValueLabel.textColor = .black
-            //            setStatusBarStyle(.default)
             
         }
         
@@ -489,7 +479,7 @@ class TaskSettingsViewController: UIViewController {
     
     func prepareDayButton(_ button: UIButton) {
 
-        let darkerThemeColor = colors.darkMain //appData.appColor.darken(byPercentage: 0.25)
+        let darkerThemeColor = colors.darkMain
         if appData.darknessCheck(for: darkerThemeColor) {
             button.setTitleColor(.white, for: .normal)
         } else {
@@ -497,7 +487,7 @@ class TaskSettingsViewController: UIViewController {
         }
         
         button.layer.borderWidth = 1
-        button.layer.borderColor = colors.main.cgColor //appData.appColor.cgColor
+        button.layer.borderColor = colors.main.cgColor
         button.tag = 0
     }
     
@@ -529,7 +519,6 @@ class TaskSettingsViewController: UIViewController {
         }
         
         alertTextField.text = timer.setAlertText(for: audio, and: vibrate)
-        
         
         rolloverSlider.value = Float(multiplier)
         let sliderValueAsString = String(rolloverSlider.value)
@@ -638,25 +627,23 @@ class TaskSettingsViewController: UIViewController {
     }
     
     func setButtonOn(for button: UIButton) {
-        button.layer.backgroundColor = colors.main.cgColor //self.appData.appColor.cgColor
+        button.layer.backgroundColor = colors.main.cgColor
         button.setTitleColor(UIColor.white, for: .normal)
     }
     
     func buttonAction(for button: UIButton) {
         
-        let themeColor = colors.main //appData.appColor
+        let themeColor = colors.main
         let darkerThemeColor = colors.darkMain
         
         if button.tag == 0 {
             UIView.animate(withDuration: 0.5, animations: { () -> Void in
                 button.layer.backgroundColor = themeColor.cgColor
-                //button.setTitleColor(UIColor.white, for: .normal)
             })
             button.tag = 1
         } else {
             UIView.animate(withDuration: 0.5, animations: { () -> Void in
                 button.layer.backgroundColor = darkerThemeColor.cgColor
-                //button.setTitleColor(UIColor.black, for: .normal)
             })
             button.tag = 0
         }
@@ -1087,8 +1074,6 @@ extension TaskSettingsViewController: UIPickerViewDataSource, UIPickerViewDelega
             if let lb = pickerView.view(forRow: row, forComponent: component) as? UILabel {
                 
                 selectedFromPicker = lb
-                //selectedFromPicker.backgroundColor = UIColor.orange
-                //selectedFromPicker.textColor = UIColor.white
                 if component == 0 {
                     selectedFromPicker.text = text + " hours"
                 } else if component == 1 {

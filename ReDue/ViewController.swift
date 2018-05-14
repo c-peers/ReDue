@@ -49,6 +49,7 @@ class TaskViewController: UIViewController, GADBannerViewDelegate {
     lazy var adBannerView: GADBannerView = {
         let adBannerView = GADBannerView(adSize: kGADAdSizeSmartBannerPortrait)
         adBannerView.adUnitID = "ca-app-pub-3446210370651273/5359231299"
+        //adBannerView.adUnitID = "ca-app-pub-3446210370651273/5526112240"
         adBannerView.delegate = self
         adBannerView.rootViewController = self
 
@@ -111,12 +112,12 @@ class TaskViewController: UIViewController, GADBannerViewDelegate {
         prepareNavBar()
         
         // Hide ads if full version
-        //if !appData.isFullVersion {
+        if !appData.isFullVersion {
             adView.alpha = 0
             let request = GADRequest()
             //request.testDevices = [kGADSimulatorID]
             adBannerView.load(request)
-        //}
+        }
         
         // Offset times so that reset always occurs at "midnight" for easy calculation
         now = currentTimeIs()
@@ -147,7 +148,6 @@ class TaskViewController: UIViewController, GADBannerViewDelegate {
     override func viewWillAppear(_ animated: Bool) {
         
         print("Main - viewWillAppear")
-        appData.setColorScheme()
         setTheme()
         
         if appData.isFullVersion {
@@ -612,6 +612,9 @@ class TaskViewController: UIViewController, GADBannerViewDelegate {
 
     func adView(_ bannerView: GADBannerView, didFailToReceiveAdWithError error: GADRequestError) {
         print("Fail to receive ads")
+        print(error)
+        log.error("Fail to receive ads")
+        log.error(error)
     }
     
     //MARK: - Navigation
@@ -769,6 +772,9 @@ extension TaskViewController: UICollectionViewDelegate, UICollectionViewDataSour
             
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier!, for: indexPath as IndexPath) as! TaskCollectionViewCell
             
+            //  Needed so that iOS 10 and iOS 11 collectionViews have same insets
+            collectionView.contentInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+            
             setupCollectionCell(for: cell, ofType: .line, at: indexPath)
             
             return cell
@@ -793,7 +799,6 @@ extension TaskViewController: UICollectionViewDelegate, UICollectionViewDataSour
         print("Selected task is \(task.name)")
         
         presentTaskDetailVC()
-        //performSegue(withIdentifier: "taskDetailSegue", sender: self)
         
     }
     
@@ -893,18 +898,6 @@ extension TaskViewController: UICollectionViewDelegate, UICollectionViewDataSour
         cell.buttonBackground.backgroundColor = cellBGColor.darken(byPercentage: 0.2)
         cell.buttonBackground.layer.cornerRadius = cell.buttonBackground.frame.size.width / 2
         cell.buttonBackground.clipsToBounds = true
-        //cell.buttonBackground.addSubview(cell.playStopButton)
-        
-        //cell.playStopButton.addSubview(cell.buttonBackground)
-        //cell.playStopButton.sendSubview(toBack: cell.buttonBackground)
-        
-//        if appData.darknessCheck(for: cellBGColor) {
-//            cell.taskNameField.textColor = .white
-//            cell.taskTimeRemaining.textColor = .white
-//        } else {
-//            cell.taskNameField.textColor = .black
-//            cell.taskTimeRemaining.textColor = .black
-//        }
         
         /* Still not sure if I will use this
            Leaving in for now
@@ -944,7 +937,7 @@ extension TaskViewController: UICollectionViewDelegate, UICollectionViewDataSour
             setBorder(for: cell.layer, borderWidth: 2.0, borderColor: UIColor.clear.cgColor, radius: 10.0)
 
             cell.layer.shadowColor = UIColor.black.cgColor
-            cell.layer.shadowOffset = CGSize(width: 6.0, height: 5.0)// CGSize.zero
+            cell.layer.shadowOffset = CGSize(width: 6.0, height: 5.0)
             cell.layer.shadowRadius = 2.0
             cell.layer.shadowOpacity = 0.5
 
@@ -973,7 +966,6 @@ extension TaskViewController: UICollectionViewDelegate, UICollectionViewDataSour
             cell.progressView.clipsToBounds = true
             
             cell.progressView.isHidden = false
-            //cell.circleProgressView.isHidden = true
             
         } else if type == .circular {
             
@@ -983,7 +975,6 @@ extension TaskViewController: UICollectionViewDelegate, UICollectionViewDataSour
             cell.circleProgressView.progress = 0.0
             cell.calculateProgress(ofType: .circular)
 
-            //cell.progressView.isHidden = true
             cell.circleProgressView.isHidden = false
             
         }
@@ -1042,7 +1033,6 @@ extension TaskViewController: UICollectionViewDelegate, UICollectionViewDataSour
      */
     func showNextRunDate(in cell: TaskCollectionViewCell, for task: Task) {
         
-        //let nextRunWeek = task.runWeek
         var nextRunDay = "EMPTY"
         
         let dateFormatter = DateFormatter()
@@ -1087,10 +1077,6 @@ extension TaskViewController: UICollectionViewDelegate, UICollectionViewDataSour
         let mmdd = dateFormatter.string(from: calculatedNextRunDay!)
         print(calculatedNextRunDay!)
         
-//        var comps = calendar.dateComponents([.weekOfYear, .yearForWeekOfYear], from: Date())
-//        comps.weekday = 2 // Monday
-//        let mondayInWeek = calendar.date(from: comps)!
-        
         dateFormatter.dateFormat = "EEEE"
         if nextRunDay == dateFormatter.string(from: calculatedNextRunDay!) {
             dateFormatter.dateFormat = "EEE"
@@ -1121,20 +1107,6 @@ extension UIProgressView {
         }
     }
 }
-
-//extension UIImage{
-//
-//    func resizeImageWith(ratio: CGFloat) -> UIImage {
-//
-//        let newSize = CGSize(width: size.width * ratio, height: size.height * ratio)
-//        UIGraphicsBeginImageContextWithOptions(newSize, false, 0)
-//        draw(in: CGRect(origin: CGPoint(x: 0, y: 0), size: newSize))
-//        let newImage = UIGraphicsGetImageFromCurrentImageContext()
-//        UIGraphicsEndImageContext()
-//        return newImage!
-//    }
-//
-//}
 
 //MARK: - Testing Extension
 

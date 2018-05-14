@@ -140,6 +140,7 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
         
         if !appData.isFullVersion {
             bannerView.adUnitID = "ca-app-pub-3446210370651273/3283732299"
+            //bannerView.adUnitID = "ca-app-pub-3446210370651273/9269916133"
             bannerView.rootViewController = self
             let request = GADRequest()
             request.testDevices = [kGADSimulatorID]
@@ -159,7 +160,8 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
 
     }
     
-    /* */
+    /* When view will disappear remove observer if set
+       and update the cell on the main task screen. */
     override func viewWillDisappear(_ animated: Bool) {
         
         let vc = self.navigationController?.viewControllers.first as! TaskViewController
@@ -175,6 +177,7 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
             }
         }
         
+        /* Update cell only if task is happening today */
         if task.isToday || task.willRunOnOffDay {
             updateTaskCell()
         }
@@ -227,10 +230,8 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
        and then the user moved to the task detail VC
        Follows timer.elapsedTime */
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-        //if keyPath == #keyPath(taskData.completedTime) {
         // Update Time Label
         formatTimer()
-        //}
     }
     
     /* If not running: returns time - completed
@@ -251,7 +252,6 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
                The var below exists JUST for that reason */
             if !timer.firedFromMainVC {
                 timer.runningCompletedTime = elapsedTime.rounded()
-                //task.completed = elapsedTime
             }
         }
         
@@ -322,11 +322,7 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
             task.completed = task.weightedTime
         }
         
-        //if elapsedTime > task.weightedTime {
-        //    elapsedTime = task.weightedTime
-        //}
-        
-        
+        // The task is completed.
         if task.completed >= task.weightedTime {
             
             if task.vibrateAlert != .off /*.none*/ {
@@ -337,6 +333,9 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
                 timer.playAudio(for: task)
             }
             
+        /* There is still time left.
+           Start missed notification with remaining time.
+           Will fire only if task is not completed before reset time. */
         } else {
             let mainVC = self.navigationController?.viewControllers.first as! TaskViewController
             let resetTime = check.timeToReset(at: mainVC.nextResetTime)
@@ -345,6 +344,7 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
             timer.setMissedTimeNotification(for: task.name, at: resetTime, withRemaining: remainingTimeString)
         }
         
+        // Set history
         if let date = task.getAccessDate(lengthFromEnd: 0) {
             task.completedTimeHistory[date]! += elapsedTime
             
@@ -364,6 +364,7 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
         
     }
     
+    /* Turn off flags when timer is not running */
     func taskHasStopped() {
         task.isRunning = false
         timer.isEnabled = false
@@ -371,14 +372,15 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
         
     }
     
+    /* Sets text, buttons, etc. on task cell if it will run. */
     func updateTaskCell() {
 
         let vc = self.navigationController?.viewControllers.first as! TaskViewController
         guard let taskIndex = vc.tasks.index(of: task) else { return }
         let indexPath = IndexPath(item: taskIndex, section: 0)
         let cell = vc.taskList.cellForItem(at: indexPath) as! TaskCollectionViewCell
-        
         //let cell = presentingCell
+        
         cell.taskNameField.text = task.name
         _ = cell.formatTimer(for: task)
         
@@ -408,26 +410,15 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
         colors = Colors.init(main: appData.mainColor!, bg: appData.bgColor!, task1: appData.taskColor1!, task2: appData.taskColor2!, progress: appData.progressColor!)
         
         if appData.isNightMode {
-            //NightNight.theme = .night
         } else {
-            //NightNight.theme = .normal
         }
         
-        let navigationBar = navigationController?.navigationBar
-        let bgColor = navigationBar?.barTintColor
+        //let navigationBar = navigationController?.navigationBar
+        //let barColor = navigationBar?.barTintColor
         
-        //let darkerThemeColor = colors.darkMain
         view.backgroundColor = colors.bg
 
-        if appData.darknessCheck(for: bgColor) {
-            navigationBar?.tintColor = .white
-            navigationBar?.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.white]
-            setStatusBarStyle(.lightContent)
-        } else {
-            navigationBar?.tintColor = .black
-            navigationBar?.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.black]
-            setStatusBarStyle(.default)
-        }
+        darkness(check: colors.main)
         
         if appData.darknessCheck(for: view.backgroundColor) {
             taskTimeLabel.textColor = .white
@@ -445,6 +436,7 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
 
     //MARK: - Button Related Functions
     
+    /* Sets play button color to white */
     func setImage(as image: UIImage) {
         let stencil = image.withRenderingMode(.alwaysTemplate)
         taskStartButton.setImage(stencil, for: .normal)
@@ -452,19 +444,22 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
         
     }
     
+    /* Start button related commands that regulate appearance. */
     func startButtonSetup() {
         
         taskStartButton.layer.cornerRadius = 10.0
         taskStartButton.layer.masksToBounds = true
         
-        taskStartButton.layer.shadowColor = UIColor.lightGray.cgColor
-        taskStartButton.layer.shadowOffset = CGSize.zero
+        taskStartButton.layer.shadowColor = UIColor.black.cgColor
+        taskStartButton.layer.shadowOffset = CGSize(width: 6.0, height: 5.0)
         taskStartButton.layer.shadowRadius = 2.0
-        taskStartButton.layer.shadowOpacity = 2.0
+        taskStartButton.layer.shadowOpacity = 0.5
+        
         taskStartButton.layer.shadowPath = UIBezierPath(roundedRect: taskStartButton.layer.bounds, cornerRadius: taskStartButton.layer.cornerRadius).cgPath
+        taskStartButton.layer.masksToBounds = false
         
         setImage(as: #imageLiteral(resourceName: "Play"))
-        taskStartButton.backgroundColor = colors.main //appData.appColor
+        taskStartButton.backgroundColor = colors.main
         
     }
     
@@ -521,6 +516,8 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
         
     }
     
+    /* Pop an alert when the rollover reset button is tapped
+       to ask for confirmation. Reset if confirmed. */
     @IBAction func resetRolloverTapped(_ sender: UIButton) {
         popAlert(forType: .reset)
     }
@@ -532,6 +529,7 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
         
     }
 
+    /* Go to stats only if IAP is purchased. */
     @objc func statsTapped() {
         
         if appData.isFullVersion {
@@ -544,12 +542,15 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
         
     }
 
+    /* Pop an alert before deleting.
+       Delete task if confirmed. */
     @objc func trashTapped() {
         
         print("Erase Task")
         popAlert(forType: .delete)
     }
     
+    /* Make the rollover reset button visible or invisible */
     func rolloverButton(is visible: Visible) {
         let isHidden = !(visible == .visible)
         UIView.animate(withDuration: 0.5, animations: {
@@ -557,7 +558,6 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
             self.resetRolloverButton.alpha = isHidden ? 0:1
         })
 
-        
     }
     
     /* When tapped show popup to confirm.
@@ -601,6 +601,11 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
         taskChartSetup()
         loadChartData()
 
+        /* Show or hide rollover reset button.
+           Criteria is
+           1. a non-running task
+           2. happening today
+           3. with remaining time greater than the usual task time */
         let (_, remainingTime) = timer.formatTimer(for: task)
         if task.rollover > 0 && remainingTime > task.time && !task.isRunning && (task.isToday || task.willRunOnOffDay) {
             rolloverButton(is: .visible)
@@ -610,7 +615,7 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
 
     }
     
-    
+    /* Shared alert function. Output changes based on the alert type. */
     func popAlert(forType type: AlertType, completion: (() -> Void)? = nil) {
         
         let title: String
@@ -637,11 +642,15 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
                                                 message: message,
                                                 preferredStyle: UIAlertControllerStyle.alert)
         
+        /* Used for deleting task */
         let yesAction = UIAlertAction(title: "Yes", style: .default){ (action: UIAlertAction) in
             self.performSegue(withIdentifier: "taskDeletedUnwindSegue", sender: self)
         }
+        /* Used for canceling */
         let noAction = UIAlertAction(title: "No", style: .cancel, handler: nil)
+        /* Used for canceling */
         let okAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+        /* Used for reseting time */
         let resetAction = UIAlertAction(title: "Yes", style: .default){ _ in
             print("Resetting rollover")
             self.task.forfeitAccumulatedTime()
@@ -649,10 +658,12 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
             self.saveData()
             self.rolloverButton(is: .hidden)
         }
+        /* Used for starting a task on an off day and adding time */
         let additionalAction = UIAlertAction(title: "Yes", style: .default)
         { _ in
             self.runOnOffDay(.add)
         }
+        /* Used for starting a task on an off day without adding time */
         let remainingAction = UIAlertAction(title: "Yes, but only do remaining time", style: .default)
         { _ in
             self.runOnOffDay(.remaining)
@@ -678,47 +689,8 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
     
     //MARK: - Chart Functions
     
-    /*  */
-    func findNewIndex(compare today: [Int], to dayArray: [Int]) -> Int {
-        
-        var arrayNewIndex: Int = 0
-        let todayIndex = today.index(of: 1)
-        
-        for x in 0...today.count - 1 {
-            
-            if today[x] == dayArray[x] {
-                arrayNewIndex = x
-            }
-        }
-        
-        if arrayNewIndex == 0 {
-            
-            for x in (0...todayIndex!).reversed() {
-                
-                if dayArray[x] == 1 {
-                    arrayNewIndex = x
-                    break
-                }
-                
-            }
-            
-            for x in (todayIndex!...today.count - 1).reversed() {
-                
-                if dayArray[x] == 1 {
-                    arrayNewIndex = x
-                    break
-                }
-                
-            }
-            
-        }
-        
-
-        return arrayNewIndex
-        
-    }
-    
-    /*  Lengthy, but sets up the chart */
+    /*  Lengthy, but sets up the chart with the last three results.
+        The y axis is not shown and the x axis labels are the run dates. */
     func taskChartSetup() {
         
         recentTaskHistory.chartDescription?.enabled = false
@@ -757,7 +729,6 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
         xAxis.drawGridLinesEnabled = false
         xAxis.centerAxisLabelsEnabled = false
         
-        //let darkerThemeColor = colors.darkMain
         if appData.darknessCheck(for: view.backgroundColor) {
             xAxis.labelTextColor = .white
             rightAxis.labelTextColor = .white
@@ -833,7 +804,6 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
             for date in taskAccess! {
                 let completedTime = task.completedTimeHistory[date]
                 let completedInMinutes = completedTime! / 60
-                //let completedTime = taskData.taskHistoryDictionary[task]![date]![TaskData.completedHistoryKey]
                 taskTimeHistory.append(completedInMinutes)
             }
             
@@ -856,7 +826,6 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
             
             bar.colors = ChartColorTemplates.pastel()
             
-            //let darkerThemeColor = colors.darkMain
             if appData.darknessCheck(for: view.backgroundColor) {
                 bar.valueColors = [UIColor.white]
             } else {
@@ -926,8 +895,6 @@ class TaskDetailViewController: UIViewController, GADBannerViewDelegate {
     
     func saveData() {
         
-        //appData.save()
-
         let index = tasks.index(of: task)
         tasks[index!] = task
         

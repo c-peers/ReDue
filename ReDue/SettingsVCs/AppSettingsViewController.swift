@@ -84,8 +84,6 @@ class AppSettingsViewController: UITableViewController {
             footerText.isHidden = false
         }
         
-        setIAPButtons()
-        
         purchaseButton.addTarget(self, action: #selector(purchaseAction), for: .touchUpInside)
         restoreButton.setTitle("Restore Purchase", for: .normal)
         restoreButton.addTarget(self, action: #selector(restoreAction), for: .touchUpInside)
@@ -93,19 +91,6 @@ class AppSettingsViewController: UITableViewController {
         // Fetch IAP Products available
         fetchAvailableProducts()
         
-//        purchaseButton = purchaseButtonInfo
-//        restoreButton = restoreButtonInfo
-        
-//        IAP.store.requestProducts{success, products in
-//            if success {
-//                self.iapProducts = products!
-//            }
-//        }
-
-//        NotificationCenter.default.addObserver(self, selector: #selector(handlePurchaseNotification(_:)),
-//                                               name: NSNotification.Name(rawValue: IAPHelper.IAPHelperPurchaseNotification),
-//                                               object: nil)
-
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -128,6 +113,10 @@ class AppSettingsViewController: UITableViewController {
         self.navigationItem.title = "Settings"
         save()
 
+        productsRequest.delegate = nil
+        productsRequest.cancel()
+        SKPaymentQueue.default().remove(self)
+        
         let vc = self.navigationController!.viewControllers.first as? TaskViewController
         vc?.taskList.reloadData()
         vc?.taskList.collectionViewLayout.invalidateLayout()
@@ -159,7 +148,7 @@ class AppSettingsViewController: UITableViewController {
             cell.accessoryView?.backgroundColor = FlatBlack()
             cell.accessoryView?.tintColor = FlatGray()
         } else {
-            let darkerThemeColor = colors.bg //appData.appColor.darken(byPercentage: 0.25)
+            let darkerThemeColor = colors.bg
             cell.backgroundColor = darkerThemeColor
             //cell.textLabel?.backgroundColor = darkerThemeColor
             //cell.detailTextLabel?.backgroundColor = darkerThemeColor
@@ -179,7 +168,7 @@ class AppSettingsViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let themeView = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.size.width, height: 40))
         
-        let headerColor = colors.bg.darken(byPercentage: 0.3) //appData.appColor.darken(byPercentage: 0.2)
+        let headerColor = colors.bg.darken(byPercentage: 0.3)
         themeView.backgroundColor = headerColor
         
         let label = UILabel(frame: CGRect(x: 10, y: 5, width: view.frame.size.width, height: 25))
@@ -273,7 +262,6 @@ class AppSettingsViewController: UITableViewController {
                 
                 self.navigationController?.navigationBar.barTintColor = FlatBlackDark()
                 self.navigationController?.toolbar.barTintColor = FlatBlackDark()
-
                 self.navigationController?.navigationBar.layoutIfNeeded()
                 
                 self.tableView.backgroundColor = FlatBlack()
@@ -284,15 +272,10 @@ class AppSettingsViewController: UITableViewController {
             }
             
         } else {
-            
             UIView.animate(withDuration: 0.3) {
-                
                 self.tableView.reloadData()
-                
                 self.setTheme()
-                
             }
-            
         }
         
     }
@@ -316,14 +299,14 @@ class AppSettingsViewController: UITableViewController {
         
         colors = Colors.init(main: appData.mainColor!, bg: appData.bgColor!, task1: appData.taskColor1!, task2: appData.taskColor2!, progress: appData.progressColor!)
         
-        navigationController?.navigationBar.barTintColor = colors.main //appData.appColor
-        navigationController?.toolbar.barTintColor = colors.main //appData.appColor
+        navigationController?.navigationBar.barTintColor = colors.main
+        navigationController?.toolbar.barTintColor = colors.main
         
-        let darkerThemeColor = colors.bg //appData.appColor.darken(byPercentage: 0.25)
-        tableView.backgroundColor = colors.bg //darkerThemeColor
-        tableView.separatorColor =  colors.bg.darken(byPercentage: 0.5) //appData.appColor.darken(byPercentage: 0.6)
+        let darkerThemeColor = colors.bg
+        tableView.backgroundColor = colors.bg
+        tableView.separatorColor =  colors.bg.darken(byPercentage: 0.5)
         
-        let barColor = navigationController?.navigationBar.barTintColor
+        //let barColor = navigationController?.navigationBar.barTintColor
         darkness(check: colors.main)
         
         /* Check the color behind this text and set the text color appropriately */
@@ -354,13 +337,11 @@ class AppSettingsViewController: UITableViewController {
     }
     
     @objc func purchaseAction() {
-        //IAP.store.buyProduct(iapProducts[0])
         purchaseIAP(product: iapProducts[0])
         log.debug("Purchase button tapped. Product \(iapProducts[0])")
     }
     
     @objc func restoreAction() {
-        //IAP.store.restorePurchases()
         log.debug("Restore button tapped")
         SKPaymentQueue.default().add(self)
         SKPaymentQueue.default().restoreCompletedTransactions()
@@ -378,18 +359,6 @@ class AppSettingsViewController: UITableViewController {
         productsRequest.start()
     }
     
-    @objc func handlePurchaseNotification(_ notification: Notification) {
-        //guard let productID = notification.object as? String else { return }
-        //tableView.reloadSections(IndexSet(4...4), with: .automatic)
-        print("When does this run?")
-//        for product in products.enumerated() {
-//            guard product.productIdentifier == productID else { continue }
-//
-//            tableView.reloadSections(IndexSet(4...4), with: .automatic)
-//
-//        }
-    }
-
     //MARK: - Navigation
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -443,8 +412,6 @@ class AppSettingsViewController: UITableViewController {
         
         let data = DataHandler()
         data.saveAppSettings(appData)
-        //appData.saveAppSettingsToDictionary()
-        //appData.save()
         
         //let appDelegate = UIApplication.shared.delegate as! AppDelegate
         //appDelegate.appData.saveAppSettingsToDictionary()
@@ -479,20 +446,12 @@ extension AppSettingsViewController: SKProductsRequestDelegate, SKPaymentTransac
         if (response.products.count > 0) {
             iapProducts = response.products
             
+            setIAPButtons()
+            
             let removedAdsProduct = response.products[0] as SKProduct
             
             log.debug("Product #1 is \(removedAdsProduct.productIdentifier)")
             
-            // Get its price from iTunes Connect
-//            let numberFormatter = NumberFormatter()
-//            numberFormatter.formatterBehavior = .behavior10_4
-//            numberFormatter.numberStyle = .currency
-//            numberFormatter.locale = removedAdsProduct.priceLocale
-//            let price2Str = numberFormatter.string(from: removedAdsProduct.price)
-            
-            // Show its description
-            //label.text = removedAdsProduct.localizedDescription + "\nfor just \(price2Str!)"
-
         } else {
             log.info("No products")
         }

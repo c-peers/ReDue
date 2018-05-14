@@ -31,9 +31,9 @@ class ProgressViewSettingsViewController: UITableViewController {
         
         darkness(check: colors.main)
         
-        let darkerThemeColor = colors.bg //appData.appColor.darken(byPercentage: 0.25)
+        let darkerThemeColor = colors.bg
         tableView.backgroundColor = darkerThemeColor
-        tableView.separatorColor = colors.bg.darken(byPercentage: Colors.colorLevel4) //appData.appColor.darken(byPercentage: 0.6)
+        tableView.separatorColor = colors.bg.darken(byPercentage: Colors.colorLevel4)
         tableView.tableFooterView = UIView()
         
     }
@@ -68,7 +68,6 @@ class ProgressViewSettingsViewController: UITableViewController {
             appDelegate.appData.usesCircularProgress = false
         }
         
-        //appDelegate.appData.save()
         let data = DataHandler()
         data.saveAppSettings(appData)
 
@@ -100,7 +99,7 @@ class ProgressViewSettingsViewController: UITableViewController {
             previousCellIndex = indexPath
         }
 
-        let darkerThemeColor = colors.bg //appData.appColor.darken(byPercentage: 0.25)
+        let darkerThemeColor = colors.bg
         cell.backgroundColor = darkerThemeColor
         if appData.darknessCheck(for: darkerThemeColor) {
             cell.textLabel?.textColor = .white
