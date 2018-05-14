@@ -30,9 +30,9 @@ class ResetTimeSettingsViewController: UITableViewController {
         
         darkness(check: colors.main)
         
-        let darkerThemeColor = colors.bg //appData.appColor.darken(byPercentage: 0.25)
+        let darkerThemeColor = colors.bg
         tableView.backgroundColor = darkerThemeColor
-        tableView.separatorColor = colors.bg.darken(byPercentage: Colors.colorLevel4) //appData.appColor.darken(byPercentage: 0.6)
+        tableView.separatorColor = colors.bg.darken(byPercentage: Colors.colorLevel4)
         tableView.tableFooterView = UIView()
         
         //tableView.sectionIndexColor = UIColor.black
@@ -41,19 +41,6 @@ class ResetTimeSettingsViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 //        let cell = tableView.dequeueReusableCell(withIdentifier: "ResetTimeCell", for: indexPath)
-//        
-//        if let cell = tableView.cellForRow(at: indexPath as IndexPath) {
-//            
-//            cell.selectionStyle = .none
-//            
-//            if cell.accessoryType == .checkmark{
-//                cell.accessoryType = .none
-//            }
-//            else{
-//                cell.accessoryType = .checkmark
-//            }
-//        }
-//        cell.textLabel?.text = resetTimes[indexPath.row]
         
         if let cell = tableView.cellForRow(at: indexPath as IndexPath) {
             
@@ -79,7 +66,6 @@ class ResetTimeSettingsViewController: UITableViewController {
         appDelegate.appData.resetOffset = resetTimes[indexPath.row]
         
         print(appDelegate.appData.resetOffset)
-        //appDelegate.appData.save()
         let data = DataHandler()
         data.saveAppSettings(appDelegate.appData)
 
@@ -102,7 +88,7 @@ class ResetTimeSettingsViewController: UITableViewController {
             cell.accessoryType = .checkmark
             previousCellIndex = indexPath
         }
-        let darkerThemeColor = colors.bg //appData.appColor.darken(byPercentage: 0.25)
+        let darkerThemeColor = colors.bg
         cell.backgroundColor = darkerThemeColor
         if appData.darknessCheck(for: darkerThemeColor) {
             cell.textLabel?.textColor = .white

@@ -116,7 +116,7 @@ class MoreSettingsViewController: UITableViewController {
             cell.accessoryView?.backgroundColor = FlatBlack()
             cell.accessoryView?.tintColor = FlatGray()
         } else {
-            let darkerThemeColor = colors.darkMain //appData.appColor.darken(byPercentage: 0.25)
+            let darkerThemeColor = colors.darkMain
             cell.backgroundColor = darkerThemeColor
             //cell.textLabel?.backgroundColor = darkerThemeColor
             //cell.detailTextLabel?.backgroundColor = darkerThemeColor
@@ -136,7 +136,7 @@ class MoreSettingsViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let themeView = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.size.width, height: 40))
         
-        let headerColor = colors.darkMain //colors.bg.darken(byPercentage: 0.3) //appData.appColor.darken(byPercentage: 0.2)
+        let headerColor = colors.darkMain
         themeView.backgroundColor = headerColor
         
         let label = UILabel(frame: CGRect(x: 10, y: 5, width: view.frame.size.width, height: 25))
@@ -184,10 +184,10 @@ class MoreSettingsViewController: UITableViewController {
         navigationController?.navigationBar.barTintColor = colors.darkMain
         navigationController?.toolbar.barTintColor = colors.darkMain
         
-        let darkerThemeColor = colors.darkMain //appData.appColor.darken(byPercentage: 0.25)
+        let darkerThemeColor = colors.darkMain
         tableView.backgroundColor = darkerThemeColor
         tableView.tableFooterView = UIView(frame: .zero)
-        //tableView.separatorColor =  colors.bg.darken(byPercentage: 0.5) //appData.appColor.darken(byPercentage: 0.6)
+        //tableView.separatorColor =  colors.bg.darken(byPercentage: 0.5)
         
         if appData.darknessCheck(for: darkerThemeColor) {
             setStatusBarStyle(.lightContent)

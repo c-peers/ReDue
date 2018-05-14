@@ -72,12 +72,12 @@ class AudioAlertSettingsViewController: UIViewController, UITableViewDelegate, U
 
         colors = Colors.init(main: appData.mainColor!, bg: appData.bgColor!, task1: appData.taskColor1!, task2: appData.taskColor2!, progress: appData.progressColor!)
         
-        let darkerThemeColor = colors.darkMain //appData.appColor.darken(byPercentage: 0.25)
+        let darkerThemeColor = colors.darkMain
         
         view.backgroundColor = darkerThemeColor
         //view.tintColor = darkerThemeColor
         alertTable.backgroundColor = darkerThemeColor
-        alertTable.separatorColor = .clear //appData.appColor.darken(byPercentage: 0.6)
+        alertTable.separatorColor = .clear
         
         if appData.darknessCheck(for: darkerThemeColor) {
             setStatusBarStyle(.lightContent)
@@ -111,7 +111,7 @@ class AudioAlertSettingsViewController: UIViewController, UITableViewDelegate, U
         
         if let cell = tableView.dequeueReusableCell(withIdentifier: "audioAlertCell") as? AudioAlertSettingsTableCell {
             
-            let darkerThemeColor = colors.darkMain //appData.appColor.darken(byPercentage: 0.25)
+            let darkerThemeColor = colors.darkMain
             cell.backgroundColor = darkerThemeColor
             
             if appData.darknessCheck(for: darkerThemeColor) {

@@ -26,8 +26,8 @@ class MoreSettingsParentViewController: UIViewController {
         setTheme()
         
         doneButton.setTitle("  Done  ", for: .normal)
-        doneButton.setTitleColor(colors.main /*appData.appColor*/, for: .normal)
-        doneButton.layer.borderColor = colors.main.cgColor //appData.appColor.cgColor
+        doneButton.setTitleColor(colors.main, for: .normal)
+        doneButton.layer.borderColor = colors.main.cgColor
         doneButton.layer.borderWidth = 2
         doneButton.layer.cornerRadius = 10.0
         
